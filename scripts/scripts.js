@@ -746,7 +746,7 @@ async function loadFooter(footer) {
 }
 
 function findNonFullWidthSection(main) {
-  const FULL_WIDTH_BLOCKS = ['ad', 'carousel', 'carousel course', 'hero', 'news', 'player-feature', 'teaser', 'weather'];
+  const FULL_WIDTH_BLOCKS = ['ad', 'carousel', 'carousel course', 'hero', 'news', 'player-feature', 'share', 'teaser', 'weather'];
   const sections = main.querySelectorAll('.section');
   const nonFullWidthSection = [...sections]
     .find((section) => ![...section.querySelectorAll('.block')] // check section
@@ -915,7 +915,7 @@ function loadDelayed() {
     loadBlock(adsBlock);
   }
   // eslint-disable-next-line import/no-cycle
-  window.setTimeout(() => import('./delayed.js'), 3000);
+  window.setTimeout(() => import('./delayed.js'), 5000);
   // load anything that can be postponed to the latest here
 }
 
