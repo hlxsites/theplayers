@@ -18,10 +18,8 @@
   --color-blue-light: #004B98;
   --color-blue-lighter: #2D4976;
   --color-tan: #C2A36E;
-
   --color-blue-95: #003360f2;
   --color-tan-95: #C2A36Ef2;
-
   --color-black: #000;
   --color-gray-dark: #4d4d4d;
   --color-gray: #999;
@@ -29,6 +27,7 @@
   --color-gray-lighter: #f2f2f2;
   --color-white: #fff;
 
+  /* colors assignments */
   --link-color: var(--color-blue-dark);
   --link-hover-color: var(--color-blue);
   --background-color: var(--color-gray-lighter);
@@ -161,7 +160,7 @@ pre {
 }
 
 svg {
-  fill: currentColor;
+  fill: currentcolor;
 }
 
 /* buttons */
@@ -283,12 +282,12 @@ img {
 
 @media (min-width: 900px) {
   :root {
-    /* --heading-font-size-xxl: 80px; */
-    /* --heading-font-size-xl: 48px; */
-    /* --heading-font-size-l: 36px; */
-    /* --heading-font-size-m: 30px; */
-    /* --heading-font-size-s: 24px; */
-    /* --heading-font-size-xs: 22px;   */
+    /* --heading-font-size-xxl: 80px; 
+      --heading-font-size-xl: 48px; 
+      --heading-font-size-l: 36px; 
+      --heading-font-size-m: 30px; 
+      --heading-font-size-s: 24px; 
+      --heading-font-size-xs: 22px;   */
   }
   
   .section > div {
@@ -412,6 +411,7 @@ main .section.teaser .default-content-wrapper > :first-child em::after {
   }
 }
 
+/* stylelint-disable-next-line no-descending-specificity */
 main .section.teaser h2 {
   margin: 0;
   color: var(--color-tan);
@@ -577,7 +577,7 @@ main .section.teaser picture.section-background img {
   left: 2px;
   width: 9px;
   height: 1px;
-  background: currentColor;
+  background: currentcolor;
   content: '';
 }
 
@@ -641,7 +641,7 @@ main .section.teaser picture.section-background img {
   transform: translateX(-50%);
   width: 3px;
   height: 8px;
-  background: currentColor;
+  background: currentcolor;
 }
 
 /* close icon */
@@ -661,7 +661,7 @@ main .section.teaser picture.section-background img {
   transform: rotate(45deg);
   width: 16px;
   height: 2px;
-  background: currentColor;
+  background: currentcolor;
 }
 
 .icon.icon-close::after {

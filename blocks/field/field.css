@@ -60,11 +60,13 @@ main .field .selected img {
   animation-iteration-count: 4;
 }
 
+/* stylelint-disable-next-line keyframes-name-pattern */
 @keyframes selectedImg {
   from {
     background-color: var(--color-gray-light);
     background-image: linear-gradient(var(--color-gray-light), var(--color-gray-lighter));
   }
+  
   to {
     background-color: var(--color-tan);
     background-image: unset;

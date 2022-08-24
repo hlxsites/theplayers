@@ -181,15 +181,12 @@ main .carousel a.button.secondary:any-link {
 @media (min-width: 900px) {
   main .carousel p.button-container {
     margin-left: 70%;
+    text-align: right;
   }
 
   main .carousel a.button {
     min-width: 300px;
     margin: 0;
-  }
-
-  main .carousel p.button-container  {
-    text-align: right;
   }
 
   main .carousel a.button.primary:any-link,
@@ -226,7 +223,7 @@ main .carousel-buttons button {
 }
 
 main .carousel-buttons button.selected {
-  background-color: currentColor;
+  background-color: currentcolor;
 }
 
 /* course carousel */
@@ -281,6 +278,7 @@ main .carousel.course div.course-text {
     grid-template-columns: 1fr 240px; 
     grid-template-rows: 1fr 1fr; 
     gap: 8px 16px; 
+    /* stylelint-disable-next-line declaration-block-no-redundant-longhand-properties */
     grid-template-areas: 
       'overview stats'
       'credits stats'; 
@@ -352,6 +350,7 @@ main .carousel.course div.course-text p {
     grid-template-columns: max-content 1fr; 
     grid-template-rows: 45px 30px 132px; 
     gap: 0 16px; 
+    /* stylelint-disable-next-line declaration-block-no-redundant-longhand-properties */
     grid-template-areas: 
       'overview-title hole'
       'overview-subtitle hole'
@@ -488,6 +487,7 @@ main .carousel.course div.course-text .course-statistics table tr.course-bogey .
   background-color: #f7b941;
 }
 
+/* stylelint-disable-next-line selector-class-pattern */
 main .carousel.course div.course-text .course-statistics table tr.course-2--bogey .course-stat-bar {
   background-color: #ee5a00;
 }
@@ -512,6 +512,7 @@ main .carousel.course div.course-text .course-statistics table tr td.course-stat
     grid-template-columns: max-content 1fr; 
     grid-template-rows: max-content 1fr; 
     gap: 16px; 
+    /* stylelint-disable-next-line declaration-block-no-redundant-longhand-properties */
     grid-template-areas: 
       'statistics-title statistics-title'
       'avg stats'; 
@@ -624,11 +625,13 @@ main .carousel-container.gallery-container {
   padding: 0 16px;
 }
 
+/* stylelint-disable-next-line no-duplicate-selectors */
 main .carousel {
   font-family: var(--body-font-family);
   text-transform: unset;
 }
 
+/* stylelint-disable-next-line no-descending-specificity */
 main .carousel.gallery picture {
   aspect-ratio: 16 / 9;
 }

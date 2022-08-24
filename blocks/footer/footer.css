@@ -193,6 +193,10 @@ footer .footer .footer-social p.footer-social-youtube {
   background-color: #f00;
 }
 
+footer .footer .footer-copyright a {
+  text-transform: initial;
+}
+
 footer .footer .footer-social p a {
   display: block;
   padding: 10px;
@@ -207,10 +211,6 @@ footer .footer .footer-social svg {
 /* copyright */
 footer .footer .footer-copyright {
   font-size: var(--body-font-size-xxs);
-}
-
-footer .footer .footer-copyright a {
-  text-transform: initial;
 }
 
 @media (min-width: 700px) {

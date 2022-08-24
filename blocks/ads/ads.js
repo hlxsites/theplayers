@@ -143,68 +143,75 @@ export default function decorate(block) {
   const config = readBlockConfig(block);
   block.innerHTML = '';
 
-  window.pgatour = window.pgatour || {};
+  const observer = new IntersectionObserver((entries) => {
+    if (entries.some((entry) => entry.isIntersecting)) {
+      observer.disconnect();
+      window.pgatour = window.pgatour || {};
 
-  loadScript('/blocks/ads/jquery-3.6.0.min.js', () => {
-    loadScript('/blocks/ads/react-cq.min.js', () => {
-      loadScript('/blocks/ads/pgatour.min.js', () => {
-        // setup ads
-        window.pgatour.EngageTimer.setup();
-        window.pgatour.Ad.setup({
-          site: 'pgat',
-          refreshDisabled: false,
-          trackBrowserActivity: true,
-          justInTime: true,
-          refreshOnScroll: 'none',
-          useEngageTime: true,
-          options: {
-            s1: 'pgatour',
-            s2: 'tournaments',
-            s3: 'the-players',
-            s4: 'landing',
-          },
-          enableSingleRequest: true,
-          networkCode: '9517547',
-          refreshInterval: 20,
-        });
-        const positions = config.position.split(',').map((p) => p.trim());
-        positions.forEach((position) => {
-          // setup ad wrapper
-          let wrapper;
-          let pos = config.position;
-          switch (position) {
-            case 'leftpromo clock':
-              wrapper = populateLeftPromoClockAd(position);
-              pos = 'leftpromo';
-              break;
-            case 'leftpromo toggle':
-              wrapper = populateLeftPromoToggleAd(position);
-              pos = 'leftpromo';
-              break;
-            case 'top':
-              wrapper = populateTopAd(position);
-              break;
-            case 'right':
-              wrapper = populateRightAd(position);
-              break;
-            default:
-              break;
-          }
-          // create new ad
-          if (wrapper) {
-            // eslint-disable-next-line no-new
-            new window.pgatour.Ad(wrapper, {
+      loadScript('/blocks/ads/jquery-3.6.0.min.js', () => {
+        loadScript('/blocks/ads/react-cq.min.js', () => {
+          loadScript('/blocks/ads/pgatour.min.js', () => {
+            // setup ads
+            window.pgatour.EngageTimer.setup();
+            window.pgatour.Ad.setup({
+              site: 'pgat',
+              refreshDisabled: false,
               trackBrowserActivity: true,
-              options: { pos },
-              refreshOnResize: false,
-              companionAd: false,
-              justOnScroll: false,
-              suspended: false,
-              size: getAdSize(position),
+              justInTime: true,
+              refreshOnScroll: 'none',
+              useEngageTime: true,
+              options: {
+                s1: 'pgatour',
+                s2: 'tournaments',
+                s3: 'the-players',
+                s4: 'landing',
+              },
+              enableSingleRequest: true,
+              networkCode: '9517547',
+              refreshInterval: 20,
             });
-          }
+            const positions = config.position.split(',').map((p) => p.trim());
+            positions.forEach((position) => {
+              // setup ad wrapper
+              let wrapper;
+              let pos = config.position;
+              switch (position) {
+                case 'leftpromo clock':
+                  wrapper = populateLeftPromoClockAd(position);
+                  pos = 'leftpromo';
+                  break;
+                case 'leftpromo toggle':
+                  wrapper = populateLeftPromoToggleAd(position);
+                  pos = 'leftpromo';
+                  break;
+                case 'top':
+                  wrapper = populateTopAd(position);
+                  break;
+                case 'right':
+                  wrapper = populateRightAd(position);
+                  break;
+                default:
+                  break;
+              }
+              // create new ad
+              if (wrapper) {
+                // eslint-disable-next-line no-new
+                new window.pgatour.Ad(wrapper, {
+                  trackBrowserActivity: true,
+                  options: { pos },
+                  refreshOnResize: false,
+                  companionAd: false,
+                  justOnScroll: false,
+                  suspended: false,
+                  size: getAdSize(position),
+                });
+              }
+            });
+          });
         });
       });
-    });
-  });
+    }
+  }, { threshold: 0 });
+
+  observer.observe(block.parentElement);
 }

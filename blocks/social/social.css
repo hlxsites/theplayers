@@ -102,6 +102,10 @@ main .social .social-tile-footer a {
   transition: opacity .2s;
 }
 
+main .social .social-twitter-tweet a {
+  color: var(--color-tan);
+}
+
 main .social .social-tile-footer a:hover {
   opacity: 1;
 }
@@ -160,10 +164,6 @@ main .social .social-twitter-tweet {
   display: flex;
   margin: 16px 0;
   font-size: var(--body-font-size-s);
-}
-
-main .social .social-twitter-tweet a {
-  color: var(--color-tan);
 }
 
 main .social .social-twitter-tweet .social-tweet-img {

@@ -90,6 +90,10 @@ main .hero h1 {
   }
 }
 
+main .hero p {
+  flex-basis: 100%;
+}
+
 main .hero h1 + p {
   display: none;
   visibility: hidden;
@@ -101,10 +105,6 @@ main .hero h1 + p {
     display: unset;
     visibility: visible;
   }
-}
-
-main .hero p {
-  flex-basis: 100%;
 }
 
 main .carousel a:any-link {

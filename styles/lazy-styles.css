@@ -3,6 +3,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap');
 
 /* gigya */
+
 /* top bar */
 body .gigya-style-modern div.gigya-screen-dialog-top {
   background-color: var(--color-blue);
@@ -82,18 +83,19 @@ body .gigya-your-favorites > div button:hover {
 }
 
 /* one trust */
+body #onetrust-pc-sdk :not(.ot-leg-btn-container) > button , 
 body #onetrust-consent-sdk #onetrust-pc-sdk button:not(#clear-filters-handler):not(.ot-close-icon):not(#filter-btn-handler):not(.ot-remove-objection-handler):not(.ot-obj-leg-btn-handler),
-body #onetrust-consent-sdk #onetrust-pc-sdk .ot-leg-btn-container .ot-active-leg-btn,
-body #onetrust-pc-sdk :not(.ot-leg-btn-container) > button {
+body #onetrust-consent-sdk #onetrust-pc-sdk .ot-leg-btn-container .ot-active-leg-btn {
   background-color: var(--link-color);
   font-size: var(--body-font-size-xs);
   font-weight: normal;
   letter-spacing: normal;
 }
 
+/* stylelint-disable-next-line no-descending-specificity */
+body #onetrust-pc-sdk :not(.ot-leg-btn-container) > button:hover,
 body #onetrust-consent-sdk #onetrust-pc-sdk button:not(#clear-filters-handler):not(.ot-close-icon):not(#filter-btn-handler):not(.ot-remove-objection-handler):not(.ot-obj-leg-btn-handler):hover,
-body #onetrust-consent-sdk #onetrust-pc-sdk .ot-leg-btn-container .ot-active-leg-btn:hover,
-body #onetrust-pc-sdk :not(.ot-leg-btn-container) > button:hover {
+body #onetrust-consent-sdk #onetrust-pc-sdk .ot-leg-btn-container .ot-active-leg-btn:hover {
   opacity: 1;
   background-color: var(--link-hover-color);
 }

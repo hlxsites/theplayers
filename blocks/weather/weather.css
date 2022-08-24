@@ -208,8 +208,9 @@ main .weather.forecast .weather-table .weather-table-titles {
 }
 
 /* rows */
-main .weather.forecast .weather-table .weather-table-titles > div,
-main .weather.forecast .weather-table-body > div > div {
+/* stylelint-disable-next-line no-descending-specificity */
+main .weather.forecast .weather-table-body > div > div,
+main .weather.forecast .weather-table .weather-table-titles > div {
   border-top: 1px solid var(--color-gray-light);
   padding: 12px 8px;
 }
@@ -218,14 +219,15 @@ main .weather.forecast .weather-table-body > div > div:nth-child(1) {
   font-weight: bold;
 }
 
-main .weather.forecast .weather-table .weather-table-titles > div:nth-child(odd),
-main .weather.forecast .weather-table-body > div > div:nth-child(odd) {
-  background-color: var(--highlight-background-color);
+main .weather.forecast .weather-table-body > div > div:nth-child(even),
+main .weather.forecast .weather-table .weather-table-titles > div:nth-child(even) {
+  background-color: var(--background-color);
 }
 
-main .weather.forecast .weather-table .weather-table-titles > div:nth-child(even),
-main .weather.forecast .weather-table-body > div > div:nth-child(even) {
-  background-color: var(--background-color);
+/* stylelint-disable-next-line no-descending-specificity */
+main .weather.forecast .weather-table-body > div > div:nth-child(odd),
+main .weather.forecast .weather-table .weather-table-titles > div:nth-child(odd) {
+  background-color: var(--highlight-background-color);
 }
 
 main .weather.forecast .weather-temp::after {

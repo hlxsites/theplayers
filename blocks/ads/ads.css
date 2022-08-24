@@ -1,8 +1,4 @@
-main .ads-container {
-  display: none;
-  visibility: hidden;
-}
-
+/* stylelint-disable */
 main .ad {
   visibility: visible;
   display: flex;

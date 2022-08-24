@@ -16,13 +16,13 @@ const reorganiseHero = (main, document) => {
     main.prepend(p);
     heroLegend.remove();
   }
-  
+
   const hero = document.querySelector('.main-image');
   if (hero) {
     main.prepend(hero);
   }
 
-  const video = document.querySelector('.hero-module .video-container')
+  const video = document.querySelector('.hero-module .video-container');
   if (video) {
     let ref = video.getAttribute('data-video-link-url');
     if (!ref) {
@@ -34,7 +34,7 @@ const reorganiseHero = (main, document) => {
       ref = a;
     }
     if (ref) {
-      const cells = [['Video'], [ref]]
+      const cells = [['Video'], [ref]];
       const table = WebImporter.DOMUtils.createTable(cells, document);
       main.prepend(table);
     }
@@ -49,7 +49,8 @@ const reorganiseHero = (main, document) => {
   if (h1 && h1.textContent.trim() !== '') {
     main.prepend(h1);
   }
-}
+};
+
 const createMetadata = (main, document) => {
   const meta = {};
 
@@ -138,7 +139,7 @@ export default {
    * @param {HTMLDocument} document The document
    * @returns {HTMLElement} The root element
    */
-  transformDOM: ({ document, url }) => {
+  transformDOM: ({ document }) => {
     const main = document.querySelector('.page');
 
     reorganiseHero(main, document);
@@ -157,10 +158,10 @@ export default {
       } else {
         const div = document.createElement('div');
         div.innerHTML = l.outerHTML
-          .replace(/\<li/gm,'<div')
-          .replace(/\<\/li\>/gm,'</div>')
-          .replace(/\<ul/gm,'<div')
-          .replace(/\<\/ul\>/gm,'</div>');
+          .replace(/<li/gm, '<div')
+          .replace(/<\/li>/gm, '</div>')
+          .replace(/<ul/gm, '<div')
+          .replace(/<\/ul>/gm, '</div>');
         l.replaceWith(div);
       }
     });

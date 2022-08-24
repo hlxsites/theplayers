@@ -75,7 +75,7 @@ async function loadPlayers() {
 
 function removeFavoritePlayer(e) {
   e.preventDefault();
-  const id = e.target.closest('div').getAttribute('data-id');
+  // const id = e.target.closest('div').getAttribute('data-id');
   // console.log('remove pid:', id);
 }
 

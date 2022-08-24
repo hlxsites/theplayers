@@ -55,68 +55,76 @@ function paginateNews(e) {
 }
 
 export default async function decorate(block) {
-  const videoPrefix = 'https://pga-tour-res.cloudinary.com/image/upload/c_fill,f_auto,g_face,h_311,q_auto,w_425/v1/';
-  const damPrefix = 'https://www.pgatour.com';
   const config = readBlockConfig(block);
-  const newsURL = config.source;
-  const limit = config.limit || 8;
   block.textContent = '';
-  // populate news content
-  /* TODO: add CORS header, to be replaced with direct API */
-  let directURL;
-  if (config.tags) {
-    const tags = config.tags.replace(/ /g, '').split(',').join('+');
-    directURL = `${newsURL}/tags=${tags}&size=${limit}`;
-  } else {
-    directURL = `${newsURL}/path=/content&tags=PGATOUR:Tournaments/2018/r011+PGATOUR:Tournaments/2020/r011+PGATOUR:Tournaments/2019/r011+PGATOUR:Tournaments/2021/r011+PGATOUR:Tournaments/2022/r011&size=${limit}`;
-  }
-  const resp = await fetch(`https://little-forest-58aa.david8603.workers.dev/?url=${encodeURIComponent(directURL)}`);
-  const json = await resp.json();
-  const ul = document.createElement('ul');
-  json.items.forEach((item) => {
-    const prefix = item.image.startsWith('brightcove') ? videoPrefix : damPrefix;
-    const li = document.createElement('li');
-    li.classList.add('news-item', `news-item-${item.type}`);
-    const video = item.videoId ? '<div class="news-item-play"></div>' : '';
-    const a = document.createElement('a');
-    a.href = item.link;
-    a.innerHTML = `
-      <div class="news-item-image"><img src="${prefix}${item.image}"></div>
-      <div class="news-item-body"><a href="${item.link}">${item.title}</a></div>
-      ${video}
-    `;
-    li.append(a);
-    ul.append(li);
-  });
-  block.append(ul);
-  // add filtering
-  if (config.filter) {
-    const filters = config.filter.split(',').map((f) => f.trim());
-    const container = document.createElement('div');
-    container.classList.add('button-container', 'news-filters');
-    filters.forEach((filter, i) => {
-      const button = document.createElement('button');
-      button.textContent = filter;
-      button.setAttribute('aria-selected', !i); // first filter is default view
-      button.setAttribute('role', 'tab');
-      button.setAttribute('data-filter', toClassName(filter));
-      button.addEventListener('click', filterNews);
-      container.append(button);
-    });
-    block.prepend(container);
-  }
-  // add show more/less buttons
-  if (limit > 8) {
-    const container = document.createElement('div');
-    container.classList.add('button-container', 'news-pagination');
-    const types = ['More', 'Less'];
-    types.forEach((type) => {
-      const button = document.createElement('button');
-      button.textContent = `Show ${type}`;
-      button.setAttribute('data-show', type.toLowerCase());
-      button.addEventListener('click', paginateNews);
-      container.append(button);
-    });
-    block.append(container);
-  }
+  const observer = new IntersectionObserver(async (entries) => {
+    if (entries.some((entry) => entry.isIntersecting)) {
+      observer.disconnect();
+      const videoPrefix = 'https://pga-tour-res.cloudinary.com/image/upload/c_fill,f_auto,g_face,h_311,q_auto,w_425/v1/';
+      const damPrefix = 'https://www.pgatour.com';
+      const newsURL = config.source;
+      const limit = config.limit || 8;
+      block.textContent = '';
+      // populate news content
+      /* TODO: add CORS header, to be replaced with direct API */
+      let directURL;
+      if (config.tags) {
+        const tags = config.tags.replace(/ /g, '').split(',').join('+');
+        directURL = `${newsURL}/tags=${tags}&size=${limit}`;
+      } else {
+        directURL = `${newsURL}/path=/content&tags=PGATOUR:Tournaments/2018/r011+PGATOUR:Tournaments/2020/r011+PGATOUR:Tournaments/2019/r011+PGATOUR:Tournaments/2021/r011+PGATOUR:Tournaments/2022/r011&size=${limit}`;
+      }
+      const resp = await fetch(`https://little-forest-58aa.david8603.workers.dev/?url=${encodeURIComponent(directURL)}`);
+      const json = await resp.json();
+      const ul = document.createElement('ul');
+      json.items.forEach((item) => {
+        const prefix = item.image.startsWith('brightcove') ? videoPrefix : damPrefix;
+        const li = document.createElement('li');
+        li.classList.add('news-item', `news-item-${item.type}`);
+        const video = item.videoId ? '<div class="news-item-play"></div>' : '';
+        const a = document.createElement('a');
+        a.href = item.link;
+        a.innerHTML = `
+          <div class="news-item-image"><img src="${prefix}${item.image}"></div>
+          <div class="news-item-body"><a href="${item.link}">${item.title}</a></div>
+          ${video}
+        `;
+        li.append(a);
+        ul.append(li);
+      });
+      block.append(ul);
+      // add filtering
+      if (config.filter) {
+        const filters = config.filter.split(',').map((f) => f.trim());
+        const container = document.createElement('div');
+        container.classList.add('button-container', 'news-filters');
+        filters.forEach((filter, i) => {
+          const button = document.createElement('button');
+          button.textContent = filter;
+          button.setAttribute('aria-selected', !i); // first filter is default view
+          button.setAttribute('role', 'tab');
+          button.setAttribute('data-filter', toClassName(filter));
+          button.addEventListener('click', filterNews);
+          container.append(button);
+        });
+        block.prepend(container);
+      }
+      // add show more/less buttons
+      if (limit > 8) {
+        const container = document.createElement('div');
+        container.classList.add('button-container', 'news-pagination');
+        const types = ['More', 'Less'];
+        types.forEach((type) => {
+          const button = document.createElement('button');
+          button.textContent = `Show ${type}`;
+          button.setAttribute('data-show', type.toLowerCase());
+          button.addEventListener('click', paginateNews);
+          container.append(button);
+        });
+        block.append(container);
+      }
+    }
+  }, { threshold: 0 });
+
+  observer.observe(block);
 }

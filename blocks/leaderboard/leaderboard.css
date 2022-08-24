@@ -187,14 +187,14 @@ main .leaderboard table tbody tr:nth-child(odd) {
   background-color: var(--highlight-background-color);
 }
 
-main .leaderboard table thead tr th {
-  color: var(--color-blue);
-  font-weight: normal;
-}
-
 main .leaderboard table thead th,
 main .leaderboard table td {
   padding: 0 5px;
+}
+
+main .leaderboard table thead tr th {
+  color: var(--color-blue);
+  font-weight: normal;
 }
 
 @media (min-width: 700px) {
@@ -264,12 +264,14 @@ main .leaderboard table button {
   color: var(--link-color);
 }
 
+/* stylelint-disable-next-line no-descending-specificity */
 main .leaderboard table p {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
+/* stylelint-disable-next-line no-descending-specificity */
 main .leaderboard table tbody p {
   gap: 2px;
 }

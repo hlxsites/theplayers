@@ -121,5 +121,5 @@ main .gallery-buttons button {
 }
 
 main .gallery-buttons button.selected {
-  background-color: currentColor;
+  background-color: currentcolor;
 }

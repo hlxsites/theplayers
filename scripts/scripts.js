@@ -687,8 +687,15 @@ function buildHeroBlock(main) {
   }
 }
 
+function buildShareBlock(main) {
+  const firstSection = main.querySelector('div');
+  const section = document.createElement('div');
+  section.append(buildBlock('share', ''));
+  firstSection.after(section);
+}
+
 function buildRelatedStoriesBlock(main, tags) {
-  const FULL_WIDTH_BLOCKS = ['carousel', 'carousel course', 'hero', 'news', 'player-feature', 'teaser', 'weather'];
+  const FULL_WIDTH_BLOCKS = ['carousel', 'carousel course', 'hero', 'news', 'player-feature', 'share', 'teaser', 'weather'];
   const sections = main.querySelectorAll(':scope > div');
   const nonFullWidthSection = [...sections]
     .find((section) => ![...section.children] // check section
@@ -701,23 +708,6 @@ function buildRelatedStoriesBlock(main, tags) {
     storiesSection.classList.add('related-stories-cols');
   }
   storiesSection.append(buildBlock('related-stories', [['<div>Tags</div>', `<div>${tags}</div>`]]));
-}
-
-async function populatePlayerFeature(block, link) {
-  const source = link.getAttribute('href');
-  const resp = await fetch(`${source}.plain.html`);
-  if (resp.ok) {
-    const html = await resp.text();
-    const feature = document.createElement('div');
-    feature.innerHTML = html;
-    block.innerHTML = `<div>${feature.querySelector('div').outerHTML}</div>`;
-    const video = block.querySelector('.embed, .video');
-    decorateButtons(block);
-    if (video) {
-      decorateBlock(video);
-      await loadBlock(video);
-    }
-  }
 }
 
 export function linkPicture(picture) {
@@ -831,16 +821,13 @@ async function buildAutoBlocks(main) {
   try {
     buildHeroBlock(main);
 
+    const template = getMetadata('template');
+    if (template === 'left-align' || template === 'past-champions') {
+      buildShareBlock(main);
+    }
+
     const relatedStories = getMetadata('related-stories');
     if (relatedStories) buildRelatedStoriesBlock(main, relatedStories);
-
-    const playerFeature = main.querySelector('.player-feature');
-    if (playerFeature) {
-      const a = playerFeature.querySelector('a');
-      if (a && (a.textContent === playerFeature.textContent.trim())) {
-        await populatePlayerFeature(playerFeature, a);
-      }
-    }
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error('Auto Blocking failed', error);
