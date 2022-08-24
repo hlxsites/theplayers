@@ -13,15 +13,6 @@ function loadScript(url, callback, type) {
   return head.querySelector(`script[src="${url}"]`);
 }
 
-function findNonFullWidthSection(main) {
-  const FULL_WIDTH_BLOCKS = ['ad', 'carousel', 'carousel course', 'hero', 'news', 'player-feature', 'teaser', 'weather'];
-  const sections = main.querySelectorAll('.section');
-  const nonFullWidthSection = [...sections]
-    .find((section) => ![...section.querySelectorAll('.block')] // check section
-      .find((child) => FULL_WIDTH_BLOCKS.includes(child.className.replace('block', '').trim()))); // check blocks in section
-  return nonFullWidthSection;
-}
-
 function getAdSize(position) {
   switch (position) {
     case 'topright':
@@ -60,10 +51,9 @@ function getAdSize(position) {
   }
 }
 
-function buildLeftPromoClockAd(position) {
-  const sectionBefore = document.querySelector('.leaderboard-container, .tee-times-container');
-  if (sectionBefore) {
-    // setup clock
+function populateLeftPromoClockAd(position) {
+  const placeholder = document.querySelector(`.ad-container-${toClassName(position)} .ad`);
+  if (placeholder) {
     window.rolexNCVHdBD = [{
       city: 'Ponte Vedra Beach',
       local: 'Your Time',
@@ -78,40 +68,30 @@ function buildLeftPromoClockAd(position) {
       offset: -4,
       dst: '0',
     }];
-    // build ad section
-    const adSection = document.createElement('div');
-    adSection.className = `section ad-container ad-container-${toClassName(position)}`;
-    adSection.innerHTML = `<div class="ad block">
-        <div class="ad-columns">
-          <div class="ad-column-left"></div>
-          <div class="ad-column-right">
-            <iframe
-              id="rolexFrameNCVHdBD"
-              class="rolex-frame"
-              data-src="/blocks/ads/rolex/rolex.frame.html?cities=rolexNCVHdBD"
-              style="width:100%;height:90px;border:0;padding:0;overflow:hidden;scroll:none"
-              scrolling="NO"
-              frameborder="NO"
-              transparency="true"
-              src="/blocks/ads/rolex/rolex.frame.html?cities=rolexNCVHdBD">
-            </iframe>
-          </div>
+    placeholder.innerHTML = `<div class="ad-columns">
+        <div class="ad-column-left"></div>
+        <div class="ad-column-right">
+          <iframe
+            id="rolexFrameNCVHdBD"
+            class="rolex-frame"
+            data-src="/blocks/ads/rolex/rolex.frame.html?cities=rolexNCVHdBD"
+            style="width:100%;height:90px;border:0;padding:0;overflow:hidden;scroll:none"
+            scrolling="NO"
+            frameborder="NO"
+            transparency="true"
+            src="/blocks/ads/rolex/rolex.frame.html?cities=rolexNCVHdBD">
+          </iframe>
         </div>
       </div>`;
-    sectionBefore.parentNode.insertBefore(adSection, sectionBefore);
-    return adSection.querySelector('.ad-column-left');
+    return placeholder.querySelector('.ad-column-left');
   }
   return null;
 }
 
-function buildLeftPromoToggleAd(position) {
-  const sectionBefore = document.querySelector('.leaderboard-container, .tee-times-container');
-  if (sectionBefore) {
-    // build ad section
-    const adSection = document.createElement('div');
-    adSection.className = `section ad-container ad-container-${toClassName(position)}`;
-    adSection.innerHTML = `<div class="ad block">
-      <div class="ad-columns">
+function populateLeftPromoToggleAd(position) {
+  const placeholder = document.querySelector(`.ad-container-${toClassName(position)} .ad`);
+  if (placeholder) {
+    placeholder.innerHTML = `<div class="ad-columns">
         <div class="ad-column-left"></div>
         <div class="ad-column-right">
           <iframe
@@ -136,35 +116,25 @@ function buildLeftPromoToggleAd(position) {
           </iframe>
         </div>
       </div>`;
-    sectionBefore.parentNode.insertBefore(adSection, sectionBefore);
-    return adSection.querySelector('.ad-column-left');
+    return placeholder.querySelector('.ad-column-left');
   }
   return null;
 }
 
-function buildTopAd(position) {
-  const heroSection = document.querySelector('.hero-container, .carousel-container');
-  if (heroSection) {
-    // build ad section
-    const adSection = document.createElement('div');
-    adSection.className = `section ad-container ad-container-${toClassName(position)}`;
-    adSection.innerHTML = '<div class="ad block"><div></div></div>';
-    heroSection.after(adSection);
-    return adSection.querySelector('.ad > div');
+function populateTopAd(position) {
+  const placeholder = document.querySelector(`.ad-container-${toClassName(position)} .ad`);
+  if (placeholder) {
+    placeholder.innerHTML = '<div></div>';
+    return placeholder.querySelector('div');
   }
   return null;
 }
 
-function buildRightAd(position) {
-  const firstNonFullWidthSection = findNonFullWidthSection(document.querySelector('main'));
-  if (firstNonFullWidthSection) {
-    // build ad section
-    const adSection = document.createElement('div');
-    adSection.className = `section ad-container ad-container-${toClassName(position)}`;
-    adSection.innerHTML = '<div class="ad block"><div class="ad-sticky"></div></div>';
-    firstNonFullWidthSection.classList.add('ad-cols');
-    firstNonFullWidthSection.append(adSection);
-    return adSection.querySelector('.ad-sticky');
+function populateRightAd(position) {
+  const placeholder = document.querySelector(`.ad-container-${toClassName(position)} .ad`);
+  if (placeholder) {
+    placeholder.innerHTML = '<div class="ad-sticky"></div>';
+    return placeholder.querySelector('.ad-sticky');
   }
   return null;
 }
@@ -204,18 +174,18 @@ export default function decorate(block) {
           let pos = config.position;
           switch (position) {
             case 'leftpromo clock':
-              wrapper = buildLeftPromoClockAd(position);
+              wrapper = populateLeftPromoClockAd(position);
               pos = 'leftpromo';
               break;
             case 'leftpromo toggle':
-              wrapper = buildLeftPromoToggleAd(position);
+              wrapper = populateLeftPromoToggleAd(position);
               pos = 'leftpromo';
               break;
             case 'top':
-              wrapper = buildTopAd(position);
+              wrapper = populateTopAd(position);
               break;
             case 'right':
-              wrapper = buildRightAd(position);
+              wrapper = populateRightAd(position);
               break;
             default:
               break;

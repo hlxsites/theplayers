@@ -755,6 +755,15 @@ async function loadFooter(footer) {
   await loadBlock(footerBlock);
 }
 
+function findNonFullWidthSection(main) {
+  const FULL_WIDTH_BLOCKS = ['ad', 'carousel', 'carousel course', 'hero', 'news', 'player-feature', 'teaser', 'weather'];
+  const sections = main.querySelectorAll('.section');
+  const nonFullWidthSection = [...sections]
+    .find((section) => ![...section.querySelectorAll('.block')] // check section
+      .find((child) => FULL_WIDTH_BLOCKS.includes(child.className.replace('block', '').trim()))); // check blocks in section
+  return nonFullWidthSection;
+}
+
 async function loadAds(doc) {
   window.ads = window.ads || {};
   // fetch ads
@@ -783,16 +792,33 @@ async function loadAds(doc) {
     });
   }
   await window.ads.loaded;
-  // find if add on page
+  // find if ad on page
   const { pathname } = window.location;
   const adOnPage = window.ads.locations.find((ad) => ad.URL === pathname);
   if (adOnPage) {
+    // build ad placeholders
+    adOnPage.positions.split(',').forEach((position) => {
+      // eslint-disable-next-line no-param-reassign
+      position = position.trim();
+      const adSection = document.createElement('div');
+      adSection.innerHTML = '<div class="ad block"></div>';
+      adSection.className = `section ad-container ad-container-${toClassName(position)}`;
+      if (position.includes('leftpromo')) { // left promo ad above leaderboard or tee times
+        const sectionBefore = document.querySelector('.leaderboard-container, .tee-times-container');
+        if (sectionBefore) sectionBefore.parentNode.insertBefore(adSection, sectionBefore);
+      } else if (position === 'top') { // top ad below hero or carousel
+        const heroSection = document.querySelector('.hero-container, .carousel-container');
+        if (heroSection) heroSection.after(adSection);
+      } else if (position === 'right') { // right ad floats right of non-full-width content
+        const firstNonFullWidthSection = findNonFullWidthSection(document.querySelector('main'));
+        if (firstNonFullWidthSection) {
+          firstNonFullWidthSection.classList.add('ad-cols');
+          firstNonFullWidthSection.append(adSection);
+        }
+      }
+    });
     // build ad block
-    const adContainer = document.createElement('div');
     const block = buildBlock('ads', [['<div>Position</div>', `<div>${adOnPage.positions}</div>`]]);
-    adContainer.append(block);
-    decorateBlock(block);
-    loadBlock(block);
     doc.querySelector('main').append(block);
   }
 }
@@ -861,6 +887,7 @@ async function loadEager(doc) {
     await decorateMain(main);
     await waitForLCP();
     loadHeader(doc.querySelector('header'));
+    loadAds(doc);
   }
 }
 
@@ -880,8 +907,6 @@ async function loadLazy(doc) {
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
   addFavIcon(`${window.hlx.codeBasePath}/styles/favicon.ico`);
 
-  loadAds(doc);
-
   const template = getMetadata('template');
   if (template === 'past-champions') {
     const pic = main.querySelector('.default-content-wrapper p picture');
@@ -896,6 +921,12 @@ async function loadLazy(doc) {
  * the user experience.
  */
 function loadDelayed() {
+  // load ads block
+  const adsBlock = document.querySelector('main > .ads');
+  if (adsBlock) {
+    decorateBlock(adsBlock);
+    loadBlock(adsBlock);
+  }
   // eslint-disable-next-line import/no-cycle
   window.setTimeout(() => import('./delayed.js'), 3000);
   // load anything that can be postponed to the latest here
