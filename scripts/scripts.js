@@ -915,7 +915,7 @@ async function loadDelayed() {
     await loadBlock(adsBlock);
   }
   // eslint-disable-next-line import/no-cycle
-  window.setTimeout(() => import('./delayed.js'), 10000);
+  window.setTimeout(() => import('./delayed.js'), 3000);
   // load anything that can be postponed to the latest here
 }
 
