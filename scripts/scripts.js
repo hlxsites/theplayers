@@ -907,15 +907,15 @@ async function loadLazy(doc) {
  * loads everything that happens a lot later, without impacting
  * the user experience.
  */
-function loadDelayed() {
+async function loadDelayed() {
   // load ads block
   const adsBlock = document.querySelector('main > .ads');
   if (adsBlock) {
     decorateBlock(adsBlock);
-    loadBlock(adsBlock);
+    await loadBlock(adsBlock);
   }
   // eslint-disable-next-line import/no-cycle
-  window.setTimeout(() => import('./delayed.js'), 5000);
+  window.setTimeout(() => import('./delayed.js'), 3000);
   // load anything that can be postponed to the latest here
 }
 
