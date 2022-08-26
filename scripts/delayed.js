@@ -31,6 +31,25 @@ window.pgatour.tracking = {
     status: false,
   },
 };
+
+const pageType = window.location.pathname === '/' ? 'homePage' : 'contentPage';
+
+const pname = window.location.pathname.split('/').pop();
+window.pgatour.Omniture = {
+  properties: {
+    pageName: `pgatour:the-players-championship:${pname}`,
+    eVar16: `pgatour:the-players-championship:${pname}`,
+    prop18: pageType,
+    eVar1: 'pgatour',
+    prop1: 'pgatour',
+    prop2: 'r011',
+    eVar2: 'r011',
+    eVar6: window.location.href,
+  },
+  defineOmnitureVars: () => {},
+
+};
+
 window.pgatour.docWrite = document.write.bind(document);
 
 loadScript('https://assets.adobedtm.com/d17bac9530d5/90b3c70cfef1/launch-1ca88359b76c.min.js');
