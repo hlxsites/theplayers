@@ -25,6 +25,123 @@ async function insertGallerySlides(block) {
   });
 }
 
+function findStatPercent(id, stats, divisor) {
+  const stat = stats.find((s) => s.id === id);
+  if (stat) {
+    const percent = parseInt(stat.eV2, 10) / divisor;
+    return Math.round(percent * 100);
+  }
+  return 0;
+}
+
+async function insertCourseFeedSlides(block) {
+  const damPrefix = 'https://www.pgatour.com/pgatour/courses';
+  const cloudinaryPrefix = 'https://pga-tour-res.cloudinary.com/image/upload/f_auto,q_auto';
+  const config = readBlockConfig(block);
+  block.innerHTML = '';
+
+  const resp = await fetch('https://statdata.pgatour.com/r/011/coursestat.json');
+  const json = await resp.json();
+  if (json && json.courses && json.courses[0].holes) {
+    const code = json.tourCode;
+    const perm = json.permNum;
+    // eslint-disable-next-line no-restricted-syntax
+    for (const hole of json.courses[0].holes) {
+      const damSrc = `${damPrefix}/${code}${perm}/${perm}/holes/hole${hole.holeNum}.jpg`;
+      const holeJpg = `${cloudinaryPrefix},w_1290/v1/pgatour/courses/${code}${perm}/${perm}/holes/hole${hole.holeNum}.jpg`;
+      const holePng = `${cloudinaryPrefix},w_150/holes_${config.year}_${code}_${perm}_${perm}_overhead_full_${hole.holeNum}.png`;
+      // eslint-disable-next-line no-await-in-loop
+      const metaresp = await fetch(`${damSrc}/jcr:content/metadata.json`);
+      // eslint-disable-next-line no-await-in-loop
+      const meta = await metaresp.json();
+      const metaDesc = meta['dc:description'];
+      const metaCreator = meta['dc:creator'];
+      const metaRights = meta['dc:rights'];
+      const metaTitle = meta['dc:title'];
+      const avg = hole.stats.find((stat) => stat.id === '43108').eV2;
+      const stats = hole.stats.filter((stat) => stat.id !== '43108');
+      const statsDivisor = stats.reduce((a, b) => {
+        // eslint-disable-next-line no-param-reassign
+        if (a.eV2) a = a.eV2;
+        return parseInt(a, 10) + parseInt(b.eV2, 10);
+      });
+      const eagle = findStatPercent('43106', stats, statsDivisor);
+      const birdie = findStatPercent('43107', stats, statsDivisor);
+      const par = findStatPercent('43523', stats, statsDivisor);
+      const bogey = findStatPercent('41184', stats, statsDivisor);
+      const bogey2 = findStatPercent('43520', stats, statsDivisor);
+
+      const div = document.createElement('div');
+      div.innerHTML = `
+        <div class="carousel-image">
+          <picture>
+            <img src="${holeJpg}" alt="${metaTitle}" />
+          </picture>
+        </div>
+        <div class="carousel-text course-text">
+          <div class="course-overview">
+            <h2>Hole #${hole.holeNum}</h2>
+            <h3>PAR ${hole.par}, ${hole.yards} Yards</h3>
+            <p class="course-hole">
+              <picture>
+                <img src="${holePng}" alt="${metaTitle}" />
+              </picture>
+            </p>
+            <p>${metaDesc}</p>
+          </div>
+            <div class="course-statistics">
+              <h3 id="statistics">${config.year} Statistics</h3>
+              <div class="course-avg">
+                  <p>${avg} <strong>SCORING AVG</strong>
+                  </p>
+              </div>
+              <table>
+                <tbody>
+                  <tr class="course-eagle">
+                    <td class="course-stat-graph">
+                      <div class="course-stat-bar" style="width: ${eagle}%"></div>
+                    </td>
+                    <td class="course-stat-percent">${eagle}%</td>
+                    <td class="course-stat-title">Eagle</td>
+                  </tr>
+                  <tr class="course-birdie">
+                    <td class="course-stat-graph">
+                      <div class="course-stat-bar" style="width: ${birdie}%"></div>
+                    </td>
+                    <td class="course-stat-percent">${birdie}%</td>
+                    <td class="course-stat-title">Birdie</td>
+                  </tr>
+                  <tr class="course-par">
+                    <td class="course-stat-graph">
+                      <div class="course-stat-bar" style="width: ${par}%"></div>
+                    </td>
+                    <td class="course-stat-percent">${par}%</td>
+                    <td class="course-stat-title">Par</td>
+                  </tr>
+                  <tr class="course-bogey">
+                    <td class="course-stat-graph">
+                        <div class="course-stat-bar" style="width: ${bogey}%"></div>
+                    </td>
+                    <td class="course-stat-percent">${bogey}%</td>
+                    <td class="course-stat-title">Bogey</td>
+                  </tr>
+                  <tr class="course-2--bogey">
+                    <td class="course-stat-graph">
+                      <div class="course-stat-bar" style="width: ${bogey2}%"></div>
+                    </td>
+                    <td class="course-stat-percent">${bogey2}%</td>
+                    <td class="course-stat-title">2+ Bogey</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="course-credits">PHOTO BY <strong>${metaCreator.join(', ')}</strong> / ${metaRights}</p>
+        </div>`;
+      block.append(div);
+    }
+  }
+}
+
 export default async function decorate(block) {
   const blockClasses = [...block.classList];
   const buttons = document.createElement('div');
@@ -36,6 +153,14 @@ export default async function decorate(block) {
     block.closest('.carousel-container').classList.add('gallery-container');
     await insertGallerySlides(block);
   }
+  /* course feed carousel */
+  if (blockClasses.includes('course-feed')) {
+    block.classList.add('course');
+    buttons.classList.add('course-buttons');
+    block.closest('.carousel-container').classList.add('course-container');
+    await insertCourseFeedSlides(block);
+  }
+
   [...block.children].forEach((row, i) => {
     const classes = ['image', 'text'];
     classes.forEach((e, j) => {

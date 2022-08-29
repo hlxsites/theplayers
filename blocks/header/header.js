@@ -1,5 +1,6 @@
 import {
   readBlockConfig,
+  fetchPlaceholders,
   decorateIcons,
   makeLinksRelative,
   lookupPages,
@@ -51,6 +52,41 @@ function setupUser(section) {
   section.innerHTML = `<button id="nav-user-button" class="nav-user-button" data-status="loading">
       ${icon.outerHTML}<span>${text}</span>
     </button>`;
+}
+
+function parseCountdown(ms) {
+  const dayMs = 24 * 60 * 60 * 1000;
+  const hourMs = 60 * 60 * 1000;
+  let days = Math.floor(ms / dayMs);
+  let hours = Math.floor((ms - days * dayMs) / hourMs);
+  let minutes = Math.round((ms - days * dayMs - hours * hourMs) / 60000);
+  if (minutes === 60) {
+    hours += 1;
+    minutes = 0;
+  } else if (minutes < 10) {
+    minutes = `0${minutes}`;
+  }
+  if (hours === 24) {
+    days += 1;
+    hours = 0;
+  } else if (hours < 10) {
+    hours = `0${hours}`;
+  }
+  return { days, hours, minutes };
+}
+
+function findTimeBetween(date) {
+  return Math.abs(date - new Date());
+}
+
+function updateCountdown() {
+  const days = document.getElementById('countdown-days');
+  const hours = document.getElementById('countdown-hours');
+  const minutes = document.getElementById('countdown-minutes');
+  const countdownData = parseCountdown(findTimeBetween(window.placeholders.countdown));
+  days.textContent = countdownData.days;
+  hours.textContent = countdownData.hours;
+  minutes.textContent = countdownData.minutes;
 }
 
 /**
@@ -119,6 +155,32 @@ export default async function decorate(block) {
     const statusBar = document.createElement('div');
     statusBar.className = 'status-bar';
     block.parentNode.append(statusBar);
+    const data = document.createElement('div');
+    data.className = 'status-bar-data';
+
+    try {
+      const placeholders = await fetchPlaceholders();
+      if (placeholders.course) data.insertAdjacentHTML('beforeend', `<div class="status-bar-course"><p>${placeholders.course}</p></div>`);
+      if (placeholders.dates) data.insertAdjacentHTML('beforeend', `<div class="status-bar-dates"><p>${placeholders.dates}</p></div>`);
+      // setup countdown
+      if (placeholders.countdown) {
+        window.placeholders.countdown = new Date(placeholders.countdown);
+        const countdownData = parseCountdown(findTimeBetween(window.placeholders.countdown));
+        const countdown = `<div class="status-bar-countdown">
+          <p>
+            <span id="countdown-days">${countdownData.days}</span> days : 
+            <span id="countdown-hours">${countdownData.hours}</span> hours : 
+            <span id="countdown-minutes">${countdownData.minutes}</span> minutes
+          </p>
+        </div>`;
+        data.insertAdjacentHTML('beforeend', countdown);
+        setInterval(updateCountdown, 60 * 1000); // update countdown every minute
+      }
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.log('failed to load placeholders', error);
+    }
+    if (data.hasChildNodes()) statusBar.append(data);
 
     await setupPartners(nav.querySelector('.nav-brand'));
   }

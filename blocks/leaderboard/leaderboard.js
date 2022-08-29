@@ -1,11 +1,7 @@
 import { readBlockConfig, decorateIcons } from '../../scripts/scripts.js';
 
-let TRACKING_ID;
-let CONFIG;
-let BLOCK;
-
-function generateUserTrackingId() {
-  TRACKING_ID = window.pgatour.setTrackingUserId(`id${TRACKING_ID}`);
+function generateUserTrackingId(id) {
+  return window.pgatour.setTrackingUserId(`id${id}`);
 }
 
 function loadScript(url, callback, type) {
@@ -58,10 +54,9 @@ function calculateTP(start, current) {
   return { tp: Math.abs(tp), posMove: tp > 0 };
 }
 
-async function populateLeaderboard() {
-  generateUserTrackingId();
+async function populateLeaderboard(block, config) {
   // fetch leaderboard content
-  const resp = await fetch(`https://statdata.pgatour.com/r/011/leaderboard-top5.json?userTrackingId=${TRACKING_ID}`);
+  const resp = await fetch(`https://statdata.pgatour.com/r/011/leaderboard-top5.json?userTrackingId=${generateUserTrackingId(config.id)}`);
   if (resp.ok) {
     const json = await resp.json();
     if (json.leaderboard && json.leaderboard.players) {
@@ -108,7 +103,7 @@ async function populateLeaderboard() {
           decorateIcons(leader);
           leader.append(buttons);
           leaderWrapper.append(leader);
-          BLOCK.append(leaderWrapper);
+          block.append(leaderWrapper);
         }
         const row = buildRow();
         const favoriteButtonCell = buildCell();
@@ -137,35 +132,46 @@ async function populateLeaderboard() {
       const footer = document.createElement('div');
       footer.className = 'leaderboard-footer';
       footer.innerHTML = `<div class="button-container">
-        <a href="${CONFIG.leaderboard}" class="button primary">View full leaderboard</a>
+        <a href="${config.leaderboard}" class="button primary">View full leaderboard</a>
       </div>`;
       /* setup sponsors */
       const sponsors = document.createElement('div');
       sponsors.className = 'leaderboard-sponsors';
+      const configSponsors = Object.keys(config).filter((key) => (
+        key.startsWith('sponsor-') // is a sponsor
+        && !key.endsWith('-link') // is not a sponsor link
+        && config[`${key}-link`])); // but HAS a sponsor link
+      configSponsors.forEach((s) => {
+        const img = config[s];
+        const link = config[`${s}-link`];
+        const a = document.createElement('a');
+        a.className = 'leaderboard-sponsors-sponsor';
+        a.setAttribute('href', link);
+        a.innerHTML = `<img src="${img}" alt="${s.replace('sponsor-', '')}"/>`;
+        sponsors.append(a);
+      });
       footer.prepend(sponsors);
       /* setup table column */
       const tableWrapper = document.createElement('div');
       table.append(body);
       tableWrapper.append(table, footer);
-      BLOCK.append(tableWrapper);
+      block.append(tableWrapper);
     }
-  }
-}
-
-function intersectHandler(entries) {
-  const entry = entries[0];
-  if (entry.isIntersecting) {
-    loadScript('https://microservice.pgatour.com/js', populateLeaderboard);
   }
 }
 
 export default async function decorate(block) {
   const config = readBlockConfig(block);
-  TRACKING_ID = config.id;
-  CONFIG = config;
-  BLOCK = block;
   block.textContent = '';
 
-  const observer = new IntersectionObserver(intersectHandler, { threshold: 0 });
+  const observer = new IntersectionObserver(async (entries) => {
+    if (entries.some((entry) => entry.isIntersecting)) {
+      observer.disconnect();
+      loadScript('https://microservice.pgatour.com/js', () => {
+        populateLeaderboard(block, config);
+      });
+    }
+  }, { threshold: 0 });
+
   observer.observe(block);
 }

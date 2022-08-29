@@ -46,13 +46,15 @@ main .video-hero-play {
   position: relative;
   width: 40px;
   height: 40px;
-  margin-top: 10px;
+  margin: 0 auto;
+  margin-top: 8px;
   border: 2px solid;
   border-radius: 50%;
   background-color: #0004;
   color: var(--color-white);
   line-height: 0;
   cursor: pointer;
+  order: 1;
 }
 
 main .video-hero-play:hover {
@@ -77,6 +79,7 @@ main .video-hero-play::before {
   main .video-hero-play {
     width: 80px;
     height: 80px;
+    margin-top: 16px;
   }
   
   main .video-hero-play::before {
@@ -84,6 +87,12 @@ main .video-hero-play::before {
     border-top: 20px solid transparent;
     border-bottom: 20px solid transparent;
     border-left: 35px solid;
+  }
+}
+
+@media (min-width: 900px) {
+  main .hero.hero-buttons .video-hero-play {
+    margin-left: 0;
   }
 }
 

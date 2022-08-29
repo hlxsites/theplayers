@@ -8,40 +8,39 @@ main .hero-wrapper {
 }
 
 main .hero {
-  display: flex;
-  flex-flow: row wrap;
-  align-content: center;
-  justify-content: center;
   position: relative;
   height: 230px;
-  margin: 0 auto;
-  padding: 0 10px;
   background-image: linear-gradient(#0002, #0006);
   color: var(--color-white);
   text-align: center;
 }
 
+main .hero > div {
+  padding: 0 16px;
+}
+
 main .hero > div > div {
   box-sizing: border-box;
   display: flex;
-  flex-flow: row wrap;
-  align-content: center;
+  flex-direction: column;
   justify-content: center;
+  width: 100%;
   height: 230px;
-  width: calc(100vw - 16px);
   max-width: 1290px;
-  padding: 0 16px;
+  padding-top: 75px;
 }
 
 @media (min-width: 700px) {
   main .hero {
     height: 460px;
-    padding: 0 30px;
+  }
+
+  main .hero > div {
+    padding: 0 32px;
   }
 
   main .hero > div > div {
     height: 460px;
-    padding: 0 32px;
   }
 }
 
@@ -50,17 +49,44 @@ main .hero > div > div {
     height: 490px;
   }
 
-  main .hero > div > div {
+  main .hero.hero-buttons > div {
     height: 490px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  main .hero.hero-buttons > div > div {
+    height: unset;
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    grid-auto-rows: min-content;
+    align-items: center;
+    justify-content: center;
+    gap: 0 16px;
+  }
+
+  main .hero.hero-buttons > div > div > * {
+    grid-column: 1;
+  }
+
+  main .hero > div > div > .button-container {
+    grid-column: 2;
+    grid-row: 1 / span 4;
+  }
+}
+
+@media (min-width: 1200px) {
+  main .hero > div > div {
+    padding-top: 46px;
   }
 }
 
 main .hero h1 {
-  flex-basis: 100%;
-  color: var(--color-white);
+  margin: .25em 0;
+  color: var(--overlay-text-color);
   font-size: var(--heading-font-size-l);
-  font-weight: 400;
-  line-height: .8;
+  line-height: 1;
   text-shadow: 0 0 10px #0008;
 }
 
@@ -73,13 +99,9 @@ main .hero h1 {
 @media (min-width: 900px) {
   main .hero h1 {
     font-size: var(--heading-font-size-xl);
-    margin-right: 30%;
-    margin-bottom: 0;
-    text-align: left;
   }
 
-  main .hero p {
-    margin-right: 30%;
+  main .hero.hero-buttons h1 {
     text-align: left;
   }
 }
@@ -90,64 +112,67 @@ main .hero h1 {
   }
 }
 
-main .hero p {
-  flex-basis: 100%;
+main .hero p:first-of-type { /* bg img wrapper */
+  margin: 0;
+  line-height: 0;
 }
 
-main .hero h1 + p {
+main .hero h1 + p:not(.button-container) {
   display: none;
   visibility: hidden;
-  margin-top: 0;
+  margin: 0;
+  font-size: var(--heading-font-size-m);
+  line-height: 1.4;
+  text-shadow: 0 0 10px #0008;
 }
 
 @media (min-width: 700px) {
-  main .hero h1 + p {
+  main .hero h1 + p:not(.button-container) {
     display: unset;
     visibility: visible;
   }
 }
 
-main .carousel a:any-link {
-  color: var(--color-white);
+@media (min-width: 900px) {
+  main .hero.hero-buttons h1 + p:not(.button-container) {
+    text-align: left;
+  }
 }
 
-main .carousel a:hover {
+main .hero a:any-link {
+  color: var(--overlay-text-color);
+}
+
+main .hero a:hover {
   text-decoration: none;
 }
 
+/* hero image */
 main .hero picture {
-  position: absolute;
+  box-sizing: border-box;
   z-index: -1;
+  position: absolute;
   top: 0;
   left: 0;
   bottom: 0;
   right: 0;
   object-fit: cover;
-  box-sizing: border-box;
 }
 
 main .hero img {
-  object-fit: cover;
   width: 100%;
   height: 100%;
+  object-fit: cover;
 }
 
 /* buttons */
 main .hero p.button-container {
-  margin: 5px;
-  text-align: center;
-}
-
-@media (min-width: 900px) {
-  main .hero p.button-container {
-    flex-basis: 100%;
-  }
+  margin: 0;
 }
 
 main .hero a.button {
   min-width: 115px;
-  color: var(--color-white);
-  font-family: var(--body-font-family);
+  font-weight: lighter;
 }
 
 main .hero a.button:hover {
@@ -165,83 +190,76 @@ main .hero a.button.secondary:any-link {
   font-size: var(--body-font-size-m);
 }
 
+main .carousel a.button.secondary:any-link:hover {
+  color: var(--color-white);
+  border-color: var(--color-white);
+}
+
 @media (min-width: 700px) {
+  main .hero p.button-container {
+    margin-top: 32px;
+    order: 2;
+  }
+
   main .hero a.button {
     min-width: 200px;
   }
 
-  main .hero a.button.primary:any-link {
+  main .hero a.button.primary:any-link,
+  main .hero a.button.secondary:any-link {
     font-size: var(--body-font-size-l);
   }
 }
 
 @media (min-width: 900px) {
-  main .hero a.button {
-    min-width: 300px;
+  main .hero p.button-container {
+    margin-top: 0;
   }
 
-  main .hero p.button-container  {
-    text-align: right;
+  main .hero a.button {
+    min-width: 300px;
+    margin: 0;
   }
 
   main .hero a.button.primary:any-link,
   main .hero a.button.secondary:any-link {
     font-size: var(--body-font-size-xxl);
-    font-weight: lighter;
   }
 }
 
 /* hero with video */
-main .hero.hero-video {
-  height: 420px;
-}
-
+main .hero.hero-video,
 main .hero.hero-video > div > div {
   height: 420px;
 }
 
 @media (min-width: 700px) {
-  main .hero.hero-video {
-    height: 600px;
-  }
-
+  main .hero.hero-video,
   main .hero.hero-video > div > div {
     height: 600px;
   }
 }
 
 @media (min-width: 900px) {
-  main .hero.hero-video {
+  main .hero.hero-video,
+  main .hero.hero-video.hero-buttons > div,
+  main .hero.hero-video:not(.hero-buttons) > div > div  {
     height: 700px;
   }
 
-  main .hero.hero-video > div > div {
-    height: 700px;
+  main .hero.hero-video.hero-buttons > div > div {
+    height: unset;
   }
 }
 
 @media (min-width: 1200px) {
-  main .hero.hero-video {
+  main .hero.hero-video,
+  main .hero.hero-video.hero-buttons > div,
+  main .hero.hero-video:not(.hero-buttons) > div > div {
     height: 800px;
   }
 
-  main .hero.hero-video > div > div {
-    height: 800px;
-  }
-}
-
-main .hero.hero-video h1 {
-  margin-bottom: 0;
-}
-
-@media (min-width: 900px) {
-  main .hero.hero-video h1 {
-    margin-right: auto;
-    text-align: center;
-  }
-
-  main .hero.hero-video p {
-    margin-right: auto;
-    text-align: center;
+  main .hero.hero-video.hero-buttons > div > div {
+    height: unset;
   }
 }

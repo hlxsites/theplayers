@@ -320,21 +320,46 @@ main .leaderboard td .icon.icon-down {
 main .leaderboard .leaderboard-footer {
   display: flex;
   flex-wrap: wrap;
+  gap: 8px 0;
   align-items: center;
   justify-content: space-between;
   margin-top: 10px;
 }
 
+/* stylelint-disable-next-line no-descending-specificity */
+main .leaderboard .leaderboard-footer > * {
+  flex: 1 1 50%;
+}
+
 main .leaderboard .leaderboard-sponsors {
-  flex: 1 0 50%;
+  text-align: center;
+}
+
+main .leaderboard .leaderboard-sponsors-sponsor {
+  display: inline-block;
+}
+
+main .leaderboard .leaderboard-sponsors-sponsor:not(:last-of-type) {
+  margin-right: 30px;
+}
+
+main .leaderboard .leaderboard-sponsors-sponsor img {
+  max-height: 30px;
 }
 
 main .leaderboard .leaderboard-footer .button-container {
   text-align: center;
-  flex-grow: 1;
 }
 
 @media (min-width: 700px) {
+  main .leaderboard .leaderboard-footer > * {
+    flex-basis: max-content;
+  }
+
+  main .leaderboard .leaderboard-sponsors {
+    text-align: left;
+  }
+
   main .leaderboard .leaderboard-footer .button-container {
     text-align: right;
   }

@@ -213,5 +213,16 @@ export default function decorate(block) {
     }
   }, { threshold: 0 });
 
-  observer.observe(block.parentElement);
+  const triggerBlocks = {
+    'leftpromo clock': '.leaderboard, .tee-times',
+    'leftpromo toggle': '.leaderboard, .tee-times',
+    top: '.carousel, .hero',
+    right: '.carousel, .hero',
+  };
+
+  const positions = config.position.split(',').map((p) => p.trim());
+  positions.forEach((position) => {
+    const blocks = document.querySelectorAll(triggerBlocks[position]);
+    blocks.forEach((trigger) => observer.observe(trigger));
+  });
 }

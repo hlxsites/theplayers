@@ -9,18 +9,17 @@ main .carousel-wrapper {
 
 main .carousel {
   display: flex;
-  font-family: var(--heading-font-family);
-  text-transform: uppercase;
   scroll-behavior: smooth;
   scroll-snap-type: x mandatory;
   overflow-x: scroll;
+  color: var(--overlay-text-color);
 }
 
 main .carousel h2 {
-  color: var(--color-white);
+  margin: .25em 0;
+  color: var(--overlay-text-color);
   font-size: var(--heading-font-size-l);
-  font-weight: 400;
-  line-height: .8;
+  line-height: .9;
   text-shadow: 0 0 10px #0008;
 }
 
@@ -43,7 +42,7 @@ main .carousel h2 {
 }
 
 main .carousel a:any-link {
-  color: var(--color-white);
+  color: var(--overlay-text-color);
 }
 
 main .carousel a:hover {
@@ -52,12 +51,13 @@ main .carousel a:hover {
 
 main .carousel picture {
   box-sizing: border-box;
+  z-index: -1;
   position: absolute;
   top: 0;
   left: 0;
   bottom: 0;
   right: 0;
-  z-index: -1;
+  object-fit: cover;
 }
 
 main .carousel img {
@@ -68,19 +68,39 @@ main .carousel img {
 
 /* carousel slide */
 main .carousel > div {
+  box-sizing: border-box;
   display: flex;
+  align-items: center;
   flex-shrink: 0;
   position: relative;
   width: 100%;
   height: 420px;
+  padding-top: 75px;
   background-image: linear-gradient(#0002, #0006);
   scroll-snap-align: start;
 }
 
+main .carousel div.carousel-image { /* bg img wrapper */
+  margin: 0;
+  line-height: 0;
+}
+
+main .carousel div.carousel-text {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  padding: 0 16px;
+}
+
 @media (min-width: 700px) {
   main .carousel > div {
-    height: calc(100vh - 10px - var(--nav-height));
-    min-height: 420px;
+    height: 700px;
+  }
+
+  main .carousel div.carousel-text {
+    padding: 0 32px;
   }
 }
 
@@ -88,68 +108,38 @@ main .carousel > div {
   main .carousel > div {
     height: 600px;
   }
+
+  main .carousel div.carousel-text {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    grid-auto-rows: min-content;
+    align-items: center;
+    justify-content: center;
+    gap: 0 16px;
+    height: unset;
+  }
 }
 
 @media (min-width: 1200px) {
   main .carousel > div {
     height: 700px;
+    padding-top: 46px;
   }
-}
 
-
-main .carousel div.carousel-image {
-  line-height: 0;
-}
-
-main .carousel div.carousel-text {
-  box-sizing: border-box;
-  display: flex;
-  flex-flow: row wrap;
-  align-content: center;
-  justify-content: center;
-  margin: 0 auto;
-  padding: 0 10px;
-  color: var(--color-white);
-}
-
-main .carousel div.carousel-text h2 {
-  flex-basis: 100%;
-}
-
-@media (min-width: 700px) {
   main .carousel div.carousel-text {
-    padding: 0 30px;
-  }
-}
-
-@media (min-width: 900px) {
-  main .carousel div.carousel-text {
-    justify-content: flex-end;
-  }
-
-  main .carousel div.carousel-text h2 {
-    margin-right: 30%;
-    margin-bottom: 0;
-  }
-}
-
-@media (min-width: 1200px) {
-  main .carousel div.carousel-text {
-    padding: 0 60px;
+    padding-top: 46px;
   }
 }
 
 /* carousel content buttons */
 main .carousel p.button-container {
-  margin: 5px;
-  font-weight: lighter;
+  margin: 0;
   text-align: center;
 }
 
 main .carousel a.button {
   min-width: 115px;
-  color: var(--color-white);
-  font-family: var(--body-font-family);
+  font-weight: lighter;
 }
 
 main .carousel a.button:hover {
@@ -167,7 +157,16 @@ main .carousel a.button.secondary:any-link {
   font-size: var(--body-font-size-xs);
 }
 
+main .carousel a.button.secondary:any-link:hover {
+  color: var(--color-white);
+  border-color: var(--color-white);
+}
+
 @media (min-width: 700px) {
+  main .carousel p.button-container {
+    margin-top: 32px;
+  }
+
   main .carousel a.button {
     min-width: 200px;
   }
@@ -180,8 +179,7 @@ main .carousel a.button.secondary:any-link {
 
 @media (min-width: 900px) {
   main .carousel p.button-container {
-    margin-left: 70%;
-    text-align: right;
+    margin-top: 0;
   }
 
   main .carousel a.button {
@@ -222,14 +220,17 @@ main .carousel-buttons button {
   background-color: transparent;
 }
 
+main .carousel-buttons button:hover,
 main .carousel-buttons button.selected {
   background-color: currentcolor;
 }
 
 /* course carousel */
 main .carousel.course > div {
+  align-items: unset;
   flex-direction: column;
   height: 850px;
+  padding-top: 0;
   background-color: var(--color-blue);
   background-image: unset;
 }
@@ -282,7 +283,7 @@ main .carousel.course div.course-text {
     grid-template-areas: 
       'overview stats'
       'credits stats'; 
-    height: 272px;
+    height: 256px;
     margin-bottom: 0;
   }
 }
@@ -314,7 +315,7 @@ main .carousel.course div.course-text {
 main .carousel.course div.course-text h2,
 main .carousel.course div.course-text h3 {
   margin: 0;
-  color: var(--color-white);
+  color: var(--overlay-text-color);
   font-family: var(--body-font-family);
 }
 
@@ -337,10 +338,6 @@ main .carousel.course div.course-text h3 {
   }
 }
 
-main .carousel.course div.course-text p {
-  margin: 0;
-}
-
 /* overview */
 @media (min-width: 700px) {
   main .carousel.course div.course-text .course-overview {
@@ -348,8 +345,8 @@ main .carousel.course div.course-text p {
     display: grid;
     grid-auto-columns: 1fr; 
     grid-template-columns: max-content 1fr; 
-    grid-template-rows: 45px 30px 132px; 
-    gap: 0 16px; 
+    grid-template-rows: auto auto 132px; 
+    gap: 0 32px; 
     /* stylelint-disable-next-line declaration-block-no-redundant-longhand-properties */
     grid-template-areas: 
       'overview-title hole'
@@ -368,18 +365,17 @@ main .carousel.course div.course-text p {
   }
 
   main .carousel.course div.course-text .course-hole {
-    align-self: center;
-  }
-
-  main .carousel.course div.course-text .course-hole picture {
     grid-area: hole;
+    align-self: center;
   }
 
   main .carousel.course div.course-text .course-overview p:last-child {
     grid-area: description;
     box-sizing: border-box;
     overflow-y: auto;
-    max-height: 362px;
+    max-height: 116px;
+    margin-top: 8px;
+    margin-bottom: 0;
     padding-right: 8px;
     font-size: var(--body-font-size-xs);
   }
@@ -390,6 +386,10 @@ main .carousel.course div.course-text p {
     grid-template-rows: 45px 30px 156px; 
     margin-bottom: 16px;
   }
+
+  main .carousel.course div.course-text .course-overview p:last-child {
+    max-height: 139px;
+  }
 }
 
 @media (min-width: 1200px) {
@@ -397,6 +397,10 @@ main .carousel.course div.course-text p {
     flex-grow: 1;
     grid-template-rows: 45px 30px 1fr; 
     max-height: unset;
+  }
+
+  main .carousel.course div.course-text .course-overview p:last-child {
+    max-height: 363px;
   }
 }
 
@@ -408,8 +412,7 @@ main .carousel.course div.course-text .course-hole picture {
 
 main .carousel.course div.course-text .course-hole img {
   width: unset;
-  max-width: 150px;
-  height: unset;
+  height: 42px;
   margin: 0;
 }
 
@@ -454,6 +457,7 @@ main .carousel.course div.course-text .course-statistics .course-avg {
   font-size: var(--body-font-size-xl);
   line-height: 1;
   text-align: center;
+  text-transform: uppercase;
 }
 
 main .carousel.course div.course-text .course-statistics .course-avg strong {
@@ -504,6 +508,7 @@ main .carousel.course div.course-text .course-statistics table tr td.course-stat
 
 main .carousel.course div.course-text .course-statistics table tr td.course-stat-title {
   color: var(--color-gray);
+  text-transform: uppercase;
 }
 
 @media (min-width: 700px) {
@@ -511,7 +516,7 @@ main .carousel.course div.course-text .course-statistics table tr td.course-stat
     display: grid;
     grid-template-columns: max-content 1fr; 
     grid-template-rows: max-content 1fr; 
-    gap: 16px; 
+    gap: 24px 16px; 
     /* stylelint-disable-next-line declaration-block-no-redundant-longhand-properties */
     grid-template-areas: 
       'statistics-title statistics-title'
@@ -547,17 +552,18 @@ main .carousel.course div.course-text .course-statistics table tr td.course-stat
   main .carousel.course div.course-text .course-statistics table tr td.course-stat-graph {
     width: 52%;
   }
-  
 }
 
 /* credits */
 main .carousel.course div.course-text .course-credits {
   grid-area: credits;
   width: 100%;
+  margin: 0;
   border-top: 1px solid #fff8;
   padding: 5px 0;
   font-style: normal;
   text-align: right;
+  text-transform: uppercase;
 }
 
 main .carousel.course div.course-text .course-credits em {
@@ -568,6 +574,7 @@ main .carousel.course div.course-text .course-credits em {
   main .carousel.course div.course-text .course-credits {
     border-top: 0;
     padding-bottom: 0;
+    text-align: left;
   }
 }
 
@@ -625,80 +632,52 @@ main .carousel-container.gallery-container {
   padding: 0 16px;
 }
 
-/* stylelint-disable-next-line no-duplicate-selectors */
-main .carousel {
-  font-family: var(--body-font-family);
-  text-transform: unset;
-}
-
-/* stylelint-disable-next-line no-descending-specificity */
-main .carousel.gallery picture {
-  aspect-ratio: 16 / 9;
-}
-
 main .carousel.gallery > div {
-  flex-shrink: 0;
-  display: flex;
   flex-direction: column;
-  position: relative;
-  width: 100%;
-  height: unset;
-  scroll-snap-align: start;
-}
-
-@media (min-width: 700px) {
-  main .carousel.gallery > div {
-    height: unset;
-  }
+  padding-top: 0;
 }
 
 main .carousel.gallery div.gallery-image {
-  line-height: 0;
-  aspect-ratio: 16 / 9;
+  flex-grow: 1;
+  position: relative;
+  height: 50%;
+  width: 100%;
 }
 
 main .carousel.gallery div.gallery-text {
-  box-sizing: border-box;
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
   justify-content: flex-start;
-  width: 100%;
-  padding: 16px;
+  padding-bottom: 42px;
   background-color: var(--color-blue);
-  color: var(--color-white);
   font-size: var(--body-font-size-xxs);
 }
 
-main .carousel.gallery div.gallery-text p {
-  margin: 0 auto;
-  width: 100%;
-  max-width: 800px;
-}
-
 main .carousel.gallery div.gallery-text p.gallery-text-title {
-  flex: 0 0 28px;
   margin-bottom: 8px;
   font-size: var(--heading-font-size-xs);
 }
 
 main .carousel.gallery div.gallery-text p.gallery-text-desc {
-  flex: 1 1 auto;
-  font-weight: bold;
+  padding-right: 8px;
   overflow-y: auto;
+  font-weight: bold;
 }
 
 main .carousel.gallery div.gallery-text p.gallery-text-credit {
-  flex: 0 0 20px;
-  margin-top: 16px;
+  margin-bottom: 0;
 }
 
 @media (min-width: 900px) {
   main .carousel.gallery div.gallery-text {
-    padding: 16px 32px;
+    display: unset;
   }
 
   main .carousel.gallery div.gallery-text p.gallery-text-desc {
     font-size: var(--body-font-size-xs);
+  }
+}
+
+@media (min-width: 1200px) {
+  main .carousel.carousel.gallery div.carousel-text {
+    padding-top: 0;
   }
 }

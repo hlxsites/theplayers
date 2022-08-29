@@ -331,6 +331,7 @@ main .section.highlight {
 @media (min-width: 900px) {
   .past-champions main .default-content-wrapper .past-champions-float {
     float: right;
+    max-width: 50%;
     margin: 10px 0 10px 20px;
   }
 }

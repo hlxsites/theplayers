@@ -35,7 +35,7 @@ function buildVideoContent(section) {
 export default async function decorate(block) {
   const link = block.querySelector('a');
   const source = link.getAttribute('href');
-  if (source && link.textContent === link.getAttribute('href')) {
+  if (source && link.textContent.endsWith(source)) {
     const resp = await fetch(`${source}.plain.html`);
     if (resp.ok) {
       const html = await resp.text();
