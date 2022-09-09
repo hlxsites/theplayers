@@ -79,7 +79,7 @@ const createMetadata = (main, document) => {
 
 const createRelatedStoriesBlock = (main, document) => {
   const related = document.querySelectorAll('.relatedStories .thumb');
-  if (related) {
+  if (related && related.length > 0) {
     const cells = [];
     cells.push(['Related Stories']);
     const p = document.createElement('p');

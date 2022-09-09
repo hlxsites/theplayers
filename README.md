@@ -1,9 +1,8 @@
-# Your Project's Title...
-Your project's description...
+# PGA Sentry Tournament of Champions
 
 ## Environments
-- Preview: https://main--theplayers--hlxsites.hlx.page/
-- Live: https://main--theplayers--hlxsites.hlx.live/
+- Preview: https://main--pga-sentry-tournament-of-champions--hlxsites.hlx.page/
+- Live: https://main--pga-sentry-tournament-of-champions--hlxsites.hlx.live/
 
 ## Installation
 
