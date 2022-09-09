@@ -101,11 +101,15 @@ const createRelatedStoriesBlock = (main, document) => {
   }
 };
 
-const makeAbsoluteLinks = (main, host) => {
+const makeAbsoluteLinks = (main, host, base) => {
   main.querySelectorAll('a').forEach((a) => {
     if (a.href.startsWith('/')) {
       const ori = a.href;
       const u = new URL(a.href, host);
+      if (u.pathname.startsWith(base)) {
+        u.pathname = u.pathname.substring(base.length);
+      }
+      u.pathname = u.pathname.replace(/\.html$/, '').toLocaleLowerCase();
       a.href = u.toString();
 
       if (a.textContent === ori) {
@@ -169,7 +173,7 @@ export default {
     const u = new URL(url);
     const host = u.searchParams.get('host');
     makeProxySrcs(main, host);
-    makeAbsoluteLinks(main, host);
+    makeAbsoluteLinks(main, 'https://main--pga-sentry-tournament-of-champions--hlxsites.hlx.page', '/tournaments/sentry-tournament-of-champions');
 
     return main;
   },
