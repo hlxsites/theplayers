@@ -139,7 +139,7 @@ export default {
    * @param {HTMLDocument} document The document
    * @returns {HTMLElement} The root element
    */
-  transformDOM: ({ document }) => {
+  transformDOM: ({ document, url }) => {
     const main = document.querySelector('.page');
 
     reorganiseHero(main, document);
@@ -166,8 +166,10 @@ export default {
       }
     });
 
-    makeProxySrcs(main, 'https://www.pgatour.com');
-    makeAbsoluteLinks(main, 'https://www.pgatour.com');
+    const u = new URL(url);
+    const host = u.searchParams.get('host');
+    makeProxySrcs(main, host);
+    makeAbsoluteLinks(main, host);
 
     return main;
   },
@@ -180,6 +182,6 @@ export default {
    */
   // eslint-disable-next-line arrow-body-style
   generateDocumentPath: ({ url }) => {
-    return new URL(url).pathname.replace(/\.html$/, '');
+    return new URL(url).pathname.replace(/\.html$/, '').toLocaleLowerCase();
   },
 };
