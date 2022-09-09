@@ -166,8 +166,8 @@ export default {
       }
     });
 
-    makeProxySrcs(main, 'https://www.theplayers.com');
-    makeAbsoluteLinks(main, 'https://www.theplayers.com');
+    makeProxySrcs(main, 'https://www.pgatour.com');
+    makeAbsoluteLinks(main, 'https://www.pgatour.com');
 
     return main;
   },
