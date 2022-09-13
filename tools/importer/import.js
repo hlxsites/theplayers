@@ -48,7 +48,13 @@ const reorganiseHero = (main, document) => {
   const h1 = document.querySelector('h1');
   if (h1 && h1.textContent.trim() !== '') {
     main.prepend(h1);
+
+    const hero = document.querySelector('.hero-image');
+    if (hero) {
+      h1.before(hero);
+    }
   }
+  
 };
 
 const createMetadata = (main, document) => {
