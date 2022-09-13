@@ -53,6 +53,9 @@ const reorganiseHero = (main, document) => {
     if (hero) {
       h1.before(hero);
     }
+
+    const hr = document.createElement('hr');
+    h1.after(hr);
   }
   
 };
