@@ -91,7 +91,7 @@ header nav > div {
 /* brand */
 header nav .nav-brand {
   grid-area: brand;
-  background-color: var(--color-blue);
+  background-color: var(--color-white);
   z-index: 2;
 }
 
@@ -101,7 +101,6 @@ header nav[aria-expanded=true] .nav-brand a {
 }
 
 header nav .nav-brand img {
-  max-width: 120px;
   max-height: 40px;
 }
 
@@ -121,8 +120,7 @@ header nav .nav-brand img {
   }
 
   header nav[aria-expanded=false] .nav-brand img {
-    max-width: 220px;
-    max-height: 50px;
+    max-height: 100px;
   }
 }
 

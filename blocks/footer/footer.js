@@ -60,7 +60,7 @@ export default async function decorate(block) {
     footer.innerHTML = html;
     makeLinksRelative(footer);
 
-    const classes = ['partners', 'nav', 'links', 'social', 'copyright'];
+    const classes = ['nav', 'links', 'social', 'copyright'];
     classes.forEach((c, i) => {
       const section = footer.children[i];
       if (section) section.classList.add(`footer-${c}`);
@@ -70,7 +70,7 @@ export default async function decorate(block) {
     const ribbon = document.createElement('div');
     ribbon.classList.add('footer', 'footer-ribbon');
     const wrapper = document.createElement('div');
-    wrapper.append(footer.querySelector('.footer-partners'), footer.querySelector('.footer-nav'));
+    wrapper.append(footer.querySelector('.footer-nav'));
     ribbon.append(wrapper);
 
     setupCookieChoices(footer.querySelector('.footer-links'));
@@ -82,6 +82,6 @@ export default async function decorate(block) {
     decorateIcons(block);
     decorateLinkedPictures(block);
 
-    await setupPartners(ribbon.querySelector('.footer-partners'));
+    // await setupPartners(ribbon.querySelector('.footer-partners'));
   }
 }
