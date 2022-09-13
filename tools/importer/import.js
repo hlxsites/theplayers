@@ -101,6 +101,41 @@ const createRelatedStoriesBlock = (main, document) => {
   }
 };
 
+const ticketSummaryToColumnsBlock = (main, document) => {
+  const items = document.querySelectorAll('.ticketSummary .item');
+  if (items && items.length > 0) {
+    const cells = [];
+    cells.push(['Columns']);
+    let lastItem = null;
+    items.forEach((item, index) => {
+      const media = item.querySelector('.media');
+      const info = item.querySelector('.info');
+
+      const title = info.querySelector('.info-title');
+      if (title) {
+        const h2 = document.createElement('h2');
+        h2.innerHTML = title.innerHTML;
+        title.replaceWith(h2);
+      }
+
+      if (item.classList.contains('flipped')) {
+        cells.push([info, media]);
+      } else {
+        cells.push([media, info]);
+      }
+
+      if (index === items.length - 1) {
+        lastItem = item;
+      } else {
+        item.remove();
+      }
+    });
+    
+    const table = WebImporter.DOMUtils.createTable(cells, document);
+    lastItem.replaceWith(table);
+  };
+};
+
 const makeAbsoluteLinks = (main, host, base) => {
   main.querySelectorAll('a').forEach((a) => {
     if (a.href.startsWith('/')) {
@@ -128,8 +163,10 @@ const makeProxySrcs = (main, host) => {
     }
     try {
       const u = new URL(img.src);
-      u.searchParams.append('host', u.origin);
-      img.src = `http://localhost:3001${u.pathname}${u.search}`;
+      if (u.origin === host) {
+        u.searchParams.append('host', u.origin);
+        img.src = `http://localhost:3001${u.pathname}${u.search}`;
+      }
     } catch (error) {
       console.warn(`Unable to make proxy src for ${img.src}: ${error.message}`);
     }
@@ -149,10 +186,12 @@ export default {
     reorganiseHero(main, document);
     createRelatedStoriesBlock(main, document);
     createMetadata(main, document);
+    ticketSummaryToColumnsBlock(main, document);
 
     WebImporter.DOMUtils.remove(main, [
       '.hero-module',
       '.relatedStories',
+      '.headerIParsys',
     ]);
 
     // remove the empty li / ul and replace by divs
