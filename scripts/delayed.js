@@ -1,6 +1,13 @@
 // eslint-disable-next-line import/no-cycle
 import { decorateIcons, sampleRUM } from './scripts.js';
 
+const isProd = window.location.hostname.endsWith('theplayers.com');
+
+if (!isProd) {
+  // temporary override for analytics testing
+  if (!localStorage.getItem('OptIn_PreviousPermissions')) localStorage.setItem('OptIn_PreviousPermissions', '{"aa":true,"mediaaa":true,"target":true,"ecid":true,"adcloud":true,"aam":true,"campaign":true,"livefyre":false}');
+}
+
 function loadScript(url, callback, type) {
   const head = document.querySelector('head');
   if (!head.querySelector(`script[src="${url}"]`)) {
@@ -52,7 +59,7 @@ window.pgatour.Omniture = {
 
 window.pgatour.docWrite = document.write.bind(document);
 
-loadScript('https://assets.adobedtm.com/d17bac9530d5/90b3c70cfef1/launch-1ca88359b76c.min.js');
+loadScript(`https://assets.adobedtm.com/d17bac9530d5/90b3c70cfef1/launch-1ca88359b76c${isProd ? '.min' : ''}.js`);
 
 /* setup favorite players */
 function alphabetize(a, b) {
@@ -508,4 +515,4 @@ async function setGeoCookies() {
 }
 
 const cookieScript = loadScript('https://cdn.cookielaw.org/scripttemplates/otSDKStub.js', setGeoCookies);
-cookieScript.setAttribute('data-domain-script', '262c6c79-a114-41f0-9c07-52cb1fb7390c');
+cookieScript.setAttribute('data-domain-script', `262c6c79-a114-41f0-9c07-52cb1fb7390c${isProd ? '' : '-test'}`);

@@ -218,3 +218,13 @@ footer .footer .footer-copyright {
     font-size: var(--body-font-size-xs);
   }
 }
+
+footer .footer #ot-sdk-btn.ot-sdk-show-settings, footer .footer #ot-sdk-btn.optanon-show-settings,
+footer .footer #ot-sdk-btn.ot-sdk-show-settings:hover, footer .footer #ot-sdk-btn.optanon-show-settings:hover {
+  color: var(--color-white);
+  text-transform: uppercase;
+  cursor: pointer;
+  font-size: unset;
+  border: unset;
+  background-color: unset;
+}

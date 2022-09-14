@@ -4,7 +4,6 @@ import {
   decorateLinkedPictures,
   createOptimizedPicture,
   lookupPages,
-  makeLinksRelative,
   wrapImgsInLinks,
 } from '../../scripts/scripts.js';
 
@@ -13,6 +12,7 @@ function setupCookieChoices(section) {
   if (cookieLink) {
     cookieLink.removeAttribute('href');
     cookieLink.className = 'ot-sdk-show-settings';
+    cookieLink.id = 'ot-sdk-btn';
     cookieLink.parentNode.className = 'onetrust-link';
   }
 }
@@ -58,7 +58,6 @@ export default async function decorate(block) {
     // decorate footer DOM
     const footer = document.createElement('div');
     footer.innerHTML = html;
-    makeLinksRelative(footer);
 
     const classes = ['nav', 'links', 'social', 'copyright'];
     classes.forEach((c, i) => {

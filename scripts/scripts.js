@@ -16,7 +16,7 @@
  * @param {Object} data additional data for RUM sample
  */
 
-export function sampleRUM(checkpoint, data = {}) {
+ export function sampleRUM(checkpoint, data = {}) {
   try {
     window.hlx = window.hlx || {};
     if (!window.hlx.rum) {
@@ -159,11 +159,34 @@ export function decorateIcons(element) {
 }
 
 /**
+ * Turns absolute links within the domain into relative links.
+ * @param {Element} main The container element
+ */
+export function makeLinksRelative(main) {
+  main.querySelectorAll('a').forEach((a) => {
+    // eslint-disable-next-line no-use-before-define
+    const hosts = ['hlx.page', 'hlx.live', ...PRODUCTION_DOMAINS];
+    if (a.href) {
+      try {
+        const url = new URL(a.href);
+        const relative = hosts.some((host) => url.hostname.includes(host));
+        if (relative) a.href = `${url.pathname.replace('.html', '')}${url.search}${url.hash}`;
+      } catch (e) {
+        // something went wrong
+        // eslint-disable-next-line no-console
+        console.log(e);
+      }
+    }
+  });
+}
+
+/**
  * Sets external target and rel for links in a container element.
  * @param {Element} container The container element
  */
 export function updateExternalLinks(container) {
   const REFERERS = [
+    window.location.origin,
     'http://pubads.g.doubleclick.net',
     'https://googleads.g.doubleclick.net',
     'https://adclick.g.doubleclick.net',
@@ -176,11 +199,12 @@ export function updateExternalLinks(container) {
   ];
   container.querySelectorAll('a[href]').forEach((a) => {
     try {
-      const { origin, hash } = new URL(a.href, window.location.href);
+      const { origin, pathname, hash } = new URL(a.href, window.location.href);
       const targetHash = hash && hash.startsWith('#_');
-      if (origin && origin !== window.location.origin && !targetHash) {
+      const isPDF = pathname.split('.').pop() === 'pdf';
+      if ((origin && origin !== window.location.origin && !targetHash) || isPDF) {
         a.setAttribute('target', '_blank');
-        if (!REFERERS.includes('origin')) a.setAttribute('rel', 'noopener');
+        if (!REFERERS.includes(origin)) a.setAttribute('rel', 'noopener');
       } else if (targetHash) {
         a.setAttribute('target', hash.replace('#', ''));
         a.href = a.href.replace(hash, '');
@@ -329,7 +353,6 @@ export function decorateSections(main) {
     });
     wrappers.forEach((wrapper) => section.append(wrapper));
     section.classList.add('section');
-    updateExternalLinks(section);
     section.setAttribute('data-section-status', 'initialized');
 
     /* process section metadata */
@@ -439,6 +462,7 @@ export async function loadBlock(block, eager = false) {
       // eslint-disable-next-line no-console
       console.log(`failed to load block ${blockName}`, err);
     }
+    makeLinksRelative(block);
     updateExternalLinks(block);
     block.setAttribute('data-block-status', 'loaded');
   }
@@ -554,28 +578,6 @@ export function normalizeHeadings(el, allowedHeadings) {
       }
       if (level !== 7) {
         tag.outerHTML = `<h${level} id="${tag.id}">${tag.textContent}</h${level}>`;
-      }
-    }
-  });
-}
-
-/**
- * Turns absolute links within the domain into relative links.
- * @param {Element} main The container element
- */
-export function makeLinksRelative(main) {
-  main.querySelectorAll('a').forEach((a) => {
-    // eslint-disable-next-line no-use-before-define
-    const hosts = ['hlx.page', 'hlx.live', ...PRODUCTION_DOMAINS];
-    if (a.href) {
-      try {
-        const url = new URL(a.href);
-        const relative = hosts.some((host) => url.hostname.includes(host));
-        if (relative) a.href = `${url.pathname.split('.')[0]}${url.search}${url.hash}`;
-      } catch (e) {
-        // something went wrong
-        // eslint-disable-next-line no-console
-        console.log(e);
       }
     }
   });
@@ -805,7 +807,6 @@ async function loadHeader(header) {
   header.append(headerBlock);
   decorateBlock(headerBlock);
   await loadBlock(headerBlock);
-  updateExternalLinks(headerBlock);
 }
 
 async function loadFooter(footer) {
@@ -813,7 +814,6 @@ async function loadFooter(footer) {
   footer.append(footerBlock);
   decorateBlock(footerBlock);
   await loadBlock(footerBlock);
-  updateExternalLinks(footerBlock);
 }
 
 async function loadAds(doc) {
@@ -896,12 +896,13 @@ async function buildAutoBlocks(main) {
 export async function decorateMain(main) {
   // forward compatible pictures redecoration
   decoratePictures(main);
+  decorateLinkedPictures(main);
   // forward compatible link rewriting
   makeLinksRelative(main);
-  decorateLinkedPictures(main);
-
+  updateExternalLinks(main);
   // hopefully forward compatible button decoration
   decorateButtons(main);
+
   decorateIcons(main);
   await buildAutoBlocks(main);
   decorateSections(main);
