@@ -1,9 +1,8 @@
-# Your Project's Title...
-Your project's description...
+# PGA WGC Dell Technologies Match Play
 
 ## Environments
-- Preview: https://main--theplayers--hlxsites.hlx.page/
-- Live: https://main--theplayers--hlxsites.hlx.live/
+- Preview: https://main--pga-wgc-dell-technologies-match-play--hlxsites.hlx.page/
+- Live: https://main--pga-wgc-dell-technologies-match-play--hlxsites.hlx.live/
 
 ## Installation
 
