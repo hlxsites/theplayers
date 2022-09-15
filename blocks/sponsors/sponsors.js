@@ -1,14 +1,31 @@
 import {
   createOptimizedPicture,
   lookupPages,
+  fetchPlaceholders,
   toClassName,
 } from '../../scripts/scripts.js';
 
 export default async function decorate(block) {
   const pages = await lookupPages();
+  const { sponsorOrder } = await fetchPlaceholders();
   const sponsors = pages.filter((e) => e.path.startsWith('/sponsors/'));
+  const orderedSponsors = [];
+  if (sponsorOrder) {
+    sponsorOrder.split(',').forEach((sp) => {
+      // eslint-disable-next-line no-param-reassign
+      sp = sp.trim();
+      const match = sponsors.find((sponsor) => sponsor.title === sp);
+      if (match) {
+        // remove match from sponsors
+        sponsors.splice(sponsors.indexOf(match), 1);
+        // add match to ordered sponsors
+        orderedSponsors.push(match);
+      }
+    });
+  }
 
-  sponsors.forEach((sponsor) => {
+  // combine ordered sponsors with any remaining unordered sponsors
+  [...orderedSponsors, ...sponsors].forEach((sponsor) => {
     const card = document.createElement('div');
     card.className = 'sponsors-sponsor';
     const wrapper = document.createElement('div');

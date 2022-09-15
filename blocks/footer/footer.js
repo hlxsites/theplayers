@@ -5,6 +5,7 @@ import {
   createOptimizedPicture,
   lookupPages,
   wrapImgsInLinks,
+  fetchPlaceholders,
 } from '../../scripts/scripts.js';
 
 function setupCookieChoices(section) {
@@ -26,10 +27,26 @@ function setupSocialButtons(section) {
 
 async function setupPartners(section) {
   const pages = await lookupPages();
+  const { sponsorOrder } = await fetchPlaceholders();
   const sponsors = pages.filter((e) => e.path.startsWith('/sponsors/'));
+  const orderedSponsors = [];
+  if (sponsorOrder) {
+    sponsorOrder.split(',').forEach((sp) => {
+      // eslint-disable-next-line no-param-reassign
+      sp = sp.trim();
+      const match = sponsors.find((sponsor) => sponsor.title === sp);
+      if (match) {
+        // remove match from sponsors
+        sponsors.splice(sponsors.indexOf(match), 1);
+        // add match to ordered sponsors
+        orderedSponsors.push(match);
+      }
+    });
+  }
 
   const wrapper = document.createElement('div');
-  sponsors.forEach((sponsor) => {
+  // combine ordered sponsors with any remaining unordered sponsors
+  [...orderedSponsors, ...sponsors].forEach((sponsor) => {
     const partner = document.createElement('div');
     partner.className = 'footer-partner';
     const link = document.createElement('a');

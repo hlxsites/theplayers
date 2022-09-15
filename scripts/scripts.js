@@ -16,7 +16,7 @@
  * @param {Object} data additional data for RUM sample
  */
 
- export function sampleRUM(checkpoint, data = {}) {
+export function sampleRUM(checkpoint, data = {}) {
   try {
     window.hlx = window.hlx || {};
     if (!window.hlx.rum) {
