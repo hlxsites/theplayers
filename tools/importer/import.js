@@ -48,7 +48,16 @@ const reorganiseHero = (main, document) => {
   const h1 = document.querySelector('h1');
   if (h1 && h1.textContent.trim() !== '') {
     main.prepend(h1);
+
+    const hero = document.querySelector('.hero-image');
+    if (hero) {
+      h1.before(hero);
+    }
+
+    const hr = document.createElement('hr');
+    h1.after(hr);
   }
+  
 };
 
 const createMetadata = (main, document) => {
@@ -79,7 +88,7 @@ const createMetadata = (main, document) => {
 
 const createRelatedStoriesBlock = (main, document) => {
   const related = document.querySelectorAll('.relatedStories .thumb');
-  if (related) {
+  if (related && related.length > 0) {
     const cells = [];
     cells.push(['Related Stories']);
     const p = document.createElement('p');
@@ -101,11 +110,50 @@ const createRelatedStoriesBlock = (main, document) => {
   }
 };
 
-const makeAbsoluteLinks = (main, host) => {
+const ticketSummaryToColumnsBlock = (main, document) => {
+  const items = document.querySelectorAll('.ticketSummary .item');
+  if (items && items.length > 0) {
+    const cells = [];
+    cells.push(['Columns']);
+    let lastItem = null;
+    items.forEach((item, index) => {
+      const media = item.querySelector('.media');
+      const info = item.querySelector('.info');
+
+      const title = info.querySelector('.info-title');
+      if (title) {
+        const h2 = document.createElement('h2');
+        h2.innerHTML = title.innerHTML;
+        title.replaceWith(h2);
+      }
+
+      if (item.classList.contains('flipped')) {
+        cells.push([info, media]);
+      } else {
+        cells.push([media, info]);
+      }
+
+      if (index === items.length - 1) {
+        lastItem = item;
+      } else {
+        item.remove();
+      }
+    });
+    
+    const table = WebImporter.DOMUtils.createTable(cells, document);
+    lastItem.replaceWith(table);
+  };
+};
+
+const makeAbsoluteLinks = (main, host, base) => {
   main.querySelectorAll('a').forEach((a) => {
     if (a.href.startsWith('/')) {
       const ori = a.href;
       const u = new URL(a.href, host);
+      if (base && u.pathname.startsWith(base)) {
+        u.pathname = u.pathname.substring(base.length);
+      }
+      u.pathname = u.pathname.replace(/\.html$/, '').toLocaleLowerCase();
       a.href = u.toString();
 
       if (a.textContent === ori) {
@@ -124,8 +172,10 @@ const makeProxySrcs = (main, host) => {
     }
     try {
       const u = new URL(img.src);
-      u.searchParams.append('host', u.origin);
-      img.src = `http://localhost:3001${u.pathname}${u.search}`;
+      if (u.origin === host) {
+        u.searchParams.append('host', u.origin);
+        img.src = `http://localhost:3001${u.pathname}${u.search}`;
+      }
     } catch (error) {
       console.warn(`Unable to make proxy src for ${img.src}: ${error.message}`);
     }
@@ -139,16 +189,18 @@ export default {
    * @param {HTMLDocument} document The document
    * @returns {HTMLElement} The root element
    */
-  transformDOM: ({ document, url }) => {
-    const main = document.querySelector('.page');
+  transformDOM: ({ document, params }) => {
+    const main = document.querySelector('.page-container') || document.querySelector('.page');
 
     reorganiseHero(main, document);
     createRelatedStoriesBlock(main, document);
     createMetadata(main, document);
+    ticketSummaryToColumnsBlock(main, document);
 
     WebImporter.DOMUtils.remove(main, [
       '.hero-module',
       '.relatedStories',
+      '.headerIParsys',
     ]);
 
     // remove the empty li / ul and replace by divs
@@ -166,10 +218,30 @@ export default {
       }
     });
 
-    const u = new URL(url);
-    const host = u.searchParams.get('host');
-    makeProxySrcs(main, host);
-    makeAbsoluteLinks(main, host);
+    const u = new URL(params.originalURL);
+    makeProxySrcs(main, u.origin);
+   
+    if (u.pathname.startsWith('/tournaments/sentry-tournament-of-champions')) {
+      makeAbsoluteLinks(main, 'https://main--pga-sentry-tournament-of-champions--hlxsites.hlx.page', '/tournaments/sentry-tournament-of-champions');
+    } else if (u.pathname.startsWith('/tournaments/wgc-dell-technologies-match-play')) {
+      makeAbsoluteLinks(main, 'https://main--pga-wgc-dell-technologies-match-play--hlxsites.hlx.page', '/tournaments/wgc-dell-technologies-match-play');
+    } else if (u.pathname.startsWith('/tournaments/fedex-st-jude-championship')) {
+      makeAbsoluteLinks(main, 'https://main--pga-fedex-st-jude-championship--hlxsites.hlx.page', '/tournaments/fedex-st-jude-championship');
+    } else if (u.pathname.startsWith('/tournaments/tour-championship')) {
+      makeAbsoluteLinks(main, 'https://main--pga-tour-championship--hlxsites.hlx.page', '/tournaments/tour-championship');
+    } else if (u.pathname.startsWith('/tournaments/the-cj-cup')) {
+      makeAbsoluteLinks(main, 'https://main--pga-the-cj-cup--hlxsites.hlx.page', '/tournaments/the-cj-cup');
+    } else if (u.pathname.startsWith('/tournaments/mitsubishi-electric-championship-at-hualalai')) {
+      makeAbsoluteLinks(main, 'https://main--pga-mitsubishi-electric-championship-at-hualalai--hlxsites.hlx.page', '/champions/tournaments/mitsubishi-electric-championship-at-hualalai');
+    } else if (u.pathname.startsWith('/tournaments/bridgestone-senior-players-championship')) {
+      makeAbsoluteLinks(main, 'https://main--pga-bridgestone-senior-players-championship--hlxsites.hlx.page', '/champions/tournaments/bridgestone-senior-players-championship');
+    } else if (u.pathname.startsWith('/tournaments/dominion-energy-charity-classic')) {
+      makeAbsoluteLinks(main, 'https://main--pga-dominion-energy-charity-classic--hlxsites.hlx.page', '/champions/tournaments/dominion-energy-charity-classic');
+    } else if (u.pathname.startsWith('/tournaments/charles-schwab-cup-championship')) {
+      makeAbsoluteLinks(main, 'https://main--pga-charles-schwab-cup-championship--hlxsites.hlx.page', '/champions/tournaments/charles-schwab-cup-championship');
+    } else {
+      makeAbsoluteLinks(main, 'https://www.theplayers.com/');
+    }
 
     return main;
   },
