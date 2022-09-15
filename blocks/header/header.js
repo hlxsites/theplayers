@@ -198,8 +198,10 @@ export default async function decorate(block) {
       if (meta.background) {
         brand.classList.add(meta.background);
       }
+
       sectionMeta.remove();
     }
+
     await setupPartners(brand);
     block.classList.add('appear');
   }
