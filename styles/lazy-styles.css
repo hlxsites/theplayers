@@ -142,7 +142,6 @@ body .gigya-find-player-options li:hover {
 body #onetrust-pc-sdk :not(.ot-leg-btn-container) > button , 
 body #onetrust-consent-sdk #onetrust-pc-sdk button:not(#clear-filters-handler):not(.ot-close-icon):not(#filter-btn-handler):not(.ot-remove-objection-handler):not(.ot-obj-leg-btn-handler),
 body #onetrust-consent-sdk #onetrust-pc-sdk .ot-leg-btn-container .ot-active-leg-btn {
-  background-color: var(--link-color);
   font-size: var(--body-font-size-xs);
   font-weight: normal;
   letter-spacing: normal;
@@ -153,5 +152,4 @@ body #onetrust-pc-sdk :not(.ot-leg-btn-container) > button:hover,
 body #onetrust-consent-sdk #onetrust-pc-sdk button:not(#clear-filters-handler):not(.ot-close-icon):not(#filter-btn-handler):not(.ot-remove-objection-handler):not(.ot-obj-leg-btn-handler):hover,
 body #onetrust-consent-sdk #onetrust-pc-sdk .ot-leg-btn-container .ot-active-leg-btn:hover {
   opacity: 1;
-  background-color: var(--link-hover-color);
 }
