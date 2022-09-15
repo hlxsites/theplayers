@@ -3,6 +3,7 @@ import {
   readBlockConfig,
   toClassName,
   updateExternalLinks,
+  fetchPlaceholders,
 } from '../../scripts/scripts.js';
 
 function filterNews(e) {
@@ -84,7 +85,8 @@ export default async function decorate(block) {
         const tags = config.tags.replace(/ /g, '').split(',').join('+');
         directURL = `${newsURL}/tags=${tags}&size=${limit}`;
       } else {
-        directURL = `${newsURL}/path=/content&tags=PGATOUR:Tournaments/2018/r011+PGATOUR:Tournaments/2020/r011+PGATOUR:Tournaments/2019/r011+PGATOUR:Tournaments/2021/r011+PGATOUR:Tournaments/2022/r011&size=${limit}`;
+        const placeholders = await fetchPlaceholders();
+        directURL = `${newsURL}/path=/content&tags=${placeholders.newsTags}&size=${limit}`;
       }
       const resp = await fetch(`https://little-forest-58aa.david8603.workers.dev/?url=${encodeURIComponent(directURL)}`);
       const json = await resp.json();
