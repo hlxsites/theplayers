@@ -95,6 +95,10 @@ header nav .nav-brand {
   z-index: 2;
 }
 
+header nav .nav-brand.white {
+  background-color: var(--color-white);
+}
+
 header nav[aria-expanded=true] .nav-brand a {
   left: 10px;
   transform: translateY(-50%);

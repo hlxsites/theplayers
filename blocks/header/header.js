@@ -190,7 +190,19 @@ export default async function decorate(block) {
     }
     if (data.hasChildNodes()) statusBar.append(data);
 
-    await setupPartners(nav.querySelector('.nav-brand'));
+    const brand = nav.querySelector('.nav-brand')
+    const sectionMeta = brand.querySelector('.section-metadata');
+    if (sectionMeta) {
+      const meta = readBlockConfig(sectionMeta);
+
+      if (meta.background) {
+        brand.classList.add(meta.background);
+      }
+
+      sectionMeta.remove();
+    }
+
+    await setupPartners(brand);
     block.classList.add('appear');
   }
 }
