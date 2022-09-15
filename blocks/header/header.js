@@ -29,20 +29,22 @@ async function setupPartners(section) {
   const pages = await lookupPages();
   const sponsors = pages.filter((e) => e.path.startsWith('/sponsors/'));
 
-  const partners = document.createElement('div');
-  partners.className = 'nav-partners';
-  partners.innerHTML = '<div class="nav-partners-title"><span>Proud Partners</span></div><div class="nav-partner-wrapper"></div>';
-  sponsors.forEach((sponsor, i) => {
-    const partner = document.createElement('div');
-    partner.className = 'nav-partner';
-    if (!i) partner.classList.add('nav-partner-appear');
-    partner.append(createOptimizedPicture(sponsor.logoWhite, sponsor.title, false, [{ width: '300' }]));
-    partners.querySelector('.nav-partner-wrapper').append(partner);
-  });
-  setInterval(() => {
-    displayNextPartner(partners);
-  }, 5000);
-  section.append(partners);
+  if (sponsors.length > 0) {
+    const partners = document.createElement('div');
+    partners.className = 'nav-partners';
+    partners.innerHTML = '<div class="nav-partners-title"><span>Proud Partners</span></div><div class="nav-partner-wrapper"></div>';
+    sponsors.forEach((sponsor, i) => {
+      const partner = document.createElement('div');
+      partner.className = 'nav-partner';
+      if (!i) partner.classList.add('nav-partner-appear');
+      partner.append(createOptimizedPicture(sponsor.logoWhite, sponsor.title, false, [{ width: '300' }]));
+      partners.querySelector('.nav-partner-wrapper').append(partner);
+    });
+    setInterval(() => {
+      displayNextPartner(partners);
+    }, 5000);
+    section.append(partners);
+  }
 }
 
 function setupUser(section) {
