@@ -76,7 +76,11 @@ export default async function decorate(block) {
     const footer = document.createElement('div');
     footer.innerHTML = html;
 
-    const classes = ['nav', 'links', 'social', 'copyright'];
+    const hasPartners = footer.children.length > 4;
+    let classes = ['partners', 'nav', 'links', 'social', 'copyright'];
+    if (!hasPartners) {
+      classes = ['nav', 'links', 'social', 'copyright'];
+    }
     classes.forEach((c, i) => {
       const section = footer.children[i];
       if (section) section.classList.add(`footer-${c}`);
@@ -86,7 +90,13 @@ export default async function decorate(block) {
     const ribbon = document.createElement('div');
     ribbon.classList.add('footer', 'footer-ribbon');
     const wrapper = document.createElement('div');
-    wrapper.append(footer.querySelector('.footer-nav'));
+
+    if (hasPartners) {
+      wrapper.append(footer.querySelector('.footer-partners'), footer.querySelector('.footer-nav'));
+    } else {
+      wrapper.append(footer.querySelector('.footer-nav'));
+    }
+
     ribbon.append(wrapper);
 
     setupCookieChoices(footer.querySelector('.footer-links'));
@@ -98,6 +108,8 @@ export default async function decorate(block) {
     decorateIcons(block);
     decorateLinkedPictures(block);
 
-    // await setupPartners(ribbon.querySelector('.footer-partners'));
+    if (hasPartners) {
+      await setupPartners(ribbon.querySelector('.footer-partners'));
+    }
   }
 }
