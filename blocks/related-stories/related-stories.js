@@ -43,7 +43,7 @@ export default async function decorate(block) {
         block.append(title, ul);
       }
       makeLinksRelative(block);
-      updateExternalLinks(block)
+      updateExternalLinks(block);
     }
   }, { threshold: 0 });
 
