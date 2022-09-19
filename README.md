@@ -1,9 +1,8 @@
-# Your Project's Title...
-Your project's description...
+# PGA Charles Schwab Cup Championship
 
 ## Environments
-- Preview: https://main--theplayers--hlxsites.hlx.page/
-- Live: https://main--theplayers--hlxsites.hlx.live/
+- Preview: https://main--pga-charles-schwab-cup-championship--hlxsites.hlx.page/
+- Live: https://main--pga-charles-schwab-cup-championship--hlxsites.hlx.live/
 
 ## Installation
 
