@@ -99,7 +99,7 @@ header nav .nav-brand.white {
   background-color: var(--color-white);
 }
 
-header nav .nav-brand a img {
+header nav .nav-brand > a img {
   width: auto;
   max-height: var(--nav-height);
 }
@@ -121,6 +121,7 @@ header nav[aria-expanded=true] .nav-brand a {
   }
 
   header nav .nav-brand > a img {
+    max-height: unset;
     margin: 5px 0;
   }
 
