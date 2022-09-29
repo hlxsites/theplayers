@@ -177,7 +177,7 @@ main .carousel a.button:hover {
 
 main .carousel a.button.primary:any-link {
   border-color: transparent;
-  background-color: var(--color-tan-95);
+  background-color: var(--color-gray-light-95);
   font-size: var(--body-font-size-xs);
 }
 

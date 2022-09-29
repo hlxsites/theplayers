@@ -127,7 +127,7 @@ header nav[aria-expanded=true] .nav-brand a {
 
   header nav[aria-expanded=false] .nav-brand img {
     width: auto;
-    max-width: 220px;
+    max-width: 200px;
   }
 }
 
