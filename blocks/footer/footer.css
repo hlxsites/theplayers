@@ -66,6 +66,13 @@ footer .footer.footer-ribbon a {
 }
 
 /* partners */
+footer .footer .footer-partners ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 16px 230px;
+}
+
 footer .footer .footer-partners img {
   max-width: 250px;
   max-height: 132px;
@@ -137,11 +144,16 @@ footer .footer .footer-links li {
   padding: 5px 10px;
 }
 
+footer .footer .footer-links {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: center;
+  gap: 10px;
+}
+
 @media (min-width: 900px) {
   footer .footer .footer-links {
-    display: grid;
-    grid-template-columns: 60px 1fr 130px;
-    align-items: center;
+    grid-template-columns: repeat(6, 1fr);
     gap: 0 10px;
     font-size: var(--body-font-size-xs);
   }

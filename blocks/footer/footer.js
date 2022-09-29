@@ -92,7 +92,7 @@ export default async function decorate(block) {
     const wrapper = document.createElement('div');
 
     if (hasPartners) {
-      wrapper.append(footer.querySelector('.footer-partners'), footer.querySelector('.footer-nav'));
+      wrapper.append(footer.querySelector('.footer-partners'));
     } else {
       wrapper.append(footer.querySelector('.footer-nav'));
     }
