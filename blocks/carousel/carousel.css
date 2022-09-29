@@ -332,7 +332,7 @@ main .carousel.course div.course-text {
     right: 16px;
     width: 300px;
     height: 473px;
-    background-color: var(--color-blue-95);
+    background-color: #000c;
     z-index: 1;
   }
 }
