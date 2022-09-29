@@ -1,9 +1,10 @@
-main .social-container {
+main .social-container:not(.image-feed-container) {
   background-color: var(--color-blue);
   color: var(--overlay-text-color);
 }
 
-main .social-container > .default-content-wrapper h2 {
+main .social-container:not(.image-feed-container) > .default-content-wrapper h2,
+main .social-container:not(.image-feed-container) > .default-content-wrapper h3 {
   padding-top: 16px;
   color: var(--overlay-text-color);
 }
@@ -13,7 +14,8 @@ main .social-wrapper {
 }
 
 @media (min-width: 900px) {
-  main .social-container > .default-content-wrapper h2 {
+  main .social-container:not(.image-feed-container) > .default-content-wrapper h2,
+  main .social-container:not(.image-feed-container) > .default-content-wrapper h3 {
     padding-top: 32px;
   }
 
@@ -22,6 +24,7 @@ main .social-wrapper {
   }
 }
 
+/* stylelint-disable-next-line no-descending-specificity */
 main .social h3 {
   margin: 0;
   color: var(--color-tan);
@@ -151,7 +154,8 @@ main .social .social-twitter-header .social-twitter-screenname a {
   color: var(--color-tan);
 }
 
-main .social .social-twitter-header .social-twitter-screenname a::before {
+main .social .social-twitter-header .social-twitter-screenname a::before,
+main .social.image-feed .social-tile-screenname a::before {
   content: '@';
 }
 
@@ -177,4 +181,79 @@ main .social .social-twitter-tweet .social-tweet-img {
 main .social .social-twitter-tweet .social-tweet-img + .social-tweet-body {
   flex: 1 0 calc(50% - 8px);
   width: 0;
+}
+
+/* images feed */
+main .image-feed-container {
+  padding: 0;
+}
+
+main .social.image-feed ul {
+  gap: 0;
+  grid-template-columns: repeat(2, 1fr);
+  height: 100vw;
+  overflow-y: hidden;
+}
+
+main .social.image-feed li {
+  display: block;
+  position: relative;
+  height: 50vw;
+  width: 100%;
+  border: 0;
+  padding: 0;
+  animation: fade-in 1.5s; 
+  background: linear-gradient(transparent, #0002);
+}
+
+@keyframes fade-in {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+main .social.image-feed li .social-tile-img {
+  position: absolute;
+}
+
+main .social.image-feed li .social-tile-img img {
+  height: 50vw;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+}
+
+main .social.image-feed li .social-tile-body {
+  box-sizing: border-box;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 50vw;
+  padding: 8px;
+  text-transform: lowercase;
+  background: linear-gradient(transparent, #0002);
+}
+
+main .social.image-feed li .social-tile-body p {
+  width: 100%;
+  text-shadow: 0 0 10px #0008;
+}
+
+main .social.image-feed li .social-tile-body svg {
+  width: 16px;
+  height: 16px;
+  float: right;
+}
+
+@media (min-width: 700px) {
+  main .social.image-feed ul {
+    grid-template-columns: repeat(5, 1fr);
+    height: unset;
+  }
+
+  main .social.image-feed li,
+  main .social.image-feed li .social-tile-img img,
+  main .social.image-feed li .social-tile-body {
+    height: 20vw;
+  }
 }

@@ -1,6 +1,7 @@
 import { readBlockConfig, decorateIcons, fetchPlaceholders } from '../../scripts/scripts.js';
 
 const TWITTER_URL = 'https://twitter.com/';
+const INSTAGRAM_URL = 'https://instagram.com/';
 
 function buildProfilesTile(config) {
   const profiles = document.createElement('li');
@@ -90,18 +91,89 @@ function buildTwitterTile(tile, data) {
   tile.append(foot);
 }
 
-export default async function decorate(block) {
-  const config = readBlockConfig(block);
-  block.textContent = '';
+function buildImageTile(tile, data) {
+  tile.innerHTML = `<a href="${data.postUrl}"></a>`;
+  const a = tile.querySelector('a');
+  const image = document.createElement('div');
+  image.className = 'social-tile-img';
+  image.innerHTML = `<img src="${data.imageUrl}" />`;
+  const body = document.createElement('div');
+  body.className = 'social-tile-body';
+  body.innerHTML = `<p><a href="${data.profileUrl}"><span class="icon icon-${data.network}"></span></a></p>
+    <p class="social-tile-screenname"><a href="${data.profileUrl}" target="_blank">${data.username}</span></a></p>`;
+  a.append(image, body);
+  decorateIcons(tile);
+  return tile;
+}
+
+function refreshImageTiles(wrapper, available, onPage) {
+  setInterval(() => {
+    const randomIndex = (max) => Math.floor(Math.random() * (max + 1));
+    const tiles = wrapper.children;
+    const toRefreshIndex = randomIndex(tiles.length);
+    const tileToRefresh = tiles[toRefreshIndex];
+    if (tileToRefresh) {
+      const refreshIndex = randomIndex(available.length);
+      const newTile = available[refreshIndex];
+      if (newTile) {
+        available.splice(refreshIndex, 1);
+        available.push(tileToRefresh);
+        onPage.splice(toRefreshIndex, 1);
+        onPage.push(newTile);
+        tileToRefresh.replaceWith(newTile);
+      }
+    }
+  }, 3 * 1000);
+}
+
+async function buildImageFeed(wrapper, config) {
+  const resp = await fetch(`https://api.massrelevance.com/6krq3qgxx2/${config.stream}.json?limit=40&tweet_mode=extended`);
+  const availableTiles = [];
+  const tilesOnPage = [];
+  if (resp.ok) {
+    const stream = await resp.json();
+    let index = 0;
+    stream.forEach((item, i) => {
+      const tile = document.createElement('li');
+      const { network } = item;
+      let username;
+      let profileUrl;
+      let postUrl;
+      let imageUrl;
+      if (network === 'twitter') {
+        username = item.user.screen_name;
+        profileUrl = `${TWITTER_URL}${username}/`;
+        postUrl = item.full_text.split(' ').pop();
+        imageUrl = item.entities.media[0].media_url_https;
+      } else if (network === 'instagram') {
+        username = item.user.username;
+        profileUrl = `${INSTAGRAM_URL}${username}/`;
+        postUrl = item.link;
+        imageUrl = item.images.low_resolution.url;
+      }
+      if (network === 'twitter' || network === 'instagram') {
+        const imageTile = buildImageTile(tile, {
+          network, username, profileUrl, postUrl, imageUrl,
+        });
+        if (tilesOnPage.length < 10 && i % 2 === 0) { // attempt to avoid duplicates
+          [...wrapper.children][index].replaceWith(tile);
+          tilesOnPage.push(tile);
+          index += 1;
+        } else {
+          availableTiles.push(imageTile);
+        }
+      }
+    });
+    refreshImageTiles(wrapper, availableTiles, tilesOnPage);
+  }
+}
+
+async function buildSocialFeed(wrapper, config) {
   const placeholders = await fetchPlaceholders();
-
-  const wrapper = document.createElement('ul');
-
   // setup profiles tile
   const profilesTile = buildProfilesTile(config);
-  wrapper.append(profilesTile);
-
   // fetch social feed
+  wrapper.append(profilesTile);
   const tournament = `${placeholders.tourCode}${placeholders.tournamentId}`;
   const resp = await fetch(`https://api.massrelevance.com/brgyan07p/tournament_${tournament}.json`);
   if (resp.ok) {
@@ -113,5 +185,37 @@ export default async function decorate(block) {
       wrapper.append(tile);
     });
   }
-  block.append(wrapper);
+}
+
+export default async function decorate(block) {
+  const config = readBlockConfig(block);
+  block.innerHTML = '';
+
+  const wrapper = document.createElement('ul');
+
+  // setup placeholder content
+  if (block.className.includes('image-feed')) {
+    block.parentElement.classList.add('image-feed-wrapper');
+    block.parentElement.parentElement.classList.add('image-feed-container');
+    for (let i = 0; i < 10; i += 1) {
+      const placeholder = document.createElement('li');
+      placeholder.className = 'social-placeholder';
+      wrapper.append(placeholder);
+    }
+  }
+
+  const observer = new IntersectionObserver(async (entries) => {
+    if (entries.some((entry) => entry.isIntersecting)) {
+      observer.disconnect();
+
+      if (block.className.includes('image-feed')) {
+        await buildImageFeed(wrapper, config);
+      } else {
+        await buildSocialFeed(wrapper, config);
+      }
+      block.append(wrapper);
+    }
+  }, { threshold: 0 });
+
+  observer.observe(block);
 }

@@ -1,5 +1,11 @@
 // eslint-disable-next-line import/no-cycle
-import { decorateIcons, fetchPlaceholders, sampleRUM } from './scripts.js';
+import {
+  decorateIcons,
+  fetchPlaceholders,
+  sampleRUM,
+  decorateBlock,
+  loadBlock,
+} from './scripts.js';
 
 const placeholders = await fetchPlaceholders();
 const isProd = window.location.hostname.endsWith(placeholders.hostname);
@@ -449,7 +455,7 @@ function setupGigya() {
 // eslint-disable-next-line import/prefer-default-export
 export function initGigya() {
   const button = document.getElementById('nav-user-button');
-  if (button) button.removeEventListener('click', initGigya);
+  if (button) button.replaceWith(button.cloneNode(true));
   loadScript(
     'https://cdns.gigya.com/JS/socialize.js?apikey=3__4H034SWkmoUfkZ_ikv8tqNIaTA0UIwoX5rsEk96Ebk5vkojWtKRZixx60tZZdob',
     setupGigya,
@@ -539,3 +545,9 @@ const cookieScript = loadScript('https://cdn.cookielaw.org/scripttemplates/otSDK
 cookieScript.setAttribute('data-domain-script', `262c6c79-a114-41f0-9c07-52cb1fb7390c${isProd ? '' : '-test'}`);
 
 window.OptanonWrapper = OptanonWrapper;
+
+if (document.querySelector('.ads')) {
+  const adsBlock = document.querySelector('.ads');
+  decorateBlock(adsBlock);
+  loadBlock(adsBlock);
+}

@@ -8,8 +8,6 @@ import {
   decorateLinkedPictures,
 } from '../../scripts/scripts.js';
 
-import { initGigya } from '../../scripts/delayed.js';
-
 /**
  * collapses all open nav sections
  * @param {Element} sections The container element
@@ -64,7 +62,9 @@ function setupUser(section) {
       </button>`;
   }
   const button = section.querySelector('button');
-  button.addEventListener('click', initGigya);
+  button.addEventListener('click', () => {
+    import('../../scripts/delayed.js').then((module) => module.initGigya());
+  });
 }
 
 function parseCountdown(ms) {
