@@ -468,23 +468,38 @@ initGigya();
 async function populateStatusBar(statusBar) {
   if (statusBar) {
     const statusBarData = document.querySelector('.status-bar-data');
+    const tournament = `${placeholders.tourCode}${placeholders.tournamentId}`;
     // fetch weather
     try {
-      const resp = await fetch('https://little-forest-58aa.david8603.workers.dev/?url=https://www.pgatour.com/bin/data/feeds/weather.json/r011');
+      const resp = await fetch(`https://little-forest-58aa.david8603.workers.dev/?url=https://www.pgatour.com/bin/data/feeds/weather.json/${tournament}`);
       const { current_observation: weatherData } = await resp.json();
       const location = weatherData.display_location.full;
       const icon = weatherData.icon_url.replace('.gif', '.png');
       const temp = weatherData.temp_f;
-      const weather = document.createElement('div');
-      weather.className = 'status-bar-weather';
-      weather.innerHTML = `<p>
-          <a href="/weather">
-            <span>${location}</span>
-            <img src="${icon}" alt="${weatherData.weather}"/ >
-            <span class="status-bar-temp">${temp}</span>
-          </a>
-        </p>`;
-      statusBarData.append(weather);
+      sessionStorage.setItem(`${tournament}Weather`, JSON.stringify({
+        location, icon, temp,
+      }));
+      const weatherDisplayed = statusBar.querySelector('.status-bar-weather');
+      if (weatherDisplayed) {
+        const barLocation = weatherDisplayed.querySelector('.status-bar-location');
+        barLocation.textContent = location;
+        const barImg = weatherDisplayed.querySelector('img');
+        barImg.src = icon;
+        barImg.alt = weatherData.weather;
+        const barTemp = weatherDisplayed.querySelector('.status-bar-temp');
+        barTemp.textContent = temp;
+      } else {
+        const weather = document.createElement('div');
+        weather.className = 'status-bar-weather';
+        weather.innerHTML = `<p>
+            <a href="/weather">
+              <span class="status-bar-location">${location}</span>
+              <img src="${icon}" alt="${weatherData.weather}"/ >
+              <span class="status-bar-temp">${temp}</span>
+            </a>
+          </p>`;
+        statusBarData.append(weather);
+      }
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log('failed to load weather', error);
