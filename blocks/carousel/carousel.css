@@ -142,11 +142,6 @@ main .carousel div.carousel-text {
   main .carousel div.carousel-text > * {
     grid-column-start: 1;
   }
-
-  main .carousel div.carousel-text > .button-container {
-    grid-column-start: 2;
-    grid-row: 1 / span 4;
-  }
 }
 
 @media (min-width: 1200px) {
@@ -163,7 +158,6 @@ main .carousel div.carousel-text {
 /* carousel content buttons */
 main .carousel p.button-container {
   margin: 0;
-  text-align: center;
 }
 
 main .carousel a.button {
@@ -197,7 +191,7 @@ main .carousel a.button.secondary:any-link:hover {
   }
 
   main .carousel a.button {
-    min-width: 200px;
+    min-width: 100px;
   }
 
   main .carousel a.button.primary:any-link,
@@ -212,13 +206,13 @@ main .carousel a.button.secondary:any-link:hover {
   }
 
   main .carousel a.button {
-    min-width: 300px;
+    min-width: 200px;
     margin: 0;
   }
 
   main .carousel a.button.primary:any-link,
   main .carousel a.button.secondary:any-link {
-    font-size: var(--body-font-size-xxl);
+    font-size: var(--body-font-size-xl);
   }
 }
 
