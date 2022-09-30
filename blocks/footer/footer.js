@@ -76,6 +76,10 @@ export default async function decorate(block) {
     const footer = document.createElement('div');
     footer.innerHTML = html;
 
+    // some of these classes aren't really semantically correct anymore
+    // there are 5 sections, but the order is nav, links, tours, social, copyright
+    // decided to just leave it as is, for simplicity with minor changes to css/js to accomodate
+
     const hasPartners = footer.children.length > 4;
     let classes = ['partners', 'nav', 'links', 'social', 'copyright'];
     if (!hasPartners) {
@@ -92,7 +96,7 @@ export default async function decorate(block) {
     const wrapper = document.createElement('div');
 
     if (hasPartners) {
-      wrapper.append(footer.querySelector('.footer-partners'), footer.querySelector('.footer-nav'));
+      wrapper.append(footer.querySelector('.footer-partners'));
     } else {
       wrapper.append(footer.querySelector('.footer-nav'));
     }
