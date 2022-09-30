@@ -58,9 +58,13 @@ function setupUser(section) {
       </button>`;
   } else {
     section.innerHTML = `<button id="nav-user-button" class="nav-user-button" data-status="loading">
-        ${icon.outerHTML}<span class="icon icon-spinner"></span><span>${text}</span>
+        ${icon.outerHTML}<span>${text}</span>
       </button>`;
   }
+  const button = section.querySelector('button');
+  button.addEventListener('click', () => {
+    import('../../scripts/delayed.js').then((module) => module.initGigya());
+  });
 }
 
 function parseCountdown(ms) {
@@ -184,13 +188,29 @@ export default async function decorate(block) {
         data.insertAdjacentHTML('beforeend', countdown);
         setInterval(updateCountdown, 60 * 1000); // update countdown every minute
       }
+      // check for stored weather
+      const isStored = sessionStorage.getItem(`${placeholders.tourCode}${placeholders.tournamentId}Weather`);
+      if (isStored) {
+        // build weather from session storage
+        const weatherData = JSON.parse(isStored);
+        const weather = document.createElement('div');
+        weather.className = 'status-bar-weather';
+        weather.innerHTML = `<p>
+            <a href="/weather">
+              <span class="status-bar-location">${weatherData.location}</span>
+              <img src="${weatherData.icon}"/ >
+              <span class="status-bar-temp">${weatherData.temp}</span>
+            </a>
+          </p>`;
+        data.append(weather);
+      }
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log('failed to load placeholders', error);
     }
     if (data.hasChildNodes()) statusBar.append(data);
 
-    const brand = nav.querySelector('.nav-brand')
+    const brand = nav.querySelector('.nav-brand');
     const sectionMeta = brand.querySelector('.section-metadata');
     if (sectionMeta) {
       const meta = readBlockConfig(sectionMeta);

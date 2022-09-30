@@ -1,4 +1,4 @@
-import { toClassName, readBlockConfig } from '../../scripts/scripts.js';
+import { toClassName, readBlockConfig, fetchPlaceholders } from '../../scripts/scripts.js';
 
 async function insertGallerySlides(block) {
   const damPrefix = 'https://www.pgatour.com';
@@ -38,20 +38,22 @@ async function insertCourseFeedSlides(block) {
   const damPrefix = 'https://www.pgatour.com/pgatour/courses';
   const cloudinaryPrefix = 'https://pga-tour-res.cloudinary.com/image/upload/f_auto,q_auto';
   const config = readBlockConfig(block);
+  const placeholders = await fetchPlaceholders();
   block.innerHTML = '';
 
-  const resp = await fetch('https://statdata.pgatour.com/r/011/coursestat.json');
+  const resp = await fetch(`https://little-forest-58aa.david8603.workers.dev/?url=${encodeURIComponent(`https://statdata.pgatour.com/${placeholders.tourCode}/${placeholders.tournamentId}/coursestat.json`)}`);
   const json = await resp.json();
   if (json && json.courses && json.courses[0].holes) {
     const code = json.tourCode;
     const perm = json.permNum;
+    const { courseId } = json.courses[0];
     // eslint-disable-next-line no-restricted-syntax
     for (const hole of json.courses[0].holes) {
-      const damSrc = `${damPrefix}/${code}${perm}/${perm}/holes/hole${hole.holeNum}.jpg`;
-      const holeJpg = `${cloudinaryPrefix},w_1290/v1/pgatour/courses/${code}${perm}/${perm}/holes/hole${hole.holeNum}.jpg`;
-      const holePng = `${cloudinaryPrefix},w_150/holes_${config.year}_${code}_${perm}_${perm}_overhead_full_${hole.holeNum}.png`;
+      const damSrc = `${damPrefix}/${code}${perm}/${courseId}/holes/hole${hole.holeNum}.jpg`;
+      const holeJpg = `${cloudinaryPrefix},w_1290/v1/pgatour/courses/${code}${perm}/${courseId}/holes/hole${hole.holeNum}.jpg`;
+      const holePng = `${cloudinaryPrefix},w_150/holes_${config.year || new Date().getFullYear()}_${code}_${perm}_${courseId}_overhead_full_${hole.holeNum}.png`;
       // eslint-disable-next-line no-await-in-loop
-      const metaresp = await fetch(`${damSrc}/jcr:content/metadata.json`);
+      const metaresp = await fetch(`https://little-forest-58aa.david8603.workers.dev/?url=${encodeURIComponent(`${damSrc}/jcr:content/metadata.json`)}`);
       // eslint-disable-next-line no-await-in-loop
       const meta = await metaresp.json();
       const metaDesc = meta['dc:description'];
@@ -90,7 +92,7 @@ async function insertCourseFeedSlides(block) {
             <p>${metaDesc}</p>
           </div>
             <div class="course-statistics">
-              <h3 id="statistics">${config.year} Statistics</h3>
+              <h3 id="statistics">${config.year || new Date().getFullYear()} Statistics</h3>
               <div class="course-avg">
                   <p>${avg} <strong>SCORING AVG</strong>
                   </p>
