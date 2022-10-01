@@ -1,0 +1,18 @@
+User-agent: *
+Disallow: /*/tournamentBannerRolex*
+Disallow: /*/content.galleries.json/*
+Disallow: /*rolex.frame*
+Disallow: /media-guide/*
+Disallow: /*/enums
+Disallow: /*/utils
+Disallow: /*/Message
+Disallow: /*/index.html
+Disallow: /*/404.html
+Disallow: /bin/data/
+Disallow: /*.eon.html$
+Disallow: /*.eoff.html$
+
+Disallow: */jcr:content
+Disallow: *tourCode
+
+sitemap: https://www.theplayers.com/sitemap.xml
