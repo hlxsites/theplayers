@@ -361,8 +361,8 @@ main .section.teaser {
   position: relative;
   max-width: 1400px;
   min-height: 600px;
-  margin: auto;
-  font-size: var(--body-font-size-xs);
+  margin: 32px auto;
+  font-size: var(--body-font-size-s);
 }
 
 @media (min-width: 700px) {
@@ -375,7 +375,7 @@ main .section.teaser {
 
 main .section.teaser .default-content-wrapper > :first-child {
   position: relative;
-  font-size: var(--body-font-size-xxs);
+  font-size: var(--body-font-size-xl);
   text-align: center;
 }
 
@@ -402,7 +402,7 @@ main .section.teaser .default-content-wrapper > :first-child em::after {
 
 @media (min-width: 700px) {
   main .section.teaser .default-content-wrapper > :first-child {
-    font-size: var(--body-font-size-xs);
+    font-size: var(--body-font-size-xxl);
   }
 
   main .section.teaser .default-content-wrapper > :first-child em::before,
@@ -610,4 +610,10 @@ main .section.teaser picture.section-background img {
 
 .icon.icon-close::after {
   transform: rotate(-45deg)
+}
+
+.section.bg-white {
+  background: white;
+  max-width: 1290px;
+  margin: auto;
 }
