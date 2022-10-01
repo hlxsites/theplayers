@@ -265,7 +265,7 @@ main .carousel.course > div {
   flex-direction: column;
   height: 850px;
   padding-top: 0;
-  background-color: var(--color-blue);
+  background-color: #000;
   background-image: unset;
 }
 
@@ -301,7 +301,7 @@ main .carousel.course div.course-text {
   margin: unset;
   margin-bottom: 22px; /* for navigation */
   padding: 16px;
-  background-color: var(--color-blue);
+  background-color: #000;
   font-family: var(--body-font-family);
   font-size: var(--body-font-size-xxs);
   text-transform: initial;
@@ -483,11 +483,11 @@ main .carousel.course div.course-text .course-statistics .course-avg {
   width: 48px;
   height: 48px;
   outline: 3px solid var(--color-white);
-  border: 3px solid var(--color-blue);
+  border: 3px solid #000;
   border-radius: 50%;
   padding: 16px;
   background-color: var(--color-white);
-  color: var(--color-blue);
+  color: #000;
   font-size: var(--body-font-size-xl);
   line-height: 1;
   text-align: center;
@@ -624,7 +624,7 @@ main .carousel-buttons.course-buttons button {
   width: 8px;
   height: 8px;
   margin: 8px 2px;
-  border-color: var(--color-blue);
+  border-color: #000;
   background-color: #fff8;
 }
 
@@ -681,7 +681,7 @@ main .carousel.gallery div.gallery-image {
 main .carousel.gallery div.gallery-text {
   justify-content: flex-start;
   padding-bottom: 42px;
-  background-color: var(--color-blue);
+  background-color: #000;
   font-size: var(--body-font-size-xxs);
 }
 
