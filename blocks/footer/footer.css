@@ -1,8 +1,8 @@
 footer {
-  --footer-color: var(--color-blue);
-  --footer-text-color: var(--color-white);
+  --footer-color: var(--color-white);
+  --footer-text-color: var(--color-black);
   --footer-ribbon-color: var(--color-white);
-  --footer-ribbon-text-color: var(--color-blue);
+  --footer-ribbon-text-color: var(--color-black);
   --footer-border-color: var(--color-gray-light);
 
   font-size: var(--body-font-size-xs);
@@ -59,6 +59,8 @@ footer .footer.footer-ribbon {
   padding: 0 20px;
   background-color: var(--footer-ribbon-color);
   color: var(--footer-ribbon-text-color);
+  border-top: 1px solid var(--footer-border-color);
+  border-bottom: 1px solid var(--footer-border-color);
 }
 
 footer .footer.footer-ribbon h2,
@@ -119,10 +121,6 @@ footer .footer .footer-partners img {
 }
 
 /* nav */
-footer .footer .footer-nav {
-  border-top: 1px solid var(--footer-border-color);
-}
-
 footer .footer .footer-nav ul {
   display: flex;
   flex-wrap: wrap;
