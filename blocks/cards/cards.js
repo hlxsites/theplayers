@@ -43,6 +43,7 @@ export default async function decorate(block) {
     // champion cards with manually curated content
     decorateChampionCards(block);
   }
+
   /* change to ul, li */
   const ul = document.createElement('ul');
   [...block.children].forEach((row) => {

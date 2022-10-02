@@ -30,6 +30,12 @@ main .cards .cards-card-links {
   background-color: var(--color-white);
 }
 
+main .cards.cards-champions .cards-card-body {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  justify-content: space-between;
+}
+
 main .cards h2 {
   font-size: var(--body-font-size-xl);
   text-transform: uppercase;
@@ -69,18 +75,13 @@ main .cards .cards-card-bubble {
   text-decoration: none;
 }
 
-main .cards.cards-champions .cards-card-body {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  justify-content: space-between;
-}
 
 main .cards .cards-card-country {
   margin: .5em 0;
 }
 
 main .cards .cards-card-country span {
-  display: inline-block;
+  display: inline-block;  
   width: 24px;
   height: 10px;
   margin-right: 4px;
