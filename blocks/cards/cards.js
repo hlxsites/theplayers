@@ -1,6 +1,15 @@
 import { createOptimizedPicture, readBlockConfig, lookupPages } from '../../scripts/scripts.js';
 
-function decorateChampionCards(champions, block) {
+function decorateChampionCards(block) {
+  [...block.children].forEach((row) => {
+    const children = row.querySelectorAll('div');
+    const pars = children[1].querySelectorAll('p');
+    pars[0].classList.add('cards-card-bubble');
+    pars[1].classList.add('cards-card-country');
+  });
+}
+
+function decorateChampionCardsFeed(champions, block) {
   block.classList.add('cards-champions');
   // eslint-disable-next-line no-param-reassign
   champions = champions.sort((a, b) => {
@@ -28,8 +37,11 @@ export default async function decorate(block) {
     const items = pages.filter((e) => e.path.startsWith(config.source));
     if (items) {
       const type = config.type.toLowerCase();
-      if (type === 'champions') decorateChampionCards(items, block);
+      if (type === 'champions') decorateChampionCardsFeed(items, block);
     }
+  } else if (block.classList.contains('cards-champions')) {
+    // champion cards with manually curated content
+    decorateChampionCards(block);
   }
   /* change to ul, li */
   const ul = document.createElement('ul');

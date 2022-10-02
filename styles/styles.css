@@ -21,6 +21,7 @@
   --color-gray-light: #ccc;
   --color-gray-lighter: #f2f2f2;
   --color-white: #fff;
+  --color-blue: #0066cc;
 
   /* colors assignments */
   --link-color: var(--color-black-90);
