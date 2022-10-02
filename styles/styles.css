@@ -307,7 +307,7 @@ main .section > .default-content-wrapper h3,
 main .section > .default-content-wrapper h4,
 main .section > .default-content-wrapper h5,
 main .section > .default-content-wrapper h6 {
-  color: var(--color-blue);
+  color: var(--color-black);
   text-align: center;
   text-transform: uppercase;
 }
@@ -356,6 +356,18 @@ main .section.teaser {
   position: relative;
   max-width: 1400px;
   min-height: 600px;
+  margin: 32px auto;
+  font-size: var(--body-font-size-s);
+}
+
+main .section.teaser-no-img {
+  background: white;
+  box-sizing: border-box;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  position: relative;
+  max-width: 1400px;
   margin: 32px auto;
   font-size: var(--body-font-size-s);
 }
@@ -607,8 +619,3 @@ main .section.teaser picture.section-background img {
   transform: rotate(-45deg)
 }
 
-.section.bg-white {
-  background: white;
-  max-width: 1290px;
-  margin: auto;
-}
