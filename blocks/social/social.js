@@ -187,6 +187,93 @@ async function buildSocialFeed(wrapper, config) {
   }
 }
 
+function revealRows(wrapper, rows, moreButton, lessButton) {
+  wrapper.dataset.rows = rows;
+  let perRow = 1;
+  let rowsPerCLick = 3;
+  const large = window.matchMedia('(min-width: 1200px)');
+  const mid = window.matchMedia('(min-width: 900px)');
+  const small = window.matchMedia('(min-width: 700px)');
+  if (small.matches) {
+    perRow = 2;
+    rowsPerCLick = 1;
+  }
+  if (mid.matches) {
+    perRow = 3;
+    rowsPerCLick = 1;
+  }
+  if (large.matches) {
+    perRow = 4;
+    rowsPerCLick = 1;
+  }
+
+  let all = true;
+  wrapper.querySelectorAll('li').forEach((item, idx) => {
+    if (idx >= (perRow * rowsPerCLick * rows)) {
+      item.style.display = 'none';
+      all = false;
+    } else {
+      item.style.display = 'flex';
+    }
+  });
+
+  if (rows < 3) {
+    lessButton.style.display = 'none';
+  } else {
+    lessButton.style.display = 'block';
+  }
+
+  if (all) {
+    moreButton.style.display = 'none';
+  } else {
+    moreButton.style.display = 'block';
+  }
+}
+
+function alterRows(wrapper, offset, moreButton, lessButton) {
+  let rows = parseInt(wrapper.dataset.rows, 10);
+  rows += offset;
+  revealRows(wrapper, rows, moreButton, lessButton);
+}
+
+function initCollapsing(wrapper) {
+  wrapper.classList.add('collapsible');
+
+  const buttonContainer = document.createElement('p');
+  buttonContainer.classList.add('button-container');
+
+  const moreButton = document.createElement('a');
+  moreButton.classList.add('button', 'primary', 'more');
+  moreButton.innerText = 'Show More';
+  moreButton.href = '#';
+  moreButton.title = 'More';
+
+  const lessButton = document.createElement('a');
+  lessButton.classList.add('button', 'primary', 'less');
+  lessButton.innerText = 'Show Less';
+  lessButton.href = '#';
+  lessButton.title = 'Less';
+
+  moreButton.addEventListener('click', (e) => {
+    e.preventDefault();
+    alterRows(wrapper, 1, moreButton, lessButton);
+  });
+  lessButton.addEventListener('click', (e) => {
+    e.preventDefault();
+    alterRows(wrapper, -1, moreButton, lessButton);
+  });
+
+  buttonContainer.appendChild(moreButton);
+  buttonContainer.appendChild(lessButton);
+
+  revealRows(wrapper, 2, moreButton, lessButton);
+  window.addEventListener('resize', () => {
+    revealRows(wrapper, wrapper.dataset.rows, moreButton, lessButton);
+  });
+
+  return buttonContainer;
+}
+
 export default async function decorate(block) {
   const config = readBlockConfig(block);
   block.innerHTML = '';
@@ -212,8 +299,14 @@ export default async function decorate(block) {
         await buildImageFeed(wrapper, config);
       } else {
         await buildSocialFeed(wrapper, config);
+        const collapsible = typeof config.collapsible !== 'undefined' && config.collapsible.toLowerCase() === 'true';
+        if (collapsible) {
+          const buttonContainer = initCollapsing(wrapper);
+          block.append(buttonContainer);
+        }
       }
-      block.append(wrapper);
+
+      block.prepend(wrapper);
     }
   }, { threshold: 0 });
 

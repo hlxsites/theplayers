@@ -68,6 +68,11 @@ main .social > ul {
   padding: 0;
 }
 
+main .social > ul.collapsible {
+  overflow-y: hidden;
+  margin-bottom: 16px;
+}
+
 @media (min-width: 700px) {
   main .social > ul {
     grid-template-columns: repeat(2, 1fr);
