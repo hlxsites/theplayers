@@ -195,7 +195,7 @@ export default async function decorate(block) {
           overview.append(headingWrapper);
 
           paragraphs.forEach((p, idx) => {
-            // append al but the last one which is the photo creidt
+            // append all but the last one which is the photo creidt
             if ((idx + 1) < paragraphs.length) {
               overview.append(p);
             }
@@ -207,7 +207,7 @@ export default async function decorate(block) {
           } else {
             const courseHolePlaceholder = document.createElement('p');
             courseHolePlaceholder.classList.add('course-hole');
-            overview.insertBefore(courseHolePlaceholder, headingWrapper);
+            overview.insertBefore(courseHolePlaceholder, headingWrapper.nextSibling);
           }
           // setup stats
           const statsHeading = text.querySelector('h3');
