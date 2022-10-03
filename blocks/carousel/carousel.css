@@ -1,4 +1,15 @@
 main .carousel-container {
+  --carousel-btn-primary-color: var(--color-gray-light-95);
+  --carousel-btn-secondary-color: var(--color-blue);
+  --carousel-btn-secondary-hover-color: var(--color-white);
+  --carousel-course-bg-color: var(--color-blue);
+  --carousel-course-bg-color-transparent: var(--color-blue-95);
+  --carousel-course-stats-outline-color: var(--color-white);
+  --carousel-course-stats-border-color: var(--color-blue);
+  --carousel-course-stats-title-color: var(--color-gray);
+  --carousel-cource-btn-color: var(--color-blue);
+  --carousel-cource-btn-selected-color: var(--color-white);
+
   padding: 0;
 }
 
@@ -177,18 +188,18 @@ main .carousel a.button:hover {
 
 main .carousel a.button.primary:any-link {
   border-color: transparent;
-  background-color: var(--color-gray-light-95);
+  background-color: var(--carousel-btn-primary-color);
   font-size: var(--body-font-size-xs);
 }
 
 main .carousel a.button.secondary:any-link {
-  background-color: var(--color-blue);
+  background-color: var(--carousel-btn-secondary-color);
   font-size: var(--body-font-size-xs);
 }
 
 main .carousel a.button.secondary:any-link:hover {
-  color: var(--color-white);
-  border-color: var(--color-white);
+  color: var(--carousel-btn-secondary-hover-color);
+  border-color: var(--carousel-btn-secondary-hover-color);
 }
 
 @media (min-width: 700px) {
@@ -265,7 +276,7 @@ main .carousel.course > div {
   flex-direction: column;
   height: 850px;
   padding-top: 0;
-  background-color: #000;
+  background-color: var(--carousel-course-bg-color);
   background-image: unset;
 }
 
@@ -301,7 +312,7 @@ main .carousel.course div.course-text {
   margin: unset;
   margin-bottom: 22px; /* for navigation */
   padding: 16px;
-  background-color: #000;
+  background-color: var(--carousel-course-bg-color);
   font-family: var(--body-font-family);
   font-size: var(--body-font-size-xxs);
   text-transform: initial;
@@ -332,7 +343,7 @@ main .carousel.course div.course-text {
     right: 16px;
     width: 300px;
     height: 473px;
-    background-color: #000c;
+    background-color: var(--carousel-course-bg-color-transparent);
     z-index: 1;
   }
 }
@@ -482,12 +493,12 @@ main .carousel.course div.course-text .course-statistics .course-avg {
   justify-content: center;
   width: 48px;
   height: 48px;
-  outline: 3px solid var(--color-white);
-  border: 3px solid #000;
+  outline: 3px solid var(--carousel-course-stats-outline-color);
+  border: 3px solid var(--carousel-course-stats-border-color);
   border-radius: 50%;
   padding: 16px;
-  background-color: var(--color-white);
-  color: #000;
+  background-color: var(--carousel-course-stats-outline-color);
+  color: var(--carousel-course-stats-border-color);
   font-size: var(--body-font-size-xl);
   line-height: 1;
   text-align: center;
@@ -541,7 +552,7 @@ main .carousel.course div.course-text .course-statistics table tr td.course-stat
 }
 
 main .carousel.course div.course-text .course-statistics table tr td.course-stat-title {
-  color: var(--color-gray);
+  color: var(--carousel-course-stats-title-color);
   text-transform: uppercase;
 }
 
@@ -574,7 +585,7 @@ main .carousel.course div.course-text .course-statistics table tr td.course-stat
 @media (min-width: 900px) {
   main .carousel.course div.course-text .course-statistics {
     gap: 0 16px;
-    border-top: 3px solid var(--color-white);
+    border-top: 3px solid var(--carousel-course-stats-outline-color);
     padding-top: 16px;
   }
 
@@ -624,13 +635,13 @@ main .carousel-buttons.course-buttons button {
   width: 8px;
   height: 8px;
   margin: 8px 2px;
-  border-color: #000;
+  border-color: var(--carousel-cource-btn-color);
   background-color: #fff8;
 }
 
 main .carousel-buttons.course-buttons button.selected {
-  border-color: var(--color-white);
-  background-color: var(--color-white);
+  border-color: var(--carousel-cource-btn-selected-color);
+  background-color: var(--carousel-cource-btn-selected-color);
 }
 
 @media (min-width: 700px) {
@@ -681,7 +692,7 @@ main .carousel.gallery div.gallery-image {
 main .carousel.gallery div.gallery-text {
   justify-content: flex-start;
   padding-bottom: 42px;
-  background-color: #000;
+  background-color: var(--carousel-course-bg-color);
   font-size: var(--body-font-size-xxs);
 }
 
