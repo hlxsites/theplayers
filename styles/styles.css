@@ -21,7 +21,7 @@
   --color-gray-light: #ccc;
   --color-gray-lighter: #f2f2f2;
   --color-white: #fff;
-  --color-blue: #0066cc;
+  --color-blue: #06c;
   --color-blue-dark: #013d7c;
 
   /* colors assignments */
@@ -351,6 +351,10 @@ main .section.highlight {
 
 /* section teaser */
 main .section.teaser {
+  --teaser-bg-color: var(--color-black);
+  --teaser-text-color: var(--color-white);
+  --teaser-heading-color: var(--color-white);
+
   box-sizing: border-box;
   display: flex;
   align-items: flex-end;
@@ -448,12 +452,6 @@ main .section.teaser .button-container {
   }
 }
 
-main .section.teaser {
-  --teaser-bg-color: var(--color-black);
-  --teaser-text-color: var(--color-white);
-  --teaser-heading-color: var(--color-white);
-} 
-
 main .section.teaser > div {
   margin-top: 16px;
   margin-bottom: 16px;
@@ -529,6 +527,7 @@ main .section.teaser .icon-play svg {
 }
 
 /* icons */
+/* stylelint-disable-next-line no-descending-specificity */
 .icon[class*=icon-flag-] svg {
   fill: #000; 
   box-shadow: 0 0 2px #0002;
