@@ -1,14 +1,18 @@
+main .past-results {
+  --results-text-color: var(--color-blue);
+}
+
 main .past-results ul {
   list-style: none;
   padding: 0;
 }
 
 main .past-results .past-results-container {
-  color: var(--color-blue);
+  color: var(--results-text-color);
 }
 
 main .past-results h2.title {
-  color: var(--color-blue);
+  color: var(--results-text-color);
   font-family: var(--body-font-family);
   font-size: var(--heading-font-size-l);
   text-transform: unset;
