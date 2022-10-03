@@ -1,16 +1,7 @@
 import { createOptimizedPicture, readBlockConfig, lookupPages } from '../../scripts/scripts.js';
 
-function decorateChampionCards(block) {
-  [...block.children].forEach((row) => {
-    const children = row.querySelectorAll('div');
-    const pars = children[1].querySelectorAll('p');
-    pars[0].classList.add('cards-card-bubble');
-    pars[1].classList.add('cards-card-country');
-  });
-}
-
 function decorateChampionCardsFeed(champions, block) {
-  block.classList.add('cards-champions');
+  block.classList.add('two-cols');
   // eslint-disable-next-line no-param-reassign
   champions = champions.sort((a, b) => {
     const aYear = parseInt(a.title.split(' ').pop(), 10);
@@ -24,7 +15,7 @@ function decorateChampionCardsFeed(champions, block) {
     card.innerHTML = `<div>
         <a href="${champion.path}">${createOptimizedPicture(champion.image).outerHTML}</a>
       </div>
-      <div>${year ? `<p class="cards-card-bubble">${year}</p>` : ''}<h3><a href="${champion.path}">${name}</a></h3></div>`;
+      <div>${year ? `<p class="cards-card-bubble-wrapper"><u class="cards-card-bubble">${year}</u></p>` : ''}<h3><a href="${champion.path}">${name}</a></h3></div>`;
     block.append(card);
   });
 }
@@ -39,9 +30,6 @@ export default async function decorate(block) {
       const type = config.type.toLowerCase();
       if (type === 'champions') decorateChampionCardsFeed(items, block);
     }
-  } else if (block.classList.contains('cards-champions')) {
-    // champion cards with manually curated content
-    decorateChampionCards(block);
   }
 
   /* change to ul, li */
@@ -56,6 +44,12 @@ export default async function decorate(block) {
         const bubble = div.querySelector('u');
         if (bubble) {
           bubble.className = 'cards-card-bubble';
+          bubble.closest('p').className = 'cards-card-bubble-wrapper';
+        }
+        const country = div.querySelector('.icon[class*=icon-flag-]');
+        if (country) {
+          country.closest('p').classList.add('cards-card-country');
+          div.classList.add('cards-card-country-wrapper');
         }
         const list = div.querySelector('ul, ol');
         if (list) {

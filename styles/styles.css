@@ -21,7 +21,7 @@
   --color-gray-light: #ccc;
   --color-gray-lighter: #f2f2f2;
   --color-white: #fff;
-  --color-blue: #0066cc;
+  --color-blue: #06c;
   --color-blue-dark: #013d7c;
 
   /* colors assignments */
@@ -351,6 +351,10 @@ main .section.highlight {
 
 /* section teaser */
 main .section.teaser {
+  --teaser-bg-color: var(--color-black);
+  --teaser-text-color: var(--color-white);
+  --teaser-heading-color: var(--color-white);
+
   box-sizing: border-box;
   display: flex;
   align-items: flex-end;
@@ -423,7 +427,7 @@ main .section.teaser .default-content-wrapper > :first-child em::after {
 /* stylelint-disable-next-line no-descending-specificity */
 main .section.teaser h2 {
   margin: 0;
-  color: var(--color-tan);
+  color: var(--teaser-heading-color);
   text-align: center;
   line-height: 1;
 }
@@ -452,8 +456,8 @@ main .section.teaser > div {
   margin-top: 16px;
   margin-bottom: 16px;
   padding: 16px;
-  background-color: var(--color-blue-95);
-  color: var(--color-white);
+  background-color: var(--teaser-bg-color);
+  color: var(--teaser-text-color);
 }
 
 @media (min-width: 700px) {
@@ -502,7 +506,28 @@ main .section.teaser picture.section-background img {
   }
 }
 
+main .section.teaser .icon-play {
+  position: absolute;
+  left: 50%;
+  top: 15%;
+}
+
+@media (min-width: 700px) {
+  main .section.teaser .icon-play {
+    left: 30%;
+    top: 50%;
+  }
+}
+
+main .section.teaser .icon-play svg {
+  width: 66px;
+  color: white;
+  background-color: #0b294d80;
+  border-radius: 100%;
+}
+
 /* icons */
+/* stylelint-disable-next-line no-descending-specificity */
 .icon[class*=icon-flag-] svg {
   fill: #000; 
   box-shadow: 0 0 2px #0002;
