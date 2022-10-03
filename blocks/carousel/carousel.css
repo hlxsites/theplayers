@@ -399,7 +399,7 @@ main .carousel.course div.course-text h3 {
     align-self: center;
   }
 
-  main .carousel.course div.course-text .course-overview h3 {
+  main .carousel.course div.course-text .course-overview .course-heading-wrapper {
     grid-area: overview-subtitle;
   }
 

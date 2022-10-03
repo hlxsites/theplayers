@@ -83,7 +83,9 @@ async function insertCourseFeedSlides(block) {
         <div class="carousel-text course-text">
           <div class="course-overview">
             <h2>Hole #${hole.holeNum}</h2>
-            <h3>PAR ${hole.par}, ${hole.yards} Yards</h3>
+            <div class="course-heading-wrapper">
+              <h3>PAR ${hole.par}, ${hole.yards} Yards</h3>
+            </div>
             <p class="course-hole">
               <picture>
                 <img src="${holePng}" alt="${metaTitle}" />
@@ -179,58 +181,85 @@ export default async function decorate(block) {
           // setup overview (title, img, desc)
           const overview = document.createElement('div');
           overview.classList.add('course-overview');
-          overview.append(
-            text.querySelector('h2'), // title
-            text.querySelector('h2 + h3'), // par heading
-            text.querySelector('h2 + h3 + p'), // course img
-            text.querySelector('h2 + h3 + p + p'), // course desc
-          );
-          const holeImg = overview.querySelector('picture');
-          if (holeImg) holeImg.parentNode.classList.add('course-hole');
-          // setup stats
-          const statistics = document.createElement('div');
-          statistics.classList.add('course-statistics');
-          statistics.append(
-            text.querySelector('h3'), // statistics heading
-            text.querySelector('h3 + ul'), // statistics list
-          );
-          const statsTable = document.createElement('table');
-          const allStats = statistics.querySelector('ul');
-          let stats = [];
-          if (allStats) stats = allStats.querySelectorAll('li');
-          stats.forEach((s) => {
-            const stat = s.querySelector('strong').textContent;
-            // setup scoring average ring
-            if (stat.toUpperCase() === 'SCORING AVG') {
-              const avg = document.createElement('div');
-              avg.classList.add('course-avg');
-              avg.innerHTML = `<p>${s.innerHTML}</p>`;
-              allStats.parentNode.insertBefore(avg, allStats);
-              s.remove();
-            } else {
-              const tableRow = document.createElement('tr');
-              tableRow.classList.add(`course-${toClassName(stat)}`);
-              const val = parseInt(s.textContent.split(' ')[s.textContent.split(' ').length - 1], 10);
 
-              const bar = document.createElement('td');
-              bar.classList.add('course-stat-graph');
-              bar.innerHTML = `<div class="course-stat-bar" style="width: ${val}%"></div>`;
+          const title = text.querySelector('h2'); // hole #
+          const headings = text.querySelectorAll('h3'); // hole name and par
+          const paragraphs = text.querySelectorAll('p'); // course img, hole description, photo credit
 
-              const percent = document.createElement('td');
-              percent.classList.add('course-stat-percent');
-              percent.innerHTML = `${val}%`;
+          overview.append(title);
+          const headingWrapper = document.createElement('div');
+          headingWrapper.classList.add('course-heading-wrapper');
+          headings.forEach((h) => {
+            headingWrapper.append(h);
+          });
+          overview.append(headingWrapper);
 
-              const thisStat = document.createElement('td');
-              thisStat.classList.add('course-stat-title');
-              thisStat.innerHTML = s.querySelector('strong').textContent;
-
-              tableRow.append(bar, percent, thisStat);
-              statsTable.append(tableRow);
+          paragraphs.forEach((p, idx) => {
+            // append all but the last one which is the photo creidt
+            if ((idx + 1) < paragraphs.length) {
+              overview.append(p);
             }
           });
-          if (allStats && statsTable) allStats.replaceWith(statsTable);
 
-          text.prepend(overview, statistics);
+          const holeImg = overview.querySelector('picture');
+          if (holeImg) {
+            holeImg.parentNode.classList.add('course-hole');
+          } else {
+            const courseHolePlaceholder = document.createElement('p');
+            courseHolePlaceholder.classList.add('course-hole');
+            overview.insertBefore(courseHolePlaceholder, headingWrapper.nextSibling);
+          }
+          // setup stats
+          const statsHeading = text.querySelector('h3');
+          if (statsHeading) {
+            const statistics = document.createElement('div');
+            statistics.classList.add('course-statistics');
+            statistics.append(
+              statsHeading, // statistics heading
+              text.querySelector('h3 + ul'), // statistics list
+            );
+            const statsTable = document.createElement('table');
+            const allStats = statistics.querySelector('ul');
+            let stats = [];
+            if (allStats) stats = allStats.querySelectorAll('li');
+            stats.forEach((s) => {
+              const stat = s.querySelector('strong').textContent;
+              // setup scoring average ring
+              if (stat.toUpperCase() === 'SCORING AVG') {
+                const avg = document.createElement('div');
+                avg.classList.add('course-avg');
+                avg.innerHTML = `<p>${s.innerHTML}</p>`;
+                allStats.parentNode.insertBefore(avg, allStats);
+                s.remove();
+              } else {
+                const tableRow = document.createElement('tr');
+                tableRow.classList.add(`course-${toClassName(stat)}`);
+                const val = parseInt(s.textContent.split(' ')[s.textContent.split(' ').length - 1], 10);
+
+                const bar = document.createElement('td');
+                bar.classList.add('course-stat-graph');
+                bar.innerHTML = `<div class="course-stat-bar" style="width: ${val}%"></div>`;
+
+                const percent = document.createElement('td');
+                percent.classList.add('course-stat-percent');
+                percent.innerHTML = `${val}%`;
+
+                const thisStat = document.createElement('td');
+                thisStat.classList.add('course-stat-title');
+                thisStat.innerHTML = s.querySelector('strong').textContent;
+
+                tableRow.append(bar, percent, thisStat);
+                statsTable.append(tableRow);
+              }
+            });
+
+            if (allStats && statsTable) allStats.replaceWith(statsTable);
+
+            text.prepend(overview, statistics);
+          } else {
+            text.prepend(overview);
+          }
+
           // setup photo credits
           const credits = text.querySelector('p > em');
           if (credits) credits.parentNode.classList.add('course-credits');
