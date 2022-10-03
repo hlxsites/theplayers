@@ -16,7 +16,7 @@ function buildProfilesTile(config) {
         <a href="${config[key]}" class="button social-profile"><span class="icon icon-email"></span></a>
       </p>`;
       profiles.append(newsletter);
-    } else {
+    } else if (config[key].startsWith('http')) {
       const a = document.createElement('a');
       a.className = 'button social-profile';
       a.href = config[key];
@@ -188,28 +188,30 @@ async function buildSocialFeed(wrapper, config) {
 }
 
 function revealRows(wrapper, rows, moreButton, lessButton) {
-  wrapper.dataset.rows = rows;
   let perRow = 1;
-  let rowsPerCLick = 3;
+  const minRows = 2;
   const large = window.matchMedia('(min-width: 1200px)');
   const mid = window.matchMedia('(min-width: 900px)');
   const small = window.matchMedia('(min-width: 700px)');
   if (small.matches) {
     perRow = 2;
-    rowsPerCLick = 1;
   }
   if (mid.matches) {
     perRow = 3;
-    rowsPerCLick = 1;
   }
   if (large.matches) {
     perRow = 4;
-    rowsPerCLick = 1;
   }
+
+  let rowsToShow = rows;
+  if (rows < minRows) {
+    rowsToShow = minRows;
+  }
+  wrapper.dataset.rows = rowsToShow;
 
   let all = true;
   wrapper.querySelectorAll('li').forEach((item, idx) => {
-    if (idx >= (perRow * rowsPerCLick * rows)) {
+    if (idx >= (perRow * rowsToShow)) {
       item.style.display = 'none';
       all = false;
     } else {
@@ -217,7 +219,7 @@ function revealRows(wrapper, rows, moreButton, lessButton) {
     }
   });
 
-  if (rows < 3) {
+  if (rows <= minRows) {
     lessButton.style.display = 'none';
   } else {
     lessButton.style.display = 'block';
@@ -232,7 +234,15 @@ function revealRows(wrapper, rows, moreButton, lessButton) {
 
 function alterRows(wrapper, offset, moreButton, lessButton) {
   let rows = parseInt(wrapper.dataset.rows, 10);
-  rows += offset;
+
+  // when on mobile we add/remove 4 rows per click
+  const small = window.matchMedia('(min-width: 700px)');
+  if (small.matches) {
+    rows += offset;
+  } else {
+    rows += (offset * 4);
+  }
+
   revealRows(wrapper, rows, moreButton, lessButton);
 }
 
@@ -266,7 +276,7 @@ function initCollapsing(wrapper) {
   buttonContainer.appendChild(moreButton);
   buttonContainer.appendChild(lessButton);
 
-  revealRows(wrapper, 2, moreButton, lessButton);
+  revealRows(wrapper, -1, moreButton, lessButton);
   window.addEventListener('resize', () => {
     revealRows(wrapper, wrapper.dataset.rows, moreButton, lessButton);
   });
@@ -307,6 +317,7 @@ export default async function decorate(block) {
       }
 
       block.prepend(wrapper);
+      block.classList.add('loaded');
     }
   }, { threshold: 0 });
 

@@ -80,7 +80,15 @@ main .social > ul.collapsible {
   margin-bottom: 16px;
 }
 
-@media (min-width: 700px) {
+main .social.twitter:not(.loaded) {
+  min-height: 600px;
+}
+
+@media (min-width: 700px) {  
+  main .social.twitter:not(.loaded) {
+    min-height: 750px;
+  }
+
   main .social > ul {
     grid-template-columns: repeat(2, 1fr);
   }
