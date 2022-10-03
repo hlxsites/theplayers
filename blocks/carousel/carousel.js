@@ -83,7 +83,9 @@ async function insertCourseFeedSlides(block) {
         <div class="carousel-text course-text">
           <div class="course-overview">
             <h2>Hole #${hole.holeNum}</h2>
-            <h3>PAR ${hole.par}, ${hole.yards} Yards</h3>
+            <div class="course-heading-wrapper">
+              <h3>PAR ${hole.par}, ${hole.yards} Yards</h3>
+            </div>
             <p class="course-hole">
               <picture>
                 <img src="${holePng}" alt="${metaTitle}" />
@@ -181,18 +183,32 @@ export default async function decorate(block) {
           overview.classList.add('course-overview');
 
           const title = text.querySelector('h2'); // hole #
-          const par = text.querySelector('h2 + h3');
-          const holeName = text.querySelector('h2 + h3 + h3');
-          const courseImg = text.querySelector(holeName ? 'h2 + h3 + h3 + p' : 'h2 + h3 + p');
-          const holeDesc = text.querySelector(holeName ? 'h2 + h3 + h3 + p + p' : 'h2 + h3 + p + p');
+          const headings = text.querySelectorAll('h3'); // hole name and par
+          const paragraphs = text.querySelectorAll('p'); // course img, hole description, photo credit
 
-          overview.append(title, par);
-          overview.append(holeName ? holeName : '<h3></h3>');
-          overview.append(courseImg ? courseImg : '<p></p>');
-          overview.append(holeDesc);
+          overview.append(title);
+          const headingWrapper = document.createElement('div');
+          headingWrapper.classList.add('course-heading-wrapper');
+          headings.forEach((h) => {
+            headingWrapper.append(h);
+          });
+          overview.append(headingWrapper);
+
+          paragraphs.forEach((p, idx) => {
+            // append al but the last one which is the photo creidt
+            if ((idx + 1) < paragraphs.length) {
+              overview.append(p);
+            }
+          });
 
           const holeImg = overview.querySelector('picture');
-          if (holeImg) holeImg.parentNode.classList.add('course-hole');
+          if (holeImg) {
+            holeImg.parentNode.classList.add('course-hole');
+          } else {
+            const courseHolePlaceholder = document.createElement('p');
+            courseHolePlaceholder.classList.add('course-hole');
+            overview.insertBefore(courseHolePlaceholder, headingWrapper);
+          }
           // setup stats
           const statsHeading = text.querySelector('h3');
           if (statsHeading) {
