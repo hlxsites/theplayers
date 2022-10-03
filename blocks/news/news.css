@@ -1,5 +1,5 @@
 main .news-container {
-  --news-button-hover-color: var(--color-blue);
+  --news-button-hover-color: var(--color-blue-dark);
   --news-button-unselected-color: var(--color-gray);
   --news-button-unselected-hover-color: var(--color-gray-light);
 
