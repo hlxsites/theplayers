@@ -214,20 +214,20 @@ main .cards.overlay > ul > li p.button-container a {
   }
 }
 
-/* champions */
-main .cards.champions h3 {
+/* two-column layout; fka champions */
+main .cards.two-cols h3 {
   margin: 0;
 }
 
 @media (min-width: 900px) {
-  main .cards.champions > ul {
+  main .cards.two-cols > ul {
     grid-template-columns: repeat(auto-fill, minmax(calc((100% / 2) - 30px), 1fr));
     grid-gap: 30px;
   }
 }
 
 @media (min-width: 700px) {
-  main .cards.champions > ul > li img {
+  main .cards.two-cols > ul > li img {
     height: 355px;
   }
 }
