@@ -932,7 +932,7 @@ export async function decorateMain(main) {
         // todo replace with FA play icon
         playIcon.classList.add('teaser-play');
         playLink.append(playIcon);
-        section.append(playLink);
+        section.insertBefore(playLink, picture.nextSibling);
         decorateIcons(section);
       }
     }

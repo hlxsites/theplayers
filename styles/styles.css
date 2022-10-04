@@ -351,7 +351,7 @@ main .section.highlight {
 
 /* section teaser */
 main .section.teaser {
-  --teaser-bg-color: var(--color-black);
+  --teaser-bg-color: var(--color-black-80);
   --teaser-text-color: var(--color-white);
   --teaser-heading-color: var(--color-white);
 
@@ -529,12 +529,6 @@ main .section.teaser .teaser-play {
   }
 }
 
-@media (min-width: 1200px) {
-  main .section.teaser .teaser-play {
-    top: 50%;
-    left: 50%;
-  }
-}
 
 main .section.teaser .teaser-play::before {
   box-sizing: border-box;
