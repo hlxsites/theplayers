@@ -521,13 +521,12 @@ main .section.teaser .teaser-play {
   top: 30%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 100px;
-  height: 100px;
+  width: 64px;
+  height: 64px;
   border: 2px solid;
   border-radius: 100px;
   color: var(--color-white);
   line-height: 0;
-  background-color: #0b294d80;
 }
 
 @media (min-width: 700px) {
@@ -537,22 +536,18 @@ main .section.teaser .teaser-play {
   }
 }
 
-
 main .section.teaser .teaser-play::before {
-  box-sizing: border-box;
+  content: "";
+  clear: both;
   display: block;
+  border-top: 15px solid transparent;
+  border-bottom: 16px solid transparent;
+  border-left: 30px solid #FFF;
   position: absolute;
-  top: 24px;
-  left: 38px;
-  width: 0;
-  height: 50px;
-  border-top: 25px solid transparent;
-  border-bottom: 25px solid transparent;
-  border-left: 36px solid;
-  content: '';
+  top: 50%;
+  left: 50%;
+  margin: -15px 0 0 -10px;
 }
-
-
 
 /* icons */
 /* stylelint-disable-next-line no-descending-specificity */

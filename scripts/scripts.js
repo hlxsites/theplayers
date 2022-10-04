@@ -923,16 +923,18 @@ export async function decorateMain(main) {
         fetch(`https://little-forest-58aa.david8603.workers.dev/?url=${encodeURIComponent(videoFeedUrl)}`).then(async (resp) => {
           if (resp.ok) {
             const json = await resp.json();
-            playLink.href = json[0].link;
+            if (json.length > 0) {
+              playLink.href = json[0].link;
+              section.insertBefore(playLink, picture.nextSibling);
+            }
           }
         });
         playLink.target = '_blank';
 
         const playIcon = document.createElement('span');
-        // todo replace with FA play icon
+
         playIcon.classList.add('teaser-play');
         playLink.append(playIcon);
-        section.insertBefore(playLink, picture.nextSibling);
       }
     }
   });
