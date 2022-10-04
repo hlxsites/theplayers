@@ -62,6 +62,22 @@ function paginateNews(e) {
 
 export default async function decorate(block) {
   const config = readBlockConfig(block);
+
+  const pinnedItems = [];
+  const rows = [...block.children];
+  rows.forEach((row) => {
+    const pic = row.querySelector('picture');
+    const a = row.querySelector('a');
+    if (pic && a) {
+      pinnedItems.push({
+        type: 'pinned',
+        image: pic.querySelector('img').getAttribute('src'),
+        title: a.innerText,
+        link: a.href,
+      });
+    }
+  });
+
   block.textContent = '';
   // set placeholder content
   const placeholderUl = document.createElement('ul');
@@ -86,13 +102,17 @@ export default async function decorate(block) {
         directURL = `${newsURL}/tags=${tags}&size=${limit}`;
       } else {
         const placeholders = await fetchPlaceholders();
-        directURL = `${newsURL}/path=/content&tags=${placeholders.newsTags}&size=${limit}`;
+        directURL = `${newsURL}/path=/content&tags=${placeholders.newsTags}&size=${limit - pinnedItems.length}`;
       }
       const resp = await fetch(`https://little-forest-58aa.david8603.workers.dev/?url=${encodeURIComponent(directURL)}`);
       const json = await resp.json();
       const ul = document.createElement('ul');
-      json.items.forEach((item) => {
-        const prefix = item.image.startsWith('brightcove') ? videoPrefix : damPrefix;
+      const allItems = [...pinnedItems, ...json.items];
+      allItems.forEach((item) => {
+        let prefix = '';
+        if (item.type !== 'pinned') {
+          prefix = item.image.startsWith('brightcove') ? videoPrefix : damPrefix;
+        }
         const li = document.createElement('li');
         li.classList.add('news-item', `news-item-${item.type}`);
         const video = item.videoId ? '<div class="news-item-play"></div>' : '';
