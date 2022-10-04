@@ -70,10 +70,11 @@ export default async function decorate(block) {
     const a = row.querySelector('a');
     if (pic && a) {
       pinnedItems.push({
-        type: 'pinned',
+        type: 'article',
         image: pic.querySelector('img').getAttribute('src'),
         title: a.innerText,
         link: a.href,
+        pinned: true,
       });
     }
   });
@@ -99,7 +100,7 @@ export default async function decorate(block) {
       let directURL;
       if (config.tags) {
         const tags = config.tags.replace(/ /g, '').split(',').join('+');
-        directURL = `${newsURL}/tags=${tags}&size=${limit}`;
+        directURL = `${newsURL}/tags=${tags}&size=${limit - pinnedItems.length}`;
       } else {
         const placeholders = await fetchPlaceholders();
         directURL = `${newsURL}/path=/content&tags=${placeholders.newsTags}&size=${limit - pinnedItems.length}`;
@@ -107,19 +108,15 @@ export default async function decorate(block) {
       const resp = await fetch(`https://little-forest-58aa.david8603.workers.dev/?url=${encodeURIComponent(directURL)}`);
       const json = await resp.json();
       const ul = document.createElement('ul');
-      const allItems = [...pinnedItems, ...json.items];
-      allItems.forEach((item) => {
-        let prefix = '';
-        if (item.type !== 'pinned') {
-          prefix = item.image.startsWith('brightcove') ? videoPrefix : damPrefix;
-        }
+      [...pinnedItems, ...json.items].forEach((item) => {
+        const prefix = item.image.startsWith('brightcove') ? videoPrefix : damPrefix;
         const li = document.createElement('li');
         li.classList.add('news-item', `news-item-${item.type}`);
         const video = item.videoId ? '<div class="news-item-play"></div>' : '';
         const a = document.createElement('a');
         a.href = item.link;
         a.innerHTML = `
-          <div class="news-item-image"><img src="${prefix}${item.image}"></div>
+          <div class="news-item-image"><img src="${item.pinned ? '' : prefix}${item.image}"></div>
           <div class="news-item-body"><a href="${item.link}">${item.title}</a></div>
           ${video}
         `;
