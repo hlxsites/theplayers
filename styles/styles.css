@@ -36,7 +36,7 @@
 
   /* fonts */
   --body-font-family: 'Roboto Condensed', 'Roboto Condensed-fallback';
-  --heading-font-family: 'Crimson Text', 'Crimson Text-fallback';
+  --heading-font-family: 'Roboto', 'Roboto-fallback';
   --fixed-font-family: 'Roboto Mono', menlo, consolas, 'Liberation Mono', monospace;
 
   /* body sizes */
@@ -78,6 +78,13 @@
   font-family: 'Roboto Condensed-fallback';
   size-adjust: 88.91%;
   ascent-override: 110%;
+  src: local("Arial");
+}
+
+@font-face {
+  font-family: roboto-fallback;
+  size-adjust: 100.06%;
+  ascent-override: 93%;
   src: local("Arial");
 }
 
@@ -386,6 +393,7 @@ main .section.teaser-no-img {
   }
 }
 
+
 main .section.teaser .default-content-wrapper > :first-child {
   position: relative;
   font-size: var(--body-font-size-xl);
@@ -519,7 +527,7 @@ main .section.teaser .teaser-play {
   border-radius: 100px;
   color: var(--color-white);
   line-height: 0;
-  background-color: rgba(11,41,77,0.5);
+  background-color: #0b294d80;
 }
 
 @media (min-width: 700px) {
