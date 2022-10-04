@@ -1,7 +1,9 @@
 main .table {
+  --table-text-color: var(--color-black);
+
   max-width: 100%;
   overflow-x: auto;
-  color: var(--color-blue);
+  color: var(--table-text-color);
   font-size: var(--body-font-size-xs);
   line-height: 1.2;
 }
