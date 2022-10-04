@@ -933,7 +933,6 @@ export async function decorateMain(main) {
         playIcon.classList.add('teaser-play');
         playLink.append(playIcon);
         section.insertBefore(playLink, picture.nextSibling);
-        decorateIcons(section);
       }
     }
   });
