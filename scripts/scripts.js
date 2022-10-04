@@ -930,7 +930,7 @@ export async function decorateMain(main) {
 
         const playIcon = document.createElement('span');
         // todo replace with FA play icon
-        playIcon.classList.add('icon', 'icon-play');
+        playIcon.classList.add('teaser-play');
         playLink.append(playIcon);
         section.append(playLink);
         decorateIcons(section);
