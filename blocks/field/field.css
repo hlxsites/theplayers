@@ -1,3 +1,7 @@
+main .field {
+  --field-highlight-color: var(--color-white);
+}
+
 main .field p {
   color: var(--color-blue);
   line-height: 1;
@@ -68,7 +72,7 @@ main .field .selected img {
   }
   
   to {
-    background-color: var(--color-tan);
+    background-color: var(--field-highlight-color);
     background-image: unset;
   }
 }
