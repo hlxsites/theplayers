@@ -1,3 +1,7 @@
+main .cards {
+  --card-bubble-color: var(--color-gray);
+}
+
 main .cards > ul {
   list-style: none;
   display: grid;
@@ -49,17 +53,38 @@ main .cards .cards-card-body > *:first-child {
   margin-top: 0;
 }
 
+main .cards .cards-card-country {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: .5em 0;
+  font-size: var(--body-font-size-xs);
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+main .cards .cards-card-country .icon {
+  margin-right: 8px;
+}
+
+main .cards .cards-card-country svg {
+  width: 24px;
+}
+
+main .cards .cards-card-bubble-wrapper {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+}
+
 main .cards .cards-card-bubble {
   display: flex;
   align-items: center;
   justify-content: center;
-  position: absolute;
-  top: 16px;
-  left: 16px;
   width: 40px;
   min-height: 40px;
   border-radius: 20px;
-  background-color: var(--color-gray-light);
+  background-color: var(--card-bubble-color);
   color: var(--color-white);
   font-size: var(--body-font-size-xxs);
   text-decoration: none;
@@ -71,6 +96,22 @@ main .cards .cards-card-bubble {
     min-height: 80px;
     border-radius: 40px;
     font-size: var(--body-font-size-l);
+  }
+
+  main .cards .cards-card-country-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 0 16px;
+  }
+
+  main .cards .cards-card-country-wrapper h3 {
+    flex: 1 0 auto;
+  }
+
+  main .cards .cards-card-country {
+    font-size: unset;
+    justify-self: flex-end;
   }
 }
 
@@ -173,20 +214,20 @@ main .cards.overlay > ul > li p.button-container a {
   }
 }
 
-/* champions */
-main .cards.cards-champions h3 {
+/* two-column layout; fka champions */
+main .cards.two-cols h3 {
   margin: 0;
 }
 
 @media (min-width: 900px) {
-  main .cards.cards-champions > ul {
+  main .cards.two-cols > ul {
     grid-template-columns: repeat(auto-fill, minmax(calc((100% / 2) - 30px), 1fr));
     grid-gap: 30px;
   }
 }
 
 @media (min-width: 700px) {
-  main .cards.cards-champions > ul > li img {
+  main .cards.two-cols > ul > li img {
     height: 355px;
   }
 }
