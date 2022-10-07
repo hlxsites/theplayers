@@ -196,19 +196,52 @@ function clearSelectPlayer() {
   if (selectPlayer) selectPlayer.selectedIndex = 0;
 }
 
+async function updateFavoriteLeaderboardAfterOperation(res) {
+  // eslint-disable-next-line no-use-before-define
+  updateFavoriteButtons(res.requestParams);
+}
+
 async function updateFavoritePlayersAfterAdd(res) {
   // eslint-disable-next-line no-use-before-define
   await writeFavoritePlayers(res.requestParams.data.favorites);
   clearFindPlayer();
   clearSelectPlayer();
+  updateFavoriteLeaderboardAfterOperation(res);
 }
 
 async function updateFavoritePlayersAfterRemove(res) {
   // eslint-disable-next-line no-use-before-define
   await writeFavoritePlayers(res.requestParams.data.favorites);
+  updateFavoriteLeaderboardAfterOperation(res);
 }
 
-function addFavoritePlayer(res) {
+function updateFavoritePlayerFromLeaderboard(res) {
+  const button = document.querySelector('.leaderboard-favorite-button[data-selected="true"]');
+  if (button) {
+    button.removeAttribute('data-selected');
+    const operation = button.getAttribute('data-op');
+    const playerId = button.getAttribute('data-id');
+    const tourCode = button.getAttribute('data-tour');
+    const { favorites } = res.data;
+    let newFavorites = favorites;
+    if (operation === 'add') {
+      newFavorites.push({
+        createdDate: new Date().toISOString(),
+        tourCode,
+        playerId,
+      });
+    } else if (operation === 'remove') {
+      newFavorites = newFavorites.filter((fave) => fave.playerId !== playerId);
+    }
+    // eslint-disable-next-line no-undef
+    gigya.accounts.setAccountInfo({
+      data: { favorites: newFavorites },
+      callback: updateFavoriteLeaderboardAfterOperation,
+    });
+  }
+}
+
+function addFavoritePlayerFromMenu(res) {
   const { favorites } = res.data;
   const playerId = getPlayerIdFromForm();
   const tourCode = getTourCodeFromForm();
@@ -230,7 +263,14 @@ function addFavoritePlayer(res) {
   }
 }
 
-function removeFavoritePlayer(res) {
+function addFavoritePlayerFromLeaderboard(e) {
+  const button = e.target.closest('button');
+  button.setAttribute('data-selected', true);
+  // eslint-disable-next-line no-undef
+  gigya.accounts.getAccountInfo({ callback: updateFavoritePlayerFromLeaderboard });
+}
+
+function removeFavoritePlayerFromMenu(res) {
   const { favorites } = res.data;
   const favoritesList = document.querySelector('.gigya-your-favorites');
   const selectedPlayer = favoritesList.querySelector('[data-selected="true"]');
@@ -247,14 +287,21 @@ function removeFavoritePlayer(res) {
   }
 }
 
-function updateFavoritePlayers(e, operation, id) {
+function removeFavoritePlayerFromLeaderboard(e) {
+  const button = e.target.closest('button');
+  button.setAttribute('data-selected', true);
+  // eslint-disable-next-line no-undef
+  gigya.accounts.getAccountInfo({ callback: updateFavoritePlayerFromLeaderboard });
+}
+
+function updateFavoritePlayersFromMenu(e, operation, id) {
   e.preventDefault();
   if (id && operation === 'add') {
     // eslint-disable-next-line no-undef
-    gigya.accounts.getAccountInfo({ callback: addFavoritePlayer });
+    gigya.accounts.getAccountInfo({ callback: addFavoritePlayerFromMenu });
   } else if (id && operation === 'remove') {
     // eslint-disable-next-line no-undef
-    gigya.accounts.getAccountInfo({ callback: removeFavoritePlayer });
+    gigya.accounts.getAccountInfo({ callback: removeFavoritePlayerFromMenu });
   }
 }
 
@@ -274,7 +321,7 @@ async function writeFavoritePlayers(favorites) {
       const target = e.target.closest('[data-id]');
       target.setAttribute('data-selected', true);
       const id = target.getAttribute('data-id');
-      updateFavoritePlayers(e, 'remove', id);
+      updateFavoritePlayersFromMenu(e, 'remove', id);
     });
     wrapper.append(row);
   });
@@ -310,12 +357,96 @@ async function setupFavoritePlayersScreen(userData) {
     updateSelectPlayer(selectPlayer, tourDropdown.value, players[tourDropdown.value]);
     addButton.addEventListener('click', (e) => {
       const id = getPlayerIdFromForm();
-      updateFavoritePlayers(e, 'add', id);
+      updateFavoritePlayersFromMenu(e, 'add', id);
     });
   }
   // remove non-submit button
   const submit = document.querySelector('#gigya-players-screen.gigya-screen input[type=submit].gigya-input-submit');
   if (submit) submit.remove();
+}
+
+function updateFavoriteButtons(res) {
+  const buttons = document.querySelectorAll('.leaderboard-favorite-button');
+  if (res && res != null && res.data) {
+    const favorites = res.data.favorites || [];
+    buttons.forEach((btn) => {
+      // eslint-disable-next-line no-use-before-define
+      btn.removeEventListener('click', promptToLogin);
+      const playerId = btn.getAttribute('data-id');
+      const isFavorite = favorites.find((fave) => fave.playerId === playerId);
+      const icon = btn.querySelector('.icon');
+      const tooltip = btn.nextElementSibling;
+      if (isFavorite) {
+        btn.setAttribute('data-op', 'remove');
+        if (icon) icon.className = 'icon icon-minus';
+        if (tooltip && tooltip.className === 'tooltip') {
+          tooltip.querySelector('.tooltip-op').textContent = 'Remove from';
+        }
+        btn.removeEventListener('click', addFavoritePlayerFromLeaderboard);
+        btn.addEventListener('click', removeFavoritePlayerFromLeaderboard);
+      } else {
+        btn.setAttribute('data-op', 'add');
+        // ensure add to favorite button
+        if (icon) icon.className = 'icon icon-plus';
+        if (tooltip && tooltip.className === 'tooltip') {
+          tooltip.querySelector('.tooltip-op').textContent = 'Add to';
+        }
+        btn.removeEventListener('click', removeFavoritePlayerFromLeaderboard);
+        btn.addEventListener('click', addFavoritePlayerFromLeaderboard);
+      }
+    });
+  }
+}
+
+function resetFavoriteButtons() {
+  const buttons = document.querySelectorAll('.leaderboard-favorite-button');
+  buttons.forEach((btn) => {
+    const icon = btn.querySelector('.icon');
+    const tooltip = btn.nextElementSibling;
+    btn.setAttribute('data-op', 'add');
+    // ensure add to favorite button
+    if (icon) icon.className = 'icon icon-plus';
+    if (tooltip && tooltip.className === 'tooltip') {
+      tooltip.querySelector('.tooltip-op').textContent = 'Add to';
+    }
+    btn.removeEventListener('click', removeFavoritePlayerFromLeaderboard);
+    btn.removeEventListener('click', addFavoritePlayerFromLeaderboard);
+    // eslint-disable-next-line no-use-before-define
+    btn.addEventListener('click', promptToLogin);
+  });
+}
+
+function promptToLogin() {
+  const modal = document.createElement('aside');
+  modal.classList.add('login-modal');
+  modal.innerHTML = `<div class="login-modal-close-wrapper">
+      <button class="login-modal-close"><span class="icon icon-close"></span></button>
+    </div>
+    <p>${placeholders.loginPrompt}</p>
+    <div class="button-container">
+      <button class="button" id="login-modal-button">${placeholders.loginYes}</button> 
+      <button class="button login-modal-close">${placeholders.loginNo}</button> 
+    </div>`;
+  modal.querySelector('#login-modal-button').addEventListener('click', () => {
+    // eslint-disable-next-line no-use-before-define
+    showLoginMenu();
+    modal.remove();
+  });
+  modal.querySelectorAll('.login-modal-close').forEach((btn) => {
+    btn.addEventListener('click', () => modal.remove());
+  });
+  document.querySelector('main').prepend(modal);
+}
+
+function setupFavoriteButtons(res) {
+  const favoriteButtons = document.querySelectorAll('.leaderboard-favorite-button');
+  favoriteButtons.forEach((button) => {
+    if (res && res != null && res.errorCode === 0) { // user is logged in
+      updateFavoriteButtons(res);
+    } else {
+      button.addEventListener('click', promptToLogin);
+    }
+  });
 }
 
 function setupAccountMenu(res) {
@@ -356,7 +487,7 @@ function showLoginMenu() {
     screenSet: 'Website-RegistrationLogin',
     startScreen: 'gigya-long-login-screen',
     // eslint-disable-next-line no-use-before-define
-    onAfterSubmit: updateUserButton,
+    onAfterSubmit: updateGigyaButtons,
   });
 }
 
@@ -413,6 +544,7 @@ function clearUserButton() {
 
 function logout() {
   clearUserButton();
+  resetFavoriteButtons();
   // eslint-disable-next-line no-undef
   gigya.accounts.hideScreenSet({ screenSet: 'Website-ManageProfile' });
   // eslint-disable-next-line no-undef
@@ -436,14 +568,25 @@ function setupUserButton(res) {
   }
 }
 
+function updateGigyaButtons(res) {
+  updateUserButton(res);
+  updateFavoriteButtons(res);
+}
+
+function setupGigyaButtons(res) {
+  setupUserButton(res);
+  setupFavoriteButtons(res);
+}
+
 function checkIfLoggedIn(res) {
   if (res && res != null && res.errorCode === 0) { // user is logged in
     // eslint-disable-next-line no-undef
-    gigya.accounts.getAccountInfo({ callback: setupUserButton });
+    gigya.accounts.getAccountInfo({ callback: setupGigyaButtons });
   } else {
     clearUserButton();
     removeUserInfo();
     setupUserButton();
+    setupFavoriteButtons();
   }
 }
 
@@ -454,8 +597,10 @@ function setupGigya() {
 
 // eslint-disable-next-line import/prefer-default-export
 export function initGigya() {
-  const button = document.getElementById('nav-user-button');
-  if (button) button.replaceWith(button.cloneNode(true));
+  const userButton = document.getElementById('nav-user-button');
+  if (userButton) userButton.replaceWith(userButton.cloneNode(true));
+  const favoriteButtons = document.querySelectorAll('.leaderboard-favorite-button');
+  if (favoriteButtons) favoriteButtons.forEach((btn) => btn.replaceWith(btn.cloneNode(true)));
   loadScript(
     'https://cdns.gigya.com/JS/socialize.js?apikey=3__4H034SWkmoUfkZ_ikv8tqNIaTA0UIwoX5rsEk96Ebk5vkojWtKRZixx60tZZdob',
     setupGigya,

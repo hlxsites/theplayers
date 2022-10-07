@@ -128,14 +128,14 @@ main .news-item-play::before {
 /* filters and pagination */
 main .news .news-filters,
 main .news .news-pagination {
-  margin: 0 16px;
+  margin: 16px;
   text-align: center;
 }
 
 @media (min-width: 700px) {
   main .news .news-filters,
   main .news .news-pagination {
-    margin: 0;
+    margin: 32px;
   }
 }
 
