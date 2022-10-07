@@ -47,10 +47,11 @@ async function insertCourseFeedSlides(block) {
     const code = json.tourCode;
     const perm = json.permNum;
     const { courseId } = json.courses[0];
+    const tournament = config['dam-code'] ? config['dam-code'] : `${code}${perm}`;
     // eslint-disable-next-line no-restricted-syntax
     for (const hole of json.courses[0].holes) {
-      const damSrc = `${damPrefix}/${code}${perm}/${courseId}/holes/hole${hole.holeNum}.jpg`;
-      const holeJpg = `${cloudinaryPrefix},w_1290/v1/pgatour/courses/${code}${perm}/${courseId}/holes/hole${hole.holeNum}.jpg`;
+      const damSrc = `${damPrefix}/${tournament}/${courseId}/holes/hole${hole.holeNum}.jpg`;
+      const holeJpg = `${cloudinaryPrefix},w_1290/v1/pgatour/courses/${tournament}/${courseId}/holes/hole${hole.holeNum}.jpg`;
       const holePng = `${cloudinaryPrefix},w_150/holes_${config.year || new Date().getFullYear()}_${code}_${perm}_${courseId}_overhead_full_${hole.holeNum}.png`;
       // eslint-disable-next-line no-await-in-loop
       const metaresp = await fetch(`https://little-forest-58aa.david8603.workers.dev/?url=${encodeURIComponent(`${damSrc}/jcr:content/metadata.json`)}`);
