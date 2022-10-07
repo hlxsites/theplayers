@@ -357,7 +357,7 @@ main .section.highlight {
 }
 
 /* section teaser */
-main .section.teaser {
+main .section.teaser[data-section-status='loaded'] {
   --teaser-bg-color: var(--color-black-80);
   --teaser-text-color: var(--color-white);
   --teaser-heading-color: var(--color-white);
@@ -537,7 +537,7 @@ main .section.teaser .teaser-play {
 }
 
 main .section.teaser .teaser-play::before {
-  content: "";
+  content: '';
   clear: both;
   display: block;
   border-top: 15px solid transparent;

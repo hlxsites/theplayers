@@ -275,5 +275,6 @@ main .social.image-feed li .social-tile-body svg {
   main .social.image-feed li .social-tile-img img,
   main .social.image-feed li .social-tile-body {
     height: 20vw;
+    max-height: 258px;
   }
 }
