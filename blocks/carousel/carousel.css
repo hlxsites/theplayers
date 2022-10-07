@@ -16,9 +16,6 @@ main .carousel-container {
 main .carousel-wrapper {
   position: relative;
   max-width: 1400px;
-}
-
-main .carousel-wrapper {
   min-height: 420px;
 }
 
