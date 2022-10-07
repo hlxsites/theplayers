@@ -16,6 +16,9 @@ main .carousel-container {
 main .carousel-wrapper {
   position: relative;
   max-width: 1400px;
+}
+
+main .carousel-wrapper .carousel.course {
   min-height: 850px;
 }
 
@@ -276,7 +279,7 @@ main .carousel.course > div {
 }
 
 @media (min-width: 700px) {
-  main .carousel-wrapper {
+  main .carousel-wrapper .carousel.course {
     min-height: 670px;
   }
 
@@ -286,7 +289,7 @@ main .carousel.course > div {
 }
 
 @media (min-width: 900px) {
-  main .carousel-wrapper {
+  main .carousel-wrapper .carousel.course {
     min-height: 505px;
   }
 
@@ -296,7 +299,7 @@ main .carousel.course > div {
 }
 
 @media (min-width: 1200px) {
-  main .carousel-wrapper {
+  main .carousel-wrapper .carousel.course {
     min-height: 740px;
   }
 
