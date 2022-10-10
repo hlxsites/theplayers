@@ -201,7 +201,7 @@ main .past-results .switch .switch-button {
   height: 16px;
   margin: 0 8px;
   border-radius: 8px;
-  background-color: var(--color-blue);
+  background-color: var(--results-text-color);
   cursor: pointer;
 }
 
