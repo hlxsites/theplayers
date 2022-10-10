@@ -2,7 +2,7 @@ main .carousel-container {
   --carousel-btn-primary-color: var(--color-gray-95);
   --carousel-btn-secondary-color: var(--color-red-95);
   --carousel-btn-secondary-hover-color: var(--color-white);
-  --carousel-course-bg-color: var(--color-blue);
+  --carousel-course-bg-color: var(--color-black);
   --carousel-course-bg-color-transparent: var(--color-black-95);
   --carousel-course-stats-outline-color: var(--color-white);
   --carousel-course-stats-border-color: var(--color-black);

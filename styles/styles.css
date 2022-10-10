@@ -420,7 +420,7 @@ main .section.teaser .default-content-wrapper > :first-child em::after {
 /* stylelint-disable-next-line no-descending-specificity */
 main .section.teaser h2 {
   margin: 0;
-  color: var(--color-tan);
+  color: var(--color-gray-light);
   text-align: center;
   line-height: 1;
 }
@@ -449,7 +449,7 @@ main .section.teaser > div {
   margin-top: 16px;
   margin-bottom: 16px;
   padding: 16px;
-  background-color: var(--color-black-95);
+  background-color: var(--color-red-95);
   color: var(--color-white);
 }
 
