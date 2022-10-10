@@ -30,6 +30,7 @@ async function setupPartners(section) {
   const sponsors = pages.filter((e) => e.path.startsWith('/sponsors/'));
 
   if (sponsors.length > 0) {
+    section.classList.add('has-sponsors');
     const partners = document.createElement('div');
     partners.className = 'nav-partners';
     partners.innerHTML = '<div class="nav-partners-title"><span>Proud Partners</span></div><div class="nav-partner-wrapper"></div>';

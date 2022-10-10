@@ -369,7 +369,7 @@ main .section.teaser[data-section-status='loaded'] {
 }
 
 @media (min-width: 700px) {
-  main .section.teaser {
+  main .section.teaser[data-section-status='loaded'] {
     align-items: center;
     justify-content: flex-end;
     font-size: var(--body-font-size-s);

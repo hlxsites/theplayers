@@ -8,6 +8,10 @@ main .hero-wrapper {
 }
 
 main .hero {
+  --hero-btn-primary-color: var(--color-tan-95);
+  --hero-btn-secondary-color: var(--color-blue-95);
+  --hero-btn-secondary-hover-color: var(--color-white);
+
   position: relative;
   height: 230px;
   background-image: linear-gradient(#0002, #0006);
@@ -183,17 +187,17 @@ main .hero a.button:hover {
 
 main .hero a.button.primary:any-link {
   border-color: transparent;
-  background-color: var(--color-tan-95);
+  background-color: var(--hero-btn-primary-color);
   font-size: var(--body-font-size-xs);
 }
 
 main .hero a.button.secondary:any-link {
-  background-color: var(--color-blue);
+  background-color: var(--hero-btn-secondary-color);
   font-size: var(--body-font-size-m);
 }
 
 main .carousel a.button.secondary:any-link:hover {
-  color: var(--color-white);
+  color: var(--hero-btn-secondary-hover-color);
   border-color: var(--color-white);
 }
 

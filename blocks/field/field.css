@@ -1,9 +1,10 @@
 main .field {
+  --field-text-color: var(--color-blue);
   --field-highlight-color: var(--color-white);
 }
 
 main .field p {
-  color: var(--color-blue);
+  color: var(--field-text-color);
   line-height: 1;
 }
 
@@ -36,7 +37,7 @@ main .field svg {
 }
 
 main .field button[aria-selected=true] svg {
-  fill: var(--color-blue);
+  fill: var(--field-text-color);
 }
 
 main .field select {

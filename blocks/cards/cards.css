@@ -27,7 +27,7 @@ main .cards > ul > li {
 main .cards .cards-card-body,
 main .cards .cards-card-links {
   padding: 16px;
-  background-color: var(--color-white);
+  background-color: var(--highlight-background-color);
 }
 
 main .cards h2 {
@@ -214,7 +214,7 @@ main .cards.overlay > ul > li p.button-container a {
   }
 }
 
-/* two-column layout; fka champions */
+/* two-column layout */
 main .cards.two-cols h3 {
   margin: 0;
 }
