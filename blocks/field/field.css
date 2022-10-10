@@ -1,6 +1,6 @@
 main .field {
-  --field-text-color: var(--color-blue);
-  --field-highlight-color: var(--color-tan);
+  --field-text-color: var(--color-red);
+  --field-highlight-color: var(--color-red);
 }
 
 main .field p {
