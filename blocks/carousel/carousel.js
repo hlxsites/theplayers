@@ -69,7 +69,7 @@ async function insertCourseFeedSlides(block) {
       div.innerHTML = `
         <div class="carousel-image">
           <picture>
-            <img loading="eager" src="${holeJpg}" alt="" />
+            <img loading="${hole.holeNum === '1' ? 'eager' : 'lazy'}" src="${holeJpg}" alt="" />
           </picture>
         </div>
         <div class="carousel-text course-text">
