@@ -80,7 +80,7 @@ async function insertCourseFeedSlides(block) {
             </div>
             <p class="course-hole">
               <picture>
-                <img src="${holePng}" alt="" />
+                <img src="${holePng}" alt="" loading="lazy" />
               </picture>
             </p>
             <p class="hole-desc"></p>
