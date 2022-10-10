@@ -1,5 +1,5 @@
 main .sponsors {
-  --sponsors-background-color: var(--color-tan-95);
+  --sponsors-background-color: var(--color-gray-95);
 
   display: grid;
   gap: 16px;

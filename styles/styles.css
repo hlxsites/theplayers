@@ -17,21 +17,27 @@
   --color-blue: #003360;
   --color-blue-light: #004B98;
   --color-blue-lighter: #2D4976;
-  --color-tan: #C2A36E;
   --color-blue-95: #003360f2;
+  --color-red-dark: #C61F26;
+  --color-red: #ED1A28;
+  --color-red-light: #FF1D2B;
+  --color-red-95: #ED1A28f2;
+  --color-tan: #C2A36E;
   --color-tan-95: #C2A36Ef2;
   --color-black: #000;
+  --color-black-95: #000000f2;
   --color-gray-dark: #4d4d4d;
   --color-gray: #999;
+  --color-gray-95: #999999f2;
   --color-gray-light: #ccc;
   --color-gray-lighter: #f2f2f2;
   --color-white: #fff;
 
   /* colors assignments */
-  --link-color: var(--color-blue-dark);
-  --link-hover-color: var(--color-blue);
+  --link-color: var(--color-red-dark);
+  --link-hover-color: var(--color-red);
   --background-color: var(--color-gray-lighter);
-  --overlay-background-color: var(--color-blue-lighter);
+  --overlay-background-color: var(--color-black-95);
   --overlay-text-color: var(--color-white);
   --highlight-background-color: var(--color-white);
   --text-color: var(--color-gray-dark);
@@ -312,7 +318,7 @@ main .section > .default-content-wrapper h3,
 main .section > .default-content-wrapper h4,
 main .section > .default-content-wrapper h5,
 main .section > .default-content-wrapper h6 {
-  color: var(--color-blue);
+  color: var(--color-red);
   text-align: center;
   text-transform: uppercase;
 }
@@ -443,7 +449,7 @@ main .section.teaser > div {
   margin-top: 16px;
   margin-bottom: 16px;
   padding: 16px;
-  background-color: var(--color-blue-95);
+  background-color: var(--color-black-95);
   color: var(--color-white);
 }
 

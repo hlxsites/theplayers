@@ -1,5 +1,5 @@
 main .tee-times {
-  --tee-times-text-color: var(--color-blue);
+  --tee-times-text-color: var(--color-red);
 
   color: var(--tee-times-text-color);
   text-align: center;

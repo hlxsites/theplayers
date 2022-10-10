@@ -1,5 +1,5 @@
 main .cards {
-  --card-bubble-color: var(--color-tan);
+  --card-bubble-color: var(--color-gray);
 }
 
 main .cards > ul {

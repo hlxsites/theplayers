@@ -1,5 +1,5 @@
 main .share {
-  --share-btn-default-color: var(--color-blue);
+  --share-btn-default-color: var(--color-red);
 
   box-sizing: border-box;
   display: flex;

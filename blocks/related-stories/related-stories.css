@@ -29,7 +29,7 @@
 }
 
 main .related-stories {
-  --related-stories-text-color: var(--color-blue);
+  --related-stories-text-color: var(--color-red);
   
   font-size: var(--body-font-size-s);
 }

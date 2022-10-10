@@ -1,5 +1,5 @@
 main .past-results {
-  --past-results-text-color: var(--color-blue);
+  --past-results-text-color: var(--color-red);
 }
 
 main .past-results ul {

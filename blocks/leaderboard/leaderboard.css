@@ -1,5 +1,5 @@
 main .leaderboard {
-  --leaderboard-heading-color: var(--color-blue);
+  --leaderboard-heading-color: var(--color-red);
 
   max-width: 100%;
   min-height: 558px; /* update after ads */
