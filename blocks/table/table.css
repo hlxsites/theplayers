@@ -1,7 +1,9 @@
 main .table {
+  --table-text-color: var(--color-blue);
+
   max-width: 100%;
   overflow-x: auto;
-  color: var(--color-blue);
+  color: var(--table-text-color);
   font-size: var(--body-font-size-xs);
   line-height: 1.2;
 }
@@ -41,6 +43,7 @@ main .table td.table-cell-num {
 
 main .table td:not(.table-cell-num) {
   font-weight: bold;
+  text-align: center;
 }
 
 main .table.light td {
@@ -48,7 +51,7 @@ main .table.light td {
 }
 
 main .table table tbody tr:nth-child(odd) {
-  background-color: var(--color-white);
+  background-color: var(--highlight-background-color);
 }
 
 main .table table tbody tr:nth-child(even) {
