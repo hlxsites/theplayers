@@ -50,17 +50,8 @@ async function insertCourseFeedSlides(block) {
     const tournament = config['dam-code'] ? config['dam-code'] : `${code}${perm}`;
     // eslint-disable-next-line no-restricted-syntax
     for (const hole of json.courses[0].holes) {
-      const damSrc = `${damPrefix}/${tournament}/${courseId}/holes/hole${hole.holeNum}.jpg`;
       const holeJpg = `${cloudinaryPrefix},w_1290/v1/pgatour/courses/${tournament}/${courseId}/holes/hole${hole.holeNum}.jpg`;
       const holePng = `${cloudinaryPrefix},w_150/holes_${config.year || new Date().getFullYear()}_${code}_${perm}_${courseId}_overhead_full_${hole.holeNum}.png`;
-      // eslint-disable-next-line no-await-in-loop
-      const metaresp = await fetch(`https://little-forest-58aa.david8603.workers.dev/?url=${encodeURIComponent(`${damSrc}/jcr:content/metadata.json`)}`);
-      // eslint-disable-next-line no-await-in-loop
-      const meta = await metaresp.json();
-      const metaDesc = meta['dc:description'];
-      const metaCreator = meta['dc:creator'];
-      const metaRights = meta['dc:rights'];
-      const metaTitle = meta['dc:title'];
       const avg = hole.stats.find((stat) => stat.id === '43108').eV2;
       const stats = hole.stats.filter((stat) => stat.id !== '43108');
       const statsDivisor = stats.reduce((a, b) => {
@@ -78,7 +69,7 @@ async function insertCourseFeedSlides(block) {
       div.innerHTML = `
         <div class="carousel-image">
           <picture>
-            <img src="${holeJpg}" alt="${metaTitle}" />
+            <img src="${holeJpg}" alt="" />
           </picture>
         </div>
         <div class="carousel-text course-text">
@@ -89,10 +80,10 @@ async function insertCourseFeedSlides(block) {
             </div>
             <p class="course-hole">
               <picture>
-                <img src="${holePng}" alt="${metaTitle}" />
+                <img src="${holePng}" alt="" />
               </picture>
             </p>
-            <p>${metaDesc}</p>
+            <p class="hole-desc"></p>
           </div>
             <div class="course-statistics">
               <h3 id="statistics">${config.year || new Date().getFullYear()} Statistics</h3>
@@ -140,9 +131,24 @@ async function insertCourseFeedSlides(block) {
                 </tbody>
               </table>
             </div>
-            <p class="course-credits">PHOTO BY <strong>${metaCreator.join(', ')}</strong> / ${metaRights}</p>
+            <p class="course-credits">PHOTO BY</p>
         </div>`;
       block.append(div);
+
+      const damSrc = `${damPrefix}/${tournament}/${courseId}/holes/hole${hole.holeNum}.jpg`;
+      fetch(`https://little-forest-58aa.david8603.workers.dev/?url=${encodeURIComponent(`${damSrc}/jcr:content/metadata.json`)}`)
+        .then(async (metaresp) => {
+          const meta = await metaresp.json();
+          const metaDesc = meta['dc:description'];
+          const metaCreator = meta['dc:creator'];
+          const metaRights = meta['dc:rights'];
+          const metaTitle = meta['dc:title'];
+
+          div.querySelector('.carousel-image > picture > img').setAttribute('alt', metaTitle);
+          div.querySelector('.course-hole > picture > img').setAttribute('alt', metaTitle);
+          div.querySelector('.hole-desc').innerText = metaDesc;
+          div.querySelector('.course-credits').innerHTML = `PHOTO BY <strong>${metaCreator.join(', ')}</strong> / ${metaRights}`;
+        });
     }
   }
 }
