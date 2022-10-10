@@ -16,6 +16,11 @@ main .carousel-container {
 main .carousel-wrapper {
   position: relative;
   max-width: 1400px;
+  min-height: 420px;
+}
+
+main .carousel-wrapper:has(.carousel.course) {
+  min-height: 850px;
 }
 
 main .carousel {
@@ -281,18 +286,42 @@ main .carousel.course > div {
 }
 
 @media (min-width: 700px) {
+  main .carousel-wrapper {
+    min-height: 670px;
+  }
+
+  main .carousel-wrapper:has(.carousel.course) {
+    min-height: 670px;
+  }
+
   main .carousel.course > div {
     height: 670px;
   }
 }
 
 @media (min-width: 900px) {
+  main .carousel-wrapper {
+    min-height: 505px;
+  }
+
+  main .carousel-wrapper:has(.carousel.course) {
+    min-height: 505px;
+  }
+
   main .carousel.course > div {
     height: 505px;
   }
 }
 
 @media (min-width: 1200px) {
+  main .carousel-wrapper {
+    min-height: 700px;
+  }
+
+  main .carousel-wrapper:has(.carousel.course) {
+    min-height: 740px;
+  }
+
   main .carousel.course > div {
     height: 740px;
   }
@@ -405,7 +434,7 @@ main .carousel.course div.course-text h3 {
     align-self: center;
   }
 
-  main .carousel.course div.course-text .course-overview h3 {
+  main .carousel.course div.course-text .course-overview .course-heading-wrapper {
     grid-area: overview-subtitle;
   }
 
