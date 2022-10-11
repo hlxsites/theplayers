@@ -4,7 +4,7 @@ async function insertGallerySlides(block) {
   const damPrefix = 'https://www.pgatour.com';
   const config = readBlockConfig(block);
   const galleryURL = config.source;
-  const limit = config.limit || 24;
+  const limit = config.limit || 10;
   block.innerHTML = '';
 
   const directURL = `${galleryURL}&size=${limit}`;
