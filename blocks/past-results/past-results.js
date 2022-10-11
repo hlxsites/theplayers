@@ -52,7 +52,21 @@ async function refreshResults(block, param) {
       });
     }
     // setup score switch
-    const scoreSwitch = temp.querySelector('input.switch-input');
+    let scoreSwitch = temp.querySelector('input.switch-input');
+    if (!scoreSwitch) {
+      // build score switch
+      const controls = temp.querySelector('.controls-left');
+      const switchHTML = `<div class="controls-item">
+          <div class="switch">
+            <input class="switch-input" id="pastResultsSwitch" type="checkbox" checked="">
+            <label class="switch-title-off" for="pastResultsSwitch">To Par</label>
+            <label class="switch-button" for="pastResultsSwitch"></label>
+            <label class="switch-title-on" for="pastResultsSwitch">Total Score</label>
+          </div>
+        </div>`;
+      controls.insertAdjacentHTML('beforeend', switchHTML);
+      scoreSwitch = controls.querySelector('input.switch-input');
+    }
     if (scoreSwitch && tempTable) {
       tempTable.setAttribute('data-display-score', 'total-score');
       scoreSwitch.addEventListener('change', (e) => {

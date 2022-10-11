@@ -219,8 +219,8 @@ main .past-results .switch .switch-button {
 
 /* table */
 main .past-results table {
-  display: block;
   overflow-x: scroll;
+  min-width: 100%;
 }
 
 main .past-results table th,
