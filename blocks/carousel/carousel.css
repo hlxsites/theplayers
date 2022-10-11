@@ -7,7 +7,7 @@ main .carousel-container {
   --carousel-course-stats-outline-color: var(--color-white);
   --carousel-course-stats-border-color: var(--color-black);
   --carousel-course-stats-title-color: var(--color-gray);
-  --carousel-cource-btn-color: var(--color-red);
+  --carousel-cource-btn-color: var(--color-black);
   --carousel-cource-btn-selected-color: var(--color-white);
 
   padding: 0;
