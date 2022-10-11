@@ -2,7 +2,7 @@ footer {
   --footer-color: var(--color-blue);
   --footer-text-color: var(--color-white);
   --footer-ribbon-color: var(--color-white);
-  --footer-ribbon-text-color: var(--color-blue);
+  --footer-ribbon-text-color: var(--color-red);
   --footer-border-color: var(--color-gray-light);
 
   font-size: var(--body-font-size-xs);
