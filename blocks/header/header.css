@@ -190,6 +190,7 @@ header nav .nav-partner-appear {
 }
 
 header nav .nav-partner img {
+  height: 24px;
   max-height: 50px;
 }
 
@@ -206,6 +207,10 @@ header nav .nav-partner img {
     transform: translateX(-50%);
   }
 
+  header nav .nav-partner img {
+    height: auto;
+  }
+
   header nav[aria-expanded=false] .nav-partners {
     display: block;
     position: unset;
@@ -214,6 +219,10 @@ header nav .nav-partner img {
   header nav .nav-partners {
     width: 100%;
     background-color: transparent;
+  }
+
+  header nav .white .nav-partners {
+    color: var(--text-color);
   }
 
   header nav[aria-expanded=false] .nav-partners-title {
@@ -233,10 +242,21 @@ header nav .nav-partner img {
     background-color: var(--color-white);
   }
 
+  header nav .white .nav-partners-title::before {
+    background-color: var(--text-color);
+
+  }
+
   header nav .nav-partners-title span {
     position: relative;
     padding: 0 5px;
     background-color: var(--nav-color);
+  }
+
+  header nav .white .nav-partners-title span {
+    position: relative;
+    padding: 0 5px;
+    background-color: var(--color-white);
   }
 }
 
