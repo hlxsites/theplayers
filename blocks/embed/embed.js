@@ -32,6 +32,36 @@ function buildInstagramEmbed(url) {
   </div>`;
 }
 
+function buildFacebookEmbed(url) {
+  return `<div class="embed-facebook-wrapper">
+    <iframe
+      src="https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(url)}&show_text=0&width=560"
+      width="560"
+      height="315"
+      style="border:none;overflow:hidden"
+      scrolling="no"
+      frameborder="0"
+      allowfullscreen="true"
+      allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+      allowFullScreen="true">
+    </iframe>
+  </div>`;
+}
+
+function buildSpotifyEmbed(url) {
+  const playlist = new URL(url).pathname.split('/').pop();
+  return `<div class="embed-spotify-wrapper">
+    <iframe
+      src="https://open.spotify.com/embed?uri=spotify%3Aplaylist%3A${(playlist)}"
+      height="380"
+      frameborder="0"
+      style="border-radius: 12px;"
+      allowtransparency="true"
+      allow="encrypted-media">
+      </iframe>
+  </div>`;
+}
+
 function buildDefaultEmbed(url) {
   return `<div class="embed-iframe-wrapper">
     <iframe src='${url}' allow="encrypted-media" allowfullscreen></iframe>
@@ -50,6 +80,10 @@ function loadEmbed(block) {
       a.outerHTML = buildTwitterEmbed(url);
     } else if (hostname.includes('instagram')) {
       a.outerHTML = buildInstagramEmbed(url);
+    } else if (hostname.includes('facebook')) {
+      a.outerHTML = buildFacebookEmbed(url);
+    } else if (hostname.includes('spotify')) {
+      a.outerHTML = buildSpotifyEmbed(url);
     } else {
       a.outerHTML = buildDefaultEmbed(url);
     }
