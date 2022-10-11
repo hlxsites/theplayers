@@ -30,6 +30,7 @@ async function setupPartners(section) {
   const sponsors = pages.filter((e) => e.path.startsWith('/sponsors/'));
 
   if (sponsors.length > 0) {
+    const hasWhiteBg = [...section.classList].includes('white');
     section.classList.add('has-sponsors');
     const partners = document.createElement('div');
     partners.className = 'nav-partners';
@@ -38,7 +39,7 @@ async function setupPartners(section) {
       const partner = document.createElement('div');
       partner.className = 'nav-partner';
       if (!i) partner.classList.add('nav-partner-appear');
-      partner.append(createOptimizedPicture(sponsor.logoWhite, sponsor.title, false, [{ width: '300' }]));
+      partner.append(createOptimizedPicture(hasWhiteBg ? sponsor.image : sponsor.logoWhite, sponsor.title, false, [{ width: '300' }]));
       partners.querySelector('.nav-partner-wrapper').append(partner);
     });
     setInterval(() => {
