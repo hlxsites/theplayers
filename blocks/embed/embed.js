@@ -31,8 +31,6 @@ function buildYoutubeEmbed(url) {
   </div>`;
 }
 
-// <iframe width="560" height="315" src="https://www.youtube.com/embed/w59rZSCRwnw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
 function buildTwitterEmbed(url) {
   loadScript('https://platform.twitter.com/widgets.js');
   return `<blockquote class="twitter-tweet embed-twitter-wrapper"><a href="${url}"></a></blockquote>`;
