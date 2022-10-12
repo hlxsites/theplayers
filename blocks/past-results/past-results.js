@@ -54,7 +54,6 @@ async function refreshResults(block, param) {
     // setup score switch
     const scoreSwitch = temp.querySelector('input.switch-input');
     if (scoreSwitch && tempTable) {
-      tempTable.setAttribute('data-display-score', 'total-score');
       scoreSwitch.addEventListener('change', (e) => {
         const table = block.querySelector('table');
         if (e.target.checked) {
@@ -73,6 +72,7 @@ async function refreshResults(block, param) {
     }
     // setup table sorting
     if (tempTable) {
+      tempTable.setAttribute('data-display-score', 'total-score'); // default to total score
       tempTable.querySelectorAll('.sortable').forEach((th) => {
         const data = tempTable.querySelector('.table-data');
         const rows = [...data.querySelectorAll('tr')];
@@ -126,10 +126,10 @@ async function refreshResults(block, param) {
               return 0;
             });
           } else { // rounds
-            const currentSwitch = block.querySelector('input.switch-input').checked === true ? 'total' : 'par';
+            const currentDisplay = block.querySelector('table').getAttribute('data-display-score') === 'total-score' ? 'total' : 'par';
             rows.sort((a, b) => {
               const getVal = (el) => {
-                const text = el.querySelector(`[data-sort-${sortBy}-${currentSwitch}] > [class*=${currentSwitch}]`).textContent;
+                const text = el.querySelector(`[data-sort-${sortBy}-${currentDisplay}] > [class*=${currentDisplay}]`).textContent;
                 if (text === 'E') return 0; // e is equal to par, 0
                 return parseInt(text, 10);
               };

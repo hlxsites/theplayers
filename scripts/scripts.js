@@ -1002,3 +1002,27 @@ export async function lookupPages(pathnames) {
   }
   return window.pageIndex.data;
 }
+
+/**
+ * Add dynamic font sizing CSS class names to headings
+ *
+ * The CSS class names are determined by character counts.
+ * @param {Element} block The container element
+ * @param {string} classPrefix Prefix in CSS class names before "-long", "-very-long", "-x-long".
+ * Default is "heading".
+ * @param {string} selector CSS selector to select the target heading tags. Default is "h1, h2".
+ */
+export function addHeaderSizing(block, classPrefix = 'heading', selector = 'h1, h2') {
+  const headings = block.querySelectorAll(selector);
+  const sizes = [
+    { name: 'long', threshold: 30 },
+    { name: 'very-long', threshold: 40 },
+    { name: 'x-long', threshold: 50 },
+  ];
+  headings.forEach((h) => {
+    const { length } = h.textContent;
+    sizes.forEach((size) => {
+      if (length >= size.threshold) h.classList.add(`${classPrefix}-${size.name}`);
+    });
+  });
+}
