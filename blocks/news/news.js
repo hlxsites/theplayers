@@ -6,6 +6,29 @@ import {
   fetchPlaceholders,
 } from '../../scripts/scripts.js';
 
+async function mergeLocalNews(feed, maxItems) {
+  const resp = await fetch('/query-index.json');
+  const json = await resp.json();
+  const newerThan = feed.items[feed.items.length - 1].created;
+  const matched = json.data.filter((item) => {
+    if (item.date) {
+      const itemDate = new Date(Math.round((item.date - (25567 + 1)) * 86400 * 1000)).valueOf();
+      item.created = itemDate;
+      item.link = item.path;
+      item.type = 'article';
+      return (itemDate > newerThan);
+    }
+    return false;
+  });
+  const merged = [...feed.items, ...matched];
+  const deduped = [...new Map(merged.map((m) => [
+    new URL(m.link, window.location.href).pathname.split('.')[0],
+    m,
+  ])).values()];
+  const sorted = deduped.sort((e1, e2) => e2.created - e1.created);
+  feed.items = sorted.slice(0, maxItems);
+}
+
 function filterNews(e) {
   const button = e.target.closest('button');
   const block = button.closest('.block');
@@ -108,8 +131,12 @@ export default async function decorate(block) {
       const resp = await fetch(`https://little-forest-58aa.david8603.workers.dev/?url=${encodeURIComponent(directURL)}`);
       const json = await resp.json();
 
+      await mergeLocalNews(json, config.limit);
+
       [...pinnedItems, ...json.items].forEach((item, idx) => {
-        const prefix = item.image.startsWith('brightcove') ? videoPrefix : damPrefix;
+        let prefix = '';
+        if (item.image.startsWith('brightcove')) prefix = videoPrefix;
+        if (item.image.startsWith('/content/dam')) prefix = damPrefix;
         const li = document.createElement('li');
         li.classList.add('news-item', `news-item-${item.type}`);
         const video = item.videoId ? '<div class="news-item-play"></div>' : '';

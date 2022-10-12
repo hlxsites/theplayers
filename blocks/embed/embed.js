@@ -17,6 +17,22 @@ function buildFormEmbed(url) {
   </div>`;
 }
 
+function buildYoutubeEmbed(url) {
+  const video = new URL(url).pathname.replaceAll('/', '');
+  return `<div class="embed-youtube-wrapper">
+    <iframe
+    width="560"
+    height="315"
+    src="https://www.youtube.com/embed/${video}"
+    title="YouTube video player"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen></iframe>
+  </div>`;
+}
+
+// <iframe width="560" height="315" src="https://www.youtube.com/embed/w59rZSCRwnw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 function buildTwitterEmbed(url) {
   loadScript('https://platform.twitter.com/widgets.js');
   return `<blockquote class="twitter-tweet embed-twitter-wrapper"><a href="${url}"></a></blockquote>`;
@@ -76,6 +92,8 @@ function loadEmbed(block) {
 
     if (hostname.includes('pages08')) {
       a.outerHTML = buildFormEmbed(url);
+    } else if (hostname.includes('youtu')) {
+      a.outerHTML = buildYoutubeEmbed(url);
     } else if (hostname.includes('twitter')) {
       a.outerHTML = buildTwitterEmbed(url);
     } else if (hostname.includes('instagram')) {

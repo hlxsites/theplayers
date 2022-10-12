@@ -43,7 +43,8 @@ main .embed .embed-instagram-wrapper iframe {
   border-radius: 3px;
 }
 
-/* facebook */
+/* youtube and facebook */
+main .embed .embed-youtube-wrapper iframe,
 main .embed .embed-facebook-wrapper iframe {
   max-width: 560px;
   max-height: 315px;
