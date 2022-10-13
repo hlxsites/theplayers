@@ -46,6 +46,14 @@ export default async function decorate(block) {
           bubble.className = 'cards-card-bubble';
           bubble.closest('p').className = 'cards-card-bubble-wrapper';
         }
+        const subtitle = div.querySelector('h2 + p > strong');
+        if (subtitle && subtitle.parentNode.textContent === subtitle.textContent) {
+          const title = div.querySelector('h2');
+          const titleWrapper = document.createElement('div');
+          titleWrapper.className = 'cards-card-title';
+          titleWrapper.append(title.cloneNode(true), subtitle.parentNode);
+          title.replaceWith(titleWrapper);
+        }
         const country = div.querySelector('.icon[class*=icon-flag-]');
         if (country) {
           country.closest('p').classList.add('cards-card-country');

@@ -125,7 +125,7 @@ main .social .social-tile-footer a {
   transition: opacity .2s;
 }
 
-main .social .social-twitter-tweet a {
+main .social .social-post a {
   color: var(--social-tweet-color);
 }
 
@@ -145,12 +145,12 @@ main .social li.social-tile-profiles {
 }
 
 /* twitter tile */
-main .social .social-tile-twitter svg {
+main .social .social-tile svg {
   width: 16px;
   height: 16px;
 }
 
-main .social .social-twitter-header {
+main .social .social-header {
   display: grid;
   grid-template-columns: 42px 1fr max-content;
   grid-template-rows: repeat(2, auto);
@@ -158,39 +158,56 @@ main .social .social-twitter-header {
   font-size: var(--body-font-size-xxs);
 }
 
-main .social .social-twitter-header .social-twitter-img {
+main .social .social-header .social-img {
   grid-row: 1 / span 2;
 }
 
-main .social .social-twitter-header .social-twitter-img img {
+main .social .social-header .social-img img {
   border-radius: 50%;
 }
 
-main .social .social-twitter-header .social-twitter-username {
+main .social .social-header .social-username {
   font-size: var(--body-font-size-xs);
 }
 
-main .social .social-twitter-header .social-twitter-screenname a {
+main .social .social-header .social-screenname a {
   color: var(--social-tweet-color);
 }
 
-main .social .social-twitter-header .social-twitter-screenname a::before,
+main .social .social-header .social-screenname a::before,
 main .social.image-feed .social-tile-screenname a::before {
   content: '@';
 }
 
-main .social .social-twitter-header .social-twitter-network {
+main .social .social-header .social-network {
   text-align: right;
 }
 
-main .social .social-twitter-tweet {
+main .social .social-post {
   box-sizing: border-box;
   display: flex;
   margin: 16px 0;
   font-size: var(--body-font-size-s);
+  max-height: 300px;
+  overflow-y: scroll;
 }
 
-main .social .social-twitter-tweet .social-tweet-img {
+@media (min-width: 700px) {
+  main .social .social-post {
+    max-height: 240px;
+  }
+}
+
+main .social .social-post::-webkit-scrollbar {
+  width: 6px;
+}
+
+main .social .social-post::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 3px;
+  }
+
+main .social .social-post .social-post-img {
   flex: 1 0 max(100px, 33%);
   width: 100px;
   margin: 0;
@@ -198,7 +215,7 @@ main .social .social-twitter-tweet .social-tweet-img {
   margin-bottom: auto;
 }
 
-main .social .social-twitter-tweet .social-tweet-img + .social-tweet-body {
+main .social .social-post .social-post-img + .social-post-body {
   flex: 1 0 calc(50% - 8px);
   width: 0;
 }

@@ -36,6 +36,7 @@ main .carousel.appear {
 }
 
 main .carousel h2 {
+  flex: 1 0 100%;
   margin: .25em 0;
   color: var(--overlay-text-color);
   font-size: var(--heading-font-size-l);
@@ -124,8 +125,9 @@ main .carousel div.carousel-image { /* bg img wrapper */
 main .carousel div.carousel-text {
   box-sizing: border-box;
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   justify-content: center;
+  gap: 0 8px;
   width: 100%;
   padding: 0 16px;
 }
@@ -136,6 +138,7 @@ main .carousel div.carousel-text {
   }
 
   main .carousel div.carousel-text {
+    align-items: center;
     padding: 0 32px;
   }
 }
@@ -207,9 +210,13 @@ main .carousel a.button.secondary:any-link:hover {
   border-color: var(--carousel-btn-secondary-hover-color);
 }
 
+main .carousel a.button.read-more:any-link {
+  margin-top: 4px;
+}
+
 @media (min-width: 700px) {
   main .carousel p.button-container {
-    margin-top: 32px;
+    margin-top: 8px;
   }
 
   main .carousel a.button {
@@ -219,6 +226,11 @@ main .carousel a.button.secondary:any-link:hover {
   main .carousel a.button.primary:any-link,
   main .carousel a.button.secondary:any-link {
     font-size: var(--body-font-size-l);
+  }
+
+  main .carousel a.button.read-more:any-link {
+    margin-top: 8px;
+    margin-bottom: 8px;
   }
 }
 
@@ -235,6 +247,13 @@ main .carousel a.button.secondary:any-link:hover {
   main .carousel a.button.primary:any-link,
   main .carousel a.button.secondary:any-link {
     font-size: var(--body-font-size-xxl);
+  }
+
+  main .carousel a.button.read-more:any-link {
+    min-width: unset;
+    width: max-content;
+    margin-top: 4px;
+    font-size: var(--body-font-size-l);
   }
 }
 
