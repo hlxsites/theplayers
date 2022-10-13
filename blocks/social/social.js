@@ -1,7 +1,13 @@
-import { readBlockConfig, decorateIcons, fetchPlaceholders } from '../../scripts/scripts.js';
+import {
+  readBlockConfig,
+  decorateIcons,
+  fetchPlaceholders,
+  updateExternalLinks,
+} from '../../scripts/scripts.js';
 
 const TWITTER_URL = 'https://twitter.com/';
 const INSTAGRAM_URL = 'https://instagram.com/';
+const FACEBOOK_URL = 'https://facebook.com/';
 
 function buildProfilesTile(config) {
   const profiles = document.createElement('li');
@@ -52,42 +58,87 @@ function writeDate(timestamp) {
   return `${day} ${month}`;
 }
 
+function buildSocialTile(tile, data, network) {
+  const profileURL = data.user.profileUrl;
+  const grid = document.createElement('div');
+  grid.className = `social-tile-grid social-tile social-tile-${network}`;
+  // setup header
+  const head = document.createElement('div');
+  head.className = `social-header social-${network}-header`;
+  head.innerHTML = `<a href="${profileURL}" class="social-img social-${network}-img"><img src="${data.user.img.url}" alt="${data.user.name} profile picture" /></a>
+     <p class="social-username social-${network}-username"><a href="${profileURL}">${data.user.name}</a></p>
+     <a href="${FACEBOOK_URL}" class="social-network social-${network}-network"><span class="icon icon-${network}"></span></a>
+     <p class="social-screenname social-${network}-screenname"><a href="${profileURL}">${data.user.handle}</a></p>
+     <p class="social-date social-${network}-date">${writeDate(data.created_time)}</p>`;
+  grid.append(head);
+  // setup  post
+  const post = document.createElement('div');
+  post.className = `social-post social-${network}-post`;
+  post.innerHTML = `<div class="social-post-body social-${network}-post-body">
+    <p>${data.message ? data.message : ''}</p>
+  </div>`;
+  wrapInLinks(post.querySelector('.social-post-body'));
+  if (data.media && data.media.src) {
+    const img = document.createElement('img');
+    img.className = 'social-post-img';
+    img.src = data.media.src;
+    post.prepend(img);
+  }
+  grid.append(post);
+  tile.append(grid);
+}
+
+function buildFacebookTile(tile, data) {
+  const { from } = data;
+  const profileURL = from.link;
+  buildSocialTile(tile, {
+    user: {
+      profileUrl: profileURL,
+      name: from.name,
+      handle: from.broadcast_name,
+      img: {
+        url: from.picture.data.url,
+      },
+    },
+    created_time: data.created_time,
+    message: data.message,
+    media: {
+      src: data?.attachments?.data[0]?.media?.image?.src,
+    },
+  }, 'facebook');
+
+  // setup facebook footer
+  const foot = document.createElement('div');
+  foot.className = 'social-tile-footer';
+  foot.innerHTML = '';
+  tile.append(foot);
+}
+
 function buildTwitterTile(tile, data) {
   const { user } = data;
   const profileURL = `${TWITTER_URL}${user.screen_name}`;
-  const grid = document.createElement('div');
-  grid.className = 'social-tile-grid social-tile-twitter';
-  // setup twitter header
-  const head = document.createElement('div');
-  head.className = 'social-twitter-header';
-  head.innerHTML = `<a href="${profileURL}" class="social-twitter-img"><img src="${user.profile_image_url_https}" alt="${user.name} profile picture" /></a>
-    <p class="social-twitter-username"><a href="${profileURL}">${user.name}</a></p>
-    <a href="${TWITTER_URL}" class="social-twitter-network"><span class="icon icon-twitter"></span></a>
-    <p class="social-twitter-screenname"><a href="${profileURL}">${user.screen_name}</a></p>
-    <p class="social-twitter-date">${writeDate(data.created_at)}</p>`;
-  grid.append(head);
-  // setup twitter tweet
-  const tweet = document.createElement('div');
-  tweet.className = 'social-twitter-tweet';
-  tweet.innerHTML = `<div class="social-tweet-body">
-    <p>${data.text}</p>
-  </div>`;
-  wrapInLinks(tweet.querySelector('.social-tweet-body'));
-  if (data.extended_entities && data.extended_entities.media) {
-    const media = data.extended_entities.media[0];
-    const img = document.createElement('img');
-    img.className = 'social-tweet-img';
-    img.src = media.media_url_https;
-    tweet.prepend(img);
-  }
-  grid.append(tweet);
+  buildSocialTile(tile, {
+    user: {
+      profileUrl: profileURL,
+      name: user.name,
+      handle: user.screen_name,
+      img: {
+        url: user.profile_image_url_https,
+      },
+    },
+    created_time: data.created_at,
+    message: data.text,
+    media: {
+      src: data?.extended_entities?.media[0]?.media_url_https,
+    },
+  }, 'twitter');
+
   // setup twitter footer
   const foot = document.createElement('div');
   foot.className = 'social-tile-footer';
   foot.innerHTML = `<a href="${TWITTER_URL}intent/tweet?in_reply_to=${data.id_str}"><span class="icon icon-reply"></span></a>
     <a href="${TWITTER_URL}intent/retweet?tweet_id=${data.id_str}"><span class="icon icon-retweet"></span></a>
     <a href="${TWITTER_URL}intent/favorite?tweet_id=${data.id_str}"><span class="icon icon-like"></span></a>`;
-  tile.append(grid);
   tile.append(foot);
 }
 
@@ -121,6 +172,7 @@ function refreshImageTiles(wrapper, available, onPage) {
         onPage.splice(toRefreshIndex, 1);
         onPage.push(newTile);
         tileToRefresh.replaceWith(newTile);
+        updateExternalLinks(wrapper);
       }
     }
   }, 3 * 1000);
@@ -181,9 +233,11 @@ async function buildSocialFeed(wrapper, config) {
     feed.forEach((item) => {
       const tile = document.createElement('li');
       if (item.network === 'twitter') buildTwitterTile(tile, item);
+      if (item.network === 'facebook') buildFacebookTile(tile, item);
       decorateIcons(tile);
       wrapper.append(tile);
     });
+    updateExternalLinks(wrapper);
   }
 }
 

@@ -53,6 +53,31 @@ main .cards .cards-card-body > *:first-child {
   margin-top: 0;
 }
 
+main .cards .cards-card-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0 16px;
+}
+
+main .cards .cards-card-title h2,
+main .cards .cards-card-title h2 + p {
+  margin: 0;
+}
+
+main .cards .cards-card-title h2 + p strong {
+  font-size: var(--body-font-size-xl);
+  font-weight: normal;
+  text-transform: uppercase;
+}
+
+@media (min-width: 700px) {
+  main .cards .cards-card-title h2 + p strong {
+    font-size: var(--body-font-size-xxl);
+  }
+}
+
 main .cards .cards-card-country {
   display: inline-flex;
   align-items: center;
