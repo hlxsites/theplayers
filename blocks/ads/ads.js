@@ -1,5 +1,12 @@
 import { fetchPlaceholders, loadScript } from '../../scripts/scripts.js';
 
+function getDevice() {
+  const width = window.innerWidth;
+  if (width >= 970) return 'desktop';
+  if (width >= 728) return 'tablet';
+  return 'mobile';
+}
+
 export default async function decorate(block) {
   block.innerHTML = '';
   const placeholders = await fetchPlaceholders();
@@ -9,6 +16,7 @@ export default async function decorate(block) {
     loadScript(`https://dn0qt3r0xannq.cloudfront.net/${placeholders.adsPath}/prebid-load.js`, () => {
     // loadScript(`https://web.prebidwrapper.com/${placeholders.adsPath}/prebid-load.js`, () => {
       window.tude.cmd.push(() => {
+        window.tude.setDeviceType(getDevice()); // optional
         window.tude.setPageTargeting({ // optional
           url_path: window.location.origin,
           s1: placeholders.adsS1,
