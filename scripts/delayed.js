@@ -701,8 +701,10 @@ async function OptanonWrapper() {
 
   loadScript(`https://assets.adobedtm.com/d17bac9530d5/90b3c70cfef1/launch-1ca88359b76c${isProd ? '.min' : ''}.js`);
 }
+
+const otId = placeholders.onetrustId || '262c6c79-a114-41f0-9c07-52cb1fb7390c';
 const cookieScript = loadScript('https://cdn.cookielaw.org/scripttemplates/otSDKStub.js');
-cookieScript.setAttribute('data-domain-script', `262c6c79-a114-41f0-9c07-52cb1fb7390c${isProd ? '' : '-test'}`);
+cookieScript.setAttribute('data-domain-script', `${otId}${isProd ? '' : '-test'}`);
 
 window.OptanonWrapper = OptanonWrapper;
 
