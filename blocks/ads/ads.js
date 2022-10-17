@@ -2,10 +2,38 @@ import { fetchPlaceholders, loadScript } from '../../scripts/scripts.js';
 
 function getDevice() {
   const width = window.innerWidth;
-  if (width >= 970) return 'desktop';
-  if (width >= 728) return 'tablet';
+  if (width > 970) return 'desktop';
+  if (width > 728) return 'tablet';
   return 'mobile';
 }
+
+function isInViewport(el) {
+  const rect = el.getBoundingClientRect();
+  return (
+    rect.top >= 0
+    && rect.left >= 0
+    && rect.bottom <= (window.innerHeight || document.documentElement.clientHeight)
+    && rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+  );
+}
+
+function debounce(func, timeout = 500) {
+  let timer;
+  return (...args) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => { func.apply(this, args); }, timeout);
+  };
+}
+
+const checkBottomAdDisplay = debounce(() => {
+  const topAd = document.getElementById('pb-slot-top');
+  const bottomAd = document.getElementById('sticky-anchor--wrapper');
+  if (isInViewport(topAd)) {
+    bottomAd.setAttribute('aria-hidden', true);
+  } else if (bottomAd.getAttribute('aria-hidden') !== 'false') {
+    bottomAd.setAttribute('aria-hidden', false);
+  }
+});
 
 export default async function decorate(block) {
   block.innerHTML = '';
@@ -31,15 +59,25 @@ export default async function decorate(block) {
           kuid: '',
           aid: '20767395437692810572475817725693908164',
         });
-        window.tude.setAdUnitPath(`/${placeholders.adsNetwork}/pgat.phone/pgatour`);
+        window.tude.setAdUnitPath(`/${placeholders.adsNetwork}/pgat.${getDevice() === 'mobile' ? 'phone' : getDevice()}/pgatour`);
       });
       window.tude.cmd.push(() => {
         document.querySelectorAll('.ad').forEach((ad) => {
           const slot = ad.querySelector('div').id;
-          window.tude.refreshAdsViaDivMappings([{
-            divId: slot,
-            baseDivId: slot,
-          }]);
+          if (slot.includes('bottom')) { // setup bottom ad slot
+            window.tude.setFeatureFlags({ injectAds: true });
+            const topAd = document.getElementById('pb-slot-top');
+            if (topAd) {
+              checkBottomAdDisplay();
+              document.addEventListener('scroll', checkBottomAdDisplay);
+            }
+          } else {
+            window.tude.setFeatureFlags({ injectAds: false });
+            window.tude.refreshAdsViaDivMappings([{
+              divId: slot,
+              baseDivId: slot,
+            }]);
+          }
         });
       });
     });
