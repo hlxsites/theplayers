@@ -851,15 +851,26 @@ async function buildAutoBlocks(main) {
 
     const hasAd = getMetadata('ad');
     if (hasAd) {
-      const adPlaceholder = document.createElement('aside');
-      adPlaceholder.setAttribute('data-section-status', 'loading');
-      adPlaceholder.className = 'section ad';
-      adPlaceholder.innerHTML = '<div id="pb-slot-top" class="ad-top"></div>';
-      const hero = main.querySelector('.hero, .carousel');
-      if (hero) {
-        hero.parentNode.after(adPlaceholder);
-        main.append(buildBlock('ads', ''));
-      }
+      const positions = hasAd.split(',').map((a) => a.trim().toLowerCase());
+      let validPositions = false;
+      positions.forEach((position) => {
+        if (position === 'top') {
+          validPositions = true;
+          const adPlaceholder = document.createElement('aside');
+          adPlaceholder.setAttribute('data-section-status', 'loading');
+          adPlaceholder.className = 'section ad';
+          adPlaceholder.innerHTML = '<div id="pb-slot-top" class="ad-top"></div>';
+          const hero = main.querySelector('.hero, .carousel');
+          if (hero) hero.parentNode.after(adPlaceholder);
+        } else if (position === 'bottom') {
+          validPositions = true;
+          const adPlaceholder = document.createElement('aside');
+          adPlaceholder.className = 'section ad';
+          adPlaceholder.innerHTML = '<div id="pb-slot-bottom" class="ad-bottom"></div>';
+          main.append(adPlaceholder);
+        }
+      });
+      if (validPositions) main.append(buildBlock('ads', ''));
     }
 
     const template = getMetadata('template');
