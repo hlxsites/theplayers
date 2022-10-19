@@ -163,14 +163,20 @@ export function decorateIcons(element) {
  * @param {Element} main The container element
  */
 export function makeLinksRelative(main) {
+  // eslint-disable-next-line no-use-before-define
+  const hosts = ['hlx.page', 'hlx.live', ...PRODUCTION_DOMAINS];
   main.querySelectorAll('a').forEach((a) => {
-    // eslint-disable-next-line no-use-before-define
-    const hosts = ['hlx.page', 'hlx.live', ...PRODUCTION_DOMAINS];
     if (a.href) {
       try {
         const url = new URL(a.href);
-        const relative = hosts.some((host) => url.hostname.includes(host));
-        if (relative) a.href = `${url.pathname.replace('.html', '')}${url.search}${url.hash}`;
+        const hostMatch = hosts.some((host) => url.hostname.includes(host));
+        const hostPathMatch = hosts.find((host) => `${url.hostname}${url.pathname}`.includes(host));
+        if (hostMatch) {
+          a.href = `${url.pathname.replace('.html', '')}${url.search}${url.hash}`;
+        } else if (hostPathMatch) {
+          const resultHref = `${url.hostname}${url.pathname}${url.search}${url.hash}`.replace(hostPathMatch, '').replace('.html', '');
+          a.href = resultHref.startsWith('/') ? resultHref : `/${resultHref}`;
+        }
       } catch (e) {
         // something went wrong
         // eslint-disable-next-line no-console
@@ -943,15 +949,25 @@ export async function decorateMain(main) {
 }
 
 /**
+ * checks is search param 'view' is set to 'app'
+ */
+
+function isAppView() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get('view') === 'app';
+}
+
+/**
  * loads everything needed to get to LCP.
  */
 async function loadEager(doc) {
   decorateTemplateAndTheme();
+  if (isAppView()) document.querySelector('header').remove();
   const main = doc.querySelector('main');
   if (main) {
     await decorateMain(main);
     await waitForLCP();
-    loadHeader(doc.querySelector('header'));
+    if (!isAppView()) loadHeader(doc.querySelector('header'));
   }
 }
 
@@ -966,14 +982,14 @@ async function loadLazy(doc) {
   const element = hash ? main.querySelector(hash) : false;
   if (hash && element) element.scrollIntoView();
 
-  loadFooter(doc.querySelector('footer'));
+  if (!isAppView()) loadFooter(doc.querySelector('footer'));
 
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
   addFavIcon(`${window.hlx.codeBasePath}/styles/favicon.ico`);
 
-  loadAds(doc);
+  if (!isAppView()) loadAds(doc);
 
-  doc.querySelectorAll('div:not([class]):empty').forEach((empty) => empty.remove());
+  doc.querySelectorAll('div:not([class]):not([id]):empty').forEach((empty) => empty.remove());
 }
 
 /**
