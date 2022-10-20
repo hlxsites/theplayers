@@ -1,11 +1,10 @@
 main .leaderboard {
-  --leaderboard-heading-color: var(--color-blue);
+  --leaderboard-heading-color: var(--color-gray);
 
   max-width: 100%;
   min-height: 558px; /* update after ads */
   line-height: 1.2;
 }
-
 
 @media (min-width: 700px) {
   main .leaderboard {
@@ -19,16 +18,6 @@ main .leaderboard {
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
     min-height: 366px;
-  }
-}
-
-main .leaderboard .button-container {
-  font-size: var(--body-font-size-xxs);
-}
-
-@media (min-width: 700px) {
-  main .leaderboard .button-container {
-    font-size: var(--body-font-size-m);
   }
 }
 

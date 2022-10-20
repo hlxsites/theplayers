@@ -21,25 +21,29 @@
   --color-blue-95: #003360f2;
   --color-tan-95: #C2A36Ef2;
   --color-black: #000;
-  --color-gray-dark: #4d4d4d;
-  --color-gray: #999;
+  --color-black-95: #000000f2;
+  --color-gray-darker: #4d4d4d;
+  --color-gray-darker-95: #4d4d4df2;
+  --color-gray-dark: #8C97A0;
+  --color-gray-dark-95: #8C97A0f2;
+  --color-gray: #98A4AE;
   --color-gray-light: #ccc;
   --color-gray-lighter: #f2f2f2;
   --color-white: #fff;
 
   /* colors assignments */
-  --link-color: var(--color-blue-dark);
-  --link-hover-color: var(--color-blue);
+  --link-color: var(--color-gray-dark);
+  --link-hover-color: var(--color-gray);
   --background-color: var(--color-gray-lighter);
-  --overlay-background-color: var(--color-blue-lighter);
+  --overlay-background-color: var(--color-gray);
   --overlay-text-color: var(--color-white);
   --highlight-background-color: var(--color-white);
-  --text-color: var(--color-gray-dark);
+  --text-color: var(--color-gray-darker);
   --heading-color: var(--color-black);
 
   /* fonts */
   --body-font-family: 'Roboto Condensed', 'Roboto Condensed-fallback';
-  --heading-font-family: 'Crimson Text', 'Crimson Text-fallback';
+  --heading-font-family: 'Roboto', 'Roboto-fallback';
   --fixed-font-family: 'Roboto Mono', menlo, consolas, 'Liberation Mono', monospace;
 
   /* body sizes */
@@ -71,17 +75,17 @@
 }
 
 @font-face {
-  font-family: 'Crimson Text-fallback';
-  size-adjust: 97.13%;
-  ascent-override: 107%;
-  src: local("Times New Roman");
-}
-
-@font-face {
   font-family: 'Roboto Condensed-fallback';
   size-adjust: 88.91%;
   ascent-override: 110%;
-  src: local("Arial");
+  src: local('Arial');
+}
+
+@font-face {
+  font-family: 'roboto-fallback';
+  size-adjust: 100.06%;
+  ascent-override: 93%;
+  src: local('Arial');
 }
 
 body {
@@ -312,7 +316,7 @@ main .section > .default-content-wrapper h3,
 main .section > .default-content-wrapper h4,
 main .section > .default-content-wrapper h5,
 main .section > .default-content-wrapper h6 {
-  color: var(--color-blue);
+  color: var(--color-gray);
   text-align: center;
   text-transform: uppercase;
 }
@@ -443,7 +447,7 @@ main .section.teaser > div {
   margin-top: 16px;
   margin-bottom: 16px;
   padding: 16px;
-  background-color: var(--color-blue-95);
+  background-color: var(--color-gray-dark-95);
   color: var(--color-white);
 }
 
@@ -721,4 +725,8 @@ main .section.teaser .teaser-play::before {
 
 .icon.icon-close::after {
   transform: rotate(-45deg)
+}
+
+.icon.icon-san-tan-ford {
+  width: 92px;
 }

@@ -51,13 +51,15 @@ async function insertCourseFeedSlides(block) {
     for (const hole of json.courses[0].holes) {
       const damSrc = `${damPrefix}/${code}${perm}/${courseId}/holes/hole${hole.holeNum}.jpg`;
       const holeJpg = `${cloudinaryPrefix},w_1290/v1/pgatour/courses/${code}${perm}/${courseId}/holes/hole${hole.holeNum}.jpg`;
-      const holePng = `${cloudinaryPrefix},w_150/holes_${config.year || new Date().getFullYear()}_${code}_${perm}_${courseId}_overhead_full_${hole.holeNum}.png`;
       // eslint-disable-next-line no-await-in-loop
       const metaresp = await fetch(`https://little-forest-58aa.david8603.workers.dev/?url=${encodeURIComponent(`${damSrc}/jcr:content/metadata.json`)}`);
       // eslint-disable-next-line no-await-in-loop
       const meta = await metaresp.json();
       const metaDesc = meta['dc:description'];
-      const metaCreator = meta['dc:creator'];
+      const desc = document.createElement('div');
+      desc.innerHTML = metaDesc;
+      const newDesc = desc.textContent;
+      const metaCreator = typeof meta['dc:creator'] === 'object' ? meta['dc:creator'] : [meta['dc:creator']];
       const metaRights = meta['dc:rights'];
       const metaTitle = meta['dc:title'];
       const avg = hole.stats.find((stat) => stat.id === '43108').eV2;
@@ -87,11 +89,9 @@ async function insertCourseFeedSlides(block) {
               <h3>PAR ${hole.par}, ${hole.yards} Yards</h3>
             </div>
             <p class="course-hole">
-              <picture>
-                <img src="${holePng}" alt="${metaTitle}" />
-              </picture>
+              
             </p>
-            <p>${metaDesc}</p>
+            <p>${newDesc}</p>
           </div>
             <div class="course-statistics">
               <h3 id="statistics">${config.year || new Date().getFullYear()} Statistics</h3>

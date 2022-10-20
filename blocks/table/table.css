@@ -1,5 +1,5 @@
 main .table {
-  --table-text-color: var(--color-blue);
+  --table-text-color: var(--color-gray-dark);
 
   max-width: 100%;
   overflow-x: auto;

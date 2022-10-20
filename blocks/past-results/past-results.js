@@ -4,7 +4,7 @@ const PGATOUR_URL = 'https://www.pgatour.com';
 
 async function buildReqUrl(param) {
   const placeholders = await fetchPlaceholders();
-  return `${PGATOUR_URL}/tournaments/${placeholders.adsS3}/past-results/jcr:content/mainParsys/pastresults.selectedYear.${param}.html`;
+  return `${PGATOUR_URL}/champions/tournaments/${placeholders.adsS3}/past-results/jcr:content/mainParsys/pastresults.selectedYear.${param}.html`;
 }
 
 async function refreshResults(block, param) {

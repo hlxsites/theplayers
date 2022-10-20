@@ -2,10 +2,10 @@
 
 /* header and nav layout */
 header {
-  --nav-color: var(--color-blue);
-  --nav-secondary-color: var(--color-blue-darker);
-  --nav-hover-color: var(--color-blue-dark);
-  --nav-border-color: var(--color-blue-light);
+  --nav-color: var(--color-gray);
+  --nav-secondary-color: var(--color-gray-dark);
+  --nav-hover-color: var(--color-gray-dark);
+  --nav-border-color: var(--color-gray-light);
   --nav-text-color: var(--color-white);
 
   background-color: var(--nav-color);
