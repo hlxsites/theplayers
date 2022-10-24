@@ -51,8 +51,8 @@ const pageType = window.location.pathname === '/' ? 'homePage' : 'contentPage';
 const pname = window.location.pathname.split('/').pop();
 window.pgatour.Omniture = {
   properties: {
-    pageName: `pgatour:tournaments:${placeholders.pagename}:${pname}`,
-    eVar16: `pgatour:tournaments:${placeholders.pagename}:${pname}`,
+    pageName: `${placeholders.adsS1}:${placeholders.adsS2}:${placeholders.pagename}:${pname}`,
+    eVar16: `${placeholders.adsS1}:${placeholders.adsS2}:${placeholders.pagename}:${pname}`,
     prop18: pageType,
     eVar1: 'pgatour',
     prop1: 'pgatour',
