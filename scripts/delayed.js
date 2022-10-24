@@ -51,13 +51,13 @@ const pageType = window.location.pathname === '/' ? 'homePage' : 'contentPage';
 const pname = window.location.pathname.split('/').pop();
 window.pgatour.Omniture = {
   properties: {
-    pageName: `pgatour:tournaments:the-players-championship:${pname}`,
-    eVar16: `pgatour:tournaments:the-players-championship:${pname}`,
+    pageName: `pgatour:tournaments:${placeholders.pagename}:${pname}`,
+    eVar16: `pgatour:tournaments:${placeholders.pagename}:${pname}`,
     prop18: pageType,
     eVar1: 'pgatour',
     prop1: 'pgatour',
-    prop2: 'r011',
-    eVar2: 'r011',
+    prop2: `${placeholders.tourCode}${placeholders.tournamentId}`,
+    eVar2: `${placeholders.tourCode}${placeholders.tournamentId}`,
     eVar6: window.location.href,
   },
   defineOmnitureVars: () => {
