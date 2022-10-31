@@ -18,7 +18,7 @@ main .columns > div > div:not(.columns-contains-image) {
 main .columns > div > div.columns-contains-image {
   order: 1;
   position: relative;
-  min-height: 170px;
+  aspect-ratio: 16 / 9;
 }
 
 @media (min-width: 700px) {
@@ -55,10 +55,6 @@ main .columns > div > div.columns-contains-image {
 @media (min-width: 1200px) {
   main .columns > div > div.columns-contains-image {
     min-height: 355px;
-  }
-
-  main .columns > div > div:not(.columns-contains-image) {
-    padding: 32px;
   }
 }
 
