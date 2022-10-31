@@ -176,7 +176,6 @@ main .cards .cards-card-links a:hover::after {
 
 /* card image */
 main .cards > ul > li img {
-  height: 180px;
   width: 100%;
   aspect-ratio: 4 / 3;
   object-fit: cover;
