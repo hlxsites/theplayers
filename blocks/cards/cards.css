@@ -177,7 +177,7 @@ main .cards .cards-card-links a:hover::after {
 /* card image */
 main .cards > ul > li img {
   width: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 16 / 9;
   object-fit: cover;
 }
 
@@ -201,7 +201,7 @@ main .cards.overlay .cards-card-body {
   left: 0;
   bottom: 0;
   right: 0;
-  height: 180px;
+  aspect-ratio: 16 / 9;
   margin: 0;
   padding: 16px;
   background-color: #0004;
@@ -213,6 +213,7 @@ main .cards.overlay .cards-card-body {
 @media (min-width: 900px) {
   main .cards.overlay .cards-card-body {
     height: 230px;
+    aspect-ratio: unset;
   }
 }
 
