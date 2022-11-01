@@ -91,7 +91,7 @@
 }
 
 @font-face {
-  font-family: 'roboto-fallback';
+  font-family: roboto-fallback;
   size-adjust: 100.06%;
   ascent-override: 93%;
   src: local('Arial');
@@ -763,7 +763,7 @@ main .section.teaser .teaser-play::before {
 .icon.icon-banner-left::after,
 .icon.icon-banner-left::before {
   left: -10px;
-  border-right: 11px solid currentColor;
+  border-right: 11px solid currentcolor;
 }
 
 .icon.icon-banner-left::after {
@@ -781,7 +781,7 @@ main .section.teaser .teaser-play::before {
 .icon.icon-banner-right::after,
 .icon.icon-banner-right::before {
   left: 10px;
-  border-left: 11px solid currentColor;
+  border-left: 11px solid currentcolor;
 }
 
 .icon.icon-banner-right::after {
@@ -793,6 +793,6 @@ main .section.teaser .teaser-play::before {
 .icon.icon-banner-right::before {
   top: 0;
   border-right: 0 solid transparent;
-  border-left: 11px solid currentColor;
+  border-left: 11px solid currentcolor;
   border-bottom: 11px solid transparent;
 }
