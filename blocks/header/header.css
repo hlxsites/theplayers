@@ -731,7 +731,7 @@ header .status-bar .status-bar-data {
   header .status-bar .status-bar-data {
     grid-template-areas: 
     '. scores scores'
-    'course . dates'
+    '. course dates'
     'countdown countdown countdown';
     grid-template-columns: calc(60px + 220px) auto auto; 
     grid-template-rows: 1fr auto auto;
