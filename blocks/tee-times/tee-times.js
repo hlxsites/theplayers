@@ -1,4 +1,4 @@
-import { readBlockConfig, decorateIcons } from '../../scripts/scripts.js';
+import { readBlockConfig, decorateIcons, fetchPlaceholders } from '../../scripts/scripts.js';
 
 function convertTime(serial) {
   const fractionalDay = serial - Math.floor(serial) + 0.0000001;
@@ -48,6 +48,7 @@ export default async function decorate(block) {
 
   if (config.source) {
     const source = config.source.endsWith('.json') ? config.source : `${config.source}.json`;
+    const placeholders = await fetchPlaceholders();
     const resp = await fetch(source);
     if (resp.ok) {
       const json = await resp.json();
@@ -73,7 +74,7 @@ export default async function decorate(block) {
           if (round !== currentRound) {
             const option = document.createElement('option');
             option.value = round;
-            option.textContent = `Round ${round}`;
+            option.textContent = `${placeholders.day} ${round}`;
             dropdown.append(option);
             // reset current round
             currentRound = round;
@@ -97,7 +98,7 @@ export default async function decorate(block) {
                 const playerWrapper = document.createElement('div');
                 playerWrapper.className = 'tee-times-player';
                 playerWrapper.innerHTML = `<img
-                    src="https://pga-tour-res.cloudinary.com/image/upload/f_auto,q_auto,c_fill,r_max,dpr_2.0,g_face:center,h_190,w_190,d_headshots_default.png/headshots_${player.playerId}.png"
+                    src="https://pga-tour-res.cloudinary.com/image/upload/f_auto,q_auto,c_fill,r_max,dpr_2.0,g_face:center,h_190,w_190,d_headshots_default.png/headshots_pcup_${config.year}_${player.playerId}.png"
                     alt="${player.playerName}"
                   />
                   <p>

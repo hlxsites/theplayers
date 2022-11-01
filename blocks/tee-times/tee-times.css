@@ -1,5 +1,5 @@
 main .tee-times {
-  --tee-times-text-color: var(--color-blue);
+  --tee-times-text-color: var(--color-gray);
 
   color: var(--tee-times-text-color);
   text-align: center;
@@ -117,6 +117,11 @@ main .tee-times .tee-times-player p {
 }
 
 @media (min-width: 700px) {
+  main .tee-times .tee-times-player {
+    display: inline-block;
+    width: 50%;
+  }
+
   main .tee-times .tee-times-player img {
     max-width: 116px;
     height: 116px;
@@ -128,6 +133,10 @@ main .tee-times .tee-times-player p {
 }
 
 @media (min-width: 900px) {
+  main .tee-times .tee-times-player {
+    width: 25%;
+  }
+
   main .tee-times .tee-times-player img {
     max-width: 190px;
     height: 190px;
