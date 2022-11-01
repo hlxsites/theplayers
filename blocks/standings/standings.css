@@ -1,0 +1,116 @@
+main .standings {
+  /* background-color: gold; */
+  font-size: var(--body-font-size-xs);
+  text-transform: uppercase;
+}
+
+main .standings h2 {
+  color: var(--text-color);
+  font-size: var(--heading-font-size-m);
+}
+
+/* info */
+main .standings .standings-team-info {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0 8px;
+  white-space: nowrap;
+}
+
+main .standings .standings-team-info a::after {
+  content: '>';
+  margin-left: 4px;
+}
+
+/* roster */
+main .standings .standings-team-roster p,
+main .standings .standings-team-roster li {
+  margin: 0;
+  padding: 16px;
+  border-bottom: 1px solid var(--color-gray-light);
+}
+
+main .standings .standings-team-roster p,
+main .standings .standings-team-roster ul {
+  border: 1px solid var(--color-gray-light);
+  border-bottom: 0;
+}
+
+main .standings .standings-team-roster ul {
+  margin: 0;
+  list-style: none;
+  padding-left: 0;
+  font-size: initial;
+  text-transform: none;
+}
+
+main .standings .standings-team-roster li {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  align-items: center;
+  gap: 0 16px;
+  line-height: 1.2;
+}
+
+main .standings .standings-team-roster li:last-child {
+  border-bottom: 1px solid var(--color-gray-light);
+}
+
+main .standings .standings-team-roster li:nth-child(odd) {
+  background-color: var(--highlight-background-color);
+}
+
+main .standings .standings-team-roster li img {
+  grid-row: 1 / span 2;
+}
+
+main .standings .standings-team-roster li .icon {
+  height: 18px;
+}
+
+main .standings .standings-team-roster li svg {
+  width: 24px;
+}
+
+@media (min-width: 700px) {
+  main .standings .standings-team-roster ul {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  main .standings .standings-team-roster li {
+    flex-basis: 50%;
+  }
+
+  main .standings .standings-team-roster li:nth-child(odd) {
+    border-right: 1px solid var(--color-gray-light);
+    background-color: unset;
+  }
+
+  main .standings .standings-team-roster li:nth-child(4n - 3),
+  main .standings .standings-team-roster li:nth-child(4n - 2) {
+    background-color: var(--highlight-background-color)
+  }
+}
+
+@media (min-width: 900px) {
+  main .standings {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 16px;
+  }
+}
+
+/* footnote */
+main .standings .standings-team-footnote p {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-transform: none;
+}
+
+main .standings .standings-team-footnote .button {
+  font-size: initial;
+}
