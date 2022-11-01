@@ -115,7 +115,7 @@ function loadScript(url, callback, type) {
 
 async function populateExternalStandingsBlock(block, config, ph) {
   loadScript('https://microservice.pgatour.com/js', async () => {
-    const resp = await fetch(`${config.source}&userTrackingId=${generateUserTrackingId(ph.userTrackingId)}`);
+    const resp = await fetch(`${config.source}${config.source.endsWith('.json') ? '?' : '&'}userTrackingId=${generateUserTrackingId(ph.userTrackingId)}`);
     if (resp.ok) {
       const json = await resp.json();
       if (json && json.tours && json.tours[0] && json.tours[0].years && json.tours[0].years[0]) {
