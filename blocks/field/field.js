@@ -84,7 +84,7 @@ export default async function decorate(block) {
         if (latestInitial !== lastInitial) card.setAttribute('data-last', lastInitial);
         latestInitial = lastInitial;
         card.id = player.TournamentPlayerId;
-        card.innerHTML = `<img src="https://pga-tour-res.cloudinary.com/image/upload/c_fill,dpr_2.0,f_auto,q_auto,r_max,g_face:center,d_headshots_default.png,h_190,w_190/headshots_${player.TournamentPlayerId}.png" alt="${player.PlayerFirstName} ${player.PlayerLastName}" />
+        card.innerHTML = `<img src="https://pga-tour-res.cloudinary.com/image/upload/c_fill,dpr_2.0,f_auto,q_auto,r_max,g_face:center,d_headshots_default.png,h_190,w_190/headshots_pcup_${year}_${player.TournamentPlayerId}.png" alt="${player.PlayerFirstName} ${player.PlayerLastName}" />
           <p>${player.PlayerName}</p>`;
         wrapper.append(card);
       });
