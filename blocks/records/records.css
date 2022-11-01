@@ -1,0 +1,70 @@
+main .records h2 {
+  color: var(--text-color);
+  font-size: var(--heading-font-size-m);
+}
+
+main .records h2 .icon,
+main .records h2 svg {
+  display: inline;
+  height: 18px;
+}
+
+main .records h2 .icon {
+  margin-left: 8px;
+}
+
+/* table */
+main .records .records-table,
+main .records .records-table tr,
+main .records .records-table th,
+main .records .records-table td {
+  border: 1px solid var(--color-gray-light);
+  border-collapse: collapse;
+  font-size: var(--body-font-size-xxs);
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+main .records .records-table {
+  width: 100%;
+}
+
+main .records .records-table th,
+main .records .records-table td {
+  padding: 8px;
+}
+
+main .records .records-table th {
+  background-color: var(--color-gray-dark);
+  color: var(--overlay-text-color);
+}
+
+main .records .records-table .table-cell-num {
+  text-align: center;
+}
+
+main .records .records-table tbody tr:nth-child(odd) {
+  background-color: var(--highlight-background-color);
+}
+
+@media (min-width: 700px) {
+  main .records {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+}
+
+@media (min-width: 900px) {
+  main .records .records-table,
+  main .records .records-table tr,
+  main .records .records-table th,
+  main .records .records-table td {
+    font-size: initial;
+  }
+
+  main .records .records-table th,
+  main .records .records-table td {
+    padding: 16px;
+  }
+}
