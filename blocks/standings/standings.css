@@ -114,3 +114,82 @@ main .standings .standings-team-footnote p {
 main .standings .standings-team-footnote .button {
   font-size: initial;
 }
+
+/* table */
+main .standings .standings-table,
+main .standings .standings-table tr,
+main .standings .standings-table th,
+main .standings .standings-table td {
+  border: 1px solid var(--color-gray-light);
+  border-collapse: collapse;
+  font-size: var(--body-font-size-xxs);
+  line-height: 1.2;
+}
+
+main .standings .standings-table {
+  width: 100%;
+}
+
+main .standings .standings-table th,
+main .standings .standings-table td {
+  padding: 8px 4px;
+}
+
+main .standings .standings-table th {
+  background-color: var(--color-gray-dark);
+  color: var(--overlay-text-color);
+}
+
+main .standings .standings-table .table-cell-num {
+  text-align: center;
+}
+
+main .standings .standings-table td p {
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+
+main .standings .standings-table td .icon {
+  display: inline;
+  height: 18px;
+  margin-right: 8px;
+}
+
+main .standings .standings-table td svg {
+  height: 18px;
+}
+
+main .standings .standings-table tbody tr:nth-child(odd) {
+  background-color: var(--highlight-background-color);
+}
+
+main .standings .standings-table-international tr th:nth-child(2),
+main .standings .standings-table-international tr td:nth-child(2),
+main .standings .standings-table-international tr th:nth-child(4),
+main .standings .standings-table-international tr td:nth-child(4) {
+  display: none;
+  visibility: hidden;
+}
+
+@media (min-width: 700px) {
+  main .standings .standings-table,
+  main .standings .standings-table tr,
+  main .standings .standings-table th,
+  main .standings .standings-table td {
+    font-size: initial;
+  }
+
+  main .standings .standings-table th,
+  main .standings .standings-table td {
+    padding: 16px;
+  }
+
+  main .standings .standings-table-international tr th:nth-child(2),
+  main .standings .standings-table-international tr td:nth-child(2),
+  main .standings .standings-table-international tr th:nth-child(4),
+  main .standings .standings-table-international tr td:nth-child(4) {
+    display: table-cell;
+    visibility: visible;
+  }
+}
