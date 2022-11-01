@@ -507,10 +507,6 @@ main .leaderboard.full .leaderboard-round caption .icon {
   padding: 0 8px;
 }
 
-main .leaderboard.full .leaderboard-round caption .icon svg {
-  height: 24px;
-}
-
 main .leaderboard.full .leaderboard-round tbody {
   color: var(--text-color);
   font-size: var(--body-font-size-s);
@@ -534,11 +530,13 @@ main .leaderboard.full .leaderboard-round tbody tr:nth-child(odd) td:first-child
   background-image: linear-gradient(to right, var(--highlight-background-color) calc(100% - 8px), var(--color-gray-light))
 }
 
+/* stylelint-disable-next-line no-descending-specificity */
 main .leaderboard.full .leaderboard-round tbody td:last-child {
   padding-left: 28px;
   text-align: right;
 }
 
+/* stylelint-disable-next-line no-descending-specificity */
 main .leaderboard.full .leaderboard-round tbody tr td:last-child {
   background-image: linear-gradient(to right, var(--color-gray-light), var(--background-color) calc(0% + 8px))
 }
@@ -575,6 +573,10 @@ main .leaderboard.full .leaderboard-legend i svg {
   width: 12px;
   margin-top: 3px;
   margin-left: 1px;
+}
+
+main .leaderboard.full .leaderboard-round caption .icon svg {
+  height: 24px;
 }
 
 main .leaderboard.full .leaderboard-legend i .icon {
