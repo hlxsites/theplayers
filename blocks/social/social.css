@@ -1,8 +1,8 @@
 main .social-container {
-  --social-bg-color: var(--color-blue);
+  --social-bg-color: var(--color-gray);
   --social-text-color: var(--overlay-text-color);
-  --social-card-bg-color: var(--color-blue-dark);
-  --social-tweet-color: var(--color-tan);
+  --social-card-bg-color: var(--color-gray-dark);
+  --social-tweet-color: var(--color-gold);
 }
 
 main .social-container:not(.image-feed-container) {
