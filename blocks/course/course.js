@@ -37,15 +37,17 @@ export default async function decorate(block) {
             holeImg.innerHTML = `<picture><img src="${data.image}" alt="${data.title}" /></picture>`;
             const holeText = document.createElement('div');
             holeText.className = 'course-hole-text';
-            holeText.innerHTML = `<div>
+            holeText.innerHTML = `<div class="course-hole-data">
                 <h2 class="course-hole-title">Hole #${data.hole || i + 1}</h2>
                 <p class="course-hole-subtitle">
                   ${stats.par ? `<span class="course-hole-par">Par ${stats.par}</span>` : ''}, 
                   ${stats.yards ? `<span class="course-hole-yards">${stats.yards} Yards</span>` : ''}
                 </p>
               </div>
-              <div></div>
-              <div></div>`;
+              <div class="course-hole-credits">
+                <p>Photo by <strong>${data.creator}</strong> / ${data.rights}</p>
+              </div>
+              <div class="course-hole-stats"></div>`;
             hole.append(holeImg, holeText);
             block.append(hole);
           });
