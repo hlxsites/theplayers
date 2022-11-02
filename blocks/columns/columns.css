@@ -1,5 +1,4 @@
 main .columns {
-  font-size: var(--body-font-size-xs);
   text-align: left;
 }
 
@@ -28,10 +27,6 @@ main .columns > div > div.columns-contains-image {
 }
 
 @media (min-width: 900px) {
-  main .columns {
-    font-size: var(--body-font-size-s);
-  }
-
   main .columns > div {
     flex-direction: row;
     align-items: center;
@@ -60,7 +55,6 @@ main .columns > div > div.columns-contains-image {
 
 main .columns h2 {
   margin-top: 0;
-  font-size: var(--heading-font-size-m);
   text-transform: uppercase;
 }
 
@@ -107,11 +101,13 @@ main .columns .button-container {
   font-size: var(--body-font-size-s);
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 700px) {
   main .columns h2 {
     font-size: var(--heading-font-size-l);
   }
+}
 
+@media (min-width: 1200px) {
   main .columns .button-container {
     font-size: var(--body-font-size-m);
   }
