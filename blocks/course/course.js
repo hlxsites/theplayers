@@ -66,6 +66,7 @@ export default async function decorate(block) {
   const buttons = document.createElement('div');
   buttons.className = 'course-buttons';
   [...block.children].forEach((row, i) => {
+    if (!i) row.querySelector('img').setAttribute('loading', 'eager');
     row.className = `course-hole course-hole-${i + 1}`;
     const classes = ['image', 'text'];
     classes.forEach((c, j) => {
