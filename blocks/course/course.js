@@ -31,9 +31,9 @@ async function loadStats(block) {
     holes.forEach((hole, i) => {
       const stats = allStats[i];
       const par = hole.querySelector('.course-hole-par');
-      if (par && stats.par) par.textContent = `Par ${stats.par},`;
+      if (par && stats.par) par.textContent = `${placeholders.par} ${stats.par},`;
       const yards = hole.querySelector('.course-hole-yards');
-      if (yards && stats.yards) yards.textContent = `${stats.yards} Yards`;
+      if (yards && stats.yards) yards.textContent = `${stats.yards} ${placeholders.yards}`;
       const title = hole.querySelector('.course-hole-stats h3');
       if (title) title.textContent = `${json.year || ''} Statistics`.trim();
       const avgEl = hole.querySelector('.course-hole-avg');
@@ -48,11 +48,11 @@ async function loadStats(block) {
           return parseInt(a, 10) + parseInt(b.eV2, 10);
         });
         const tableStats = [
-          { stat: 'Eagle', value: findStatPercent('43106', holeStats, statsDivisor) },
-          { stat: 'Birdie', value: findStatPercent('43107', holeStats, statsDivisor) },
-          { stat: 'Par', value: findStatPercent('43523', holeStats, statsDivisor) },
-          { stat: 'Bogey', value: findStatPercent('41184', holeStats, statsDivisor) },
-          { stat: '2+ Bogey', value: findStatPercent('43520', holeStats, statsDivisor) },
+          { stat: placeholders.eagle, value: findStatPercent('43106', holeStats, statsDivisor) },
+          { stat: placeholders.birdie, value: findStatPercent('43107', holeStats, statsDivisor) },
+          { stat: placeholders.par, value: findStatPercent('43523', holeStats, statsDivisor) },
+          { stat: placeholders.bogey, value: findStatPercent('41184', holeStats, statsDivisor) },
+          { stat: placeholders['bogey-2'], value: findStatPercent('43520', holeStats, statsDivisor) },
         ];
         tableStats.forEach((s) => table.append(buildStatRow(s.stat, s.value)));
       }
