@@ -62,64 +62,65 @@ async function loadStats(block) {
 
 export default async function decorate(block) {
   block.parentElement.style.visibility = 'hidden';
+  const hasStats = block.className.includes('stats');
+  const buttons = document.createElement('div');
+  buttons.className = 'course-buttons';
+  [...block.children].forEach((row, i) => {
+    row.className = `course-hole course-hole-${i + 1}`;
+    const classes = ['image', 'text'];
+    classes.forEach((c, j) => {
+      if (row.children[j]) row.children[j].classList.add(`course-hole-${c}`);
+    });
+    const text = row.querySelector('.course-hole-text');
+    if (text) {
+      const credits = document.createElement('div');
+      credits.className = 'course-hole-credits';
+      credits.append(text.lastElementChild);
+      const data = document.createElement('div');
+      data.className = 'course-hole-data';
+      [...text.children].forEach((child) => data.append(child));
+      const title = data.querySelector('h2');
+      title.className = 'course-hole-title';
+      const subtitle = document.createElement('p');
+      subtitle.className = 'course-hole-subtitle';
+      subtitle.innerHTML = `<span class="course-hole-par">&nbsp;</span> 
+        <span class="course-hole-yards">&nbsp;</span>`;
+      title.after(subtitle);
+      const overhead = data.querySelector('picture > img');
+      if (overhead) overhead.parentElement.parentElement.className = 'course-hole-overhead';
+      text.append(data, credits);
+      // prebuild stats in stats variant
+      if (hasStats) {
+        const stats = document.createElement('div');
+        stats.className = 'course-hole-stats';
+        stats.innerHTML = `<h3>&nbsp;</h3>
+          <div class="course-hole-avg">
+            <p></p>
+          </div>
+          <table class="course-hole-chart"><tbody></tbody></table>`;
+        text.append(stats);
+      }
+    }
+    // add button
+    const button = document.createElement('button');
+    if (!i) {
+      button.classList.add('selected');
+      buttons.setAttribute('aria-hidden', true);
+    } else {
+      buttons.removeAttribute('aria-hidden');
+    }
+    button.addEventListener('click', () => {
+      block.scrollTo({ top: 0, left: row.offsetLeft - row.parentNode.offsetLeft, behavior: 'smooth' });
+      [...buttons.children].forEach((r) => r.classList.remove('selected'));
+      button.classList.add('selected');
+    });
+    buttons.append(button);
+  });
+  if (buttons.hasChildNodes()) block.parentElement.prepend(buttons);
+  block.parentElement.removeAttribute('style');
+
   const observer = new IntersectionObserver(async (entries) => {
     if (entries.some((entry) => entry.isIntersecting)) {
-      const hasStats = block.className.includes('stats');
-      const buttons = document.createElement('div');
-      buttons.className = 'course-buttons';
-      [...block.children].forEach((row, i) => {
-        row.className = `course-hole course-hole-${i + 1}`;
-        const classes = ['image', 'text'];
-        classes.forEach((c, j) => {
-          if (row.children[j]) row.children[j].classList.add(`course-hole-${c}`);
-        });
-        const text = row.querySelector('.course-hole-text');
-        if (text) {
-          const credits = document.createElement('div');
-          credits.className = 'course-hole-credits';
-          credits.append(text.lastElementChild);
-          const data = document.createElement('div');
-          data.className = 'course-hole-data';
-          [...text.children].forEach((child) => data.append(child));
-          const title = data.querySelector('h2');
-          title.className = 'course-hole-title';
-          const subtitle = document.createElement('p');
-          subtitle.className = 'course-hole-subtitle';
-          subtitle.innerHTML = `<span class="course-hole-par">&nbsp;</span> 
-            <span class="course-hole-yards">&nbsp;</span>`;
-          title.after(subtitle);
-          const overhead = data.querySelector('picture > img');
-          if (overhead) overhead.parentElement.parentElement.className = 'course-hole-overhead';
-          text.append(data, credits);
-          // prebuild stats in stats variant
-          if (hasStats) {
-            const stats = document.createElement('div');
-            stats.className = 'course-hole-stats';
-            stats.innerHTML = `<h3>&nbsp;</h3>
-              <div class="course-hole-avg">
-                <p></p>
-              </div>
-              <table class="course-hole-chart"><tbody></tbody></table>`;
-            text.append(stats);
-          }
-        }
-        // add button
-        const button = document.createElement('button');
-        if (!i) {
-          button.classList.add('selected');
-          buttons.setAttribute('aria-hidden', true);
-        } else {
-          buttons.removeAttribute('aria-hidden');
-        }
-        button.addEventListener('click', () => {
-          block.scrollTo({ top: 0, left: row.offsetLeft - row.parentNode.offsetLeft, behavior: 'smooth' });
-          [...buttons.children].forEach((r) => r.classList.remove('selected'));
-          button.classList.add('selected');
-        });
-        buttons.append(button);
-      });
-      if (buttons.hasChildNodes()) block.parentElement.prepend(buttons);
-      block.parentElement.removeAttribute('style');
       // populate stats in stats variant
       if (hasStats) loadStats(block);
     }
