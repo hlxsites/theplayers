@@ -63,6 +63,7 @@ main .carousel h2 {
 }
 
 main .carousel h2 + p:not(.button-container) {
+  flex: 1 0 100%;
   display: none;
   visibility: hidden;
   margin: 0;
