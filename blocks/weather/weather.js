@@ -132,6 +132,8 @@ export default async function decorate(block) {
           condition = 'rain';
         } else if (condition.includes('thunder') || condition.includes('storm')) {
           condition = 'thunderstorm';
+        } else if (condition.includes('mist')) {
+          condition = 'fog';
         }
         const bgConditions = ['cloudy', 'fair', 'fog', 'rain', 'snow', 'sunny', 'thunderstorm'];
         let bgImg;
