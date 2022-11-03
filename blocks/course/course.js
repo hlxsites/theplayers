@@ -35,10 +35,10 @@ async function loadStats(block) {
       const yards = hole.querySelector('.course-hole-yards');
       if (yards && stats.yards) yards.textContent = `${stats.yards} ${placeholders.yards}`;
       const title = hole.querySelector('.course-hole-stats h3');
-      if (title) title.textContent = `${json.year || ''} Statistics`.trim();
+      if (title) title.textContent = `${json.year || ''} ${placeholders.statistics}`.trim();
       const avgEl = hole.querySelector('.course-hole-avg');
       const avg = stats.stats.find((stat) => stat.id === '43108').eV2;
-      if (avgEl && avg) avgEl.innerHTML = `<span>${avg}</span> Scoring Avg`;
+      if (avgEl && avg) avgEl.innerHTML = `<span>${avg}</span> ${placeholders.scoringAvg}`;
       const table = hole.querySelector('.course-hole-chart tbody');
       if (table) {
         const holeStats = stats.stats.filter((stat) => stat.id !== '43108');
