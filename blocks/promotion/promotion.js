@@ -160,16 +160,6 @@ async function buildToggle(block) {
 }
 
 export default function decorate(block) {
-  // const observer = new IntersectionObserver(async (entries) => {
-  //   if (entries.some((entry) => entry.isIntersecting)) {
-  //     observer.disconnect();
-
-  //     
-  //   }
-  // }, { threshold: 0 });
-
-  // observer.observe(block.parentElement);
-
   if (block.className.includes('clock')) {
     buildClock(block);
   } else if (block.className.includes('toggle')) {
