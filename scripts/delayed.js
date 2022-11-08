@@ -715,3 +715,10 @@ if (otId) {
     loadBlock(adsBlock);
   }
 }
+
+const iFrames = document.querySelectorAll('iframe[data-src]');
+[...iFrames].forEach((iFrame) => {
+  if (!iFrame.src) {
+    iFrame.src = iFrame.dataset.src;
+  }
+});
