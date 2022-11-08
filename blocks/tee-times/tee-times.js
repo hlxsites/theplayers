@@ -97,6 +97,7 @@ export default async function decorate(block) {
                 const playerWrapper = document.createElement('div');
                 playerWrapper.className = 'tee-times-player';
                 playerWrapper.innerHTML = `<img
+                    loading="lazy"
                     src="https://pga-tour-res.cloudinary.com/image/upload/f_auto,q_auto,c_fill,r_max,dpr_2.0,g_face:center,h_190,w_190,d_headshots_default.png/headshots_${player.playerId}.png"
                     alt="${player.playerName}"
                   />
