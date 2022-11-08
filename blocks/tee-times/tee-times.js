@@ -93,11 +93,10 @@ export default async function decorate(block) {
               const teeWrapper = document.createElement('div');
               teeWrapper.className = 'tee-times-tee';
               teeWrapper.innerHTML = `<h4>Tee #${tee}</h4>`;
-              data[round][time][tee].forEach((player, idx) => { // iterate through players
+              data[round][time][tee].forEach((player) => { // iterate through players
                 const playerWrapper = document.createElement('div');
                 playerWrapper.className = 'tee-times-player';
                 playerWrapper.innerHTML = `<img
-                    loading="${idx < 8 ? 'eager' : 'lazy'}"
                     src="https://pga-tour-res.cloudinary.com/image/upload/f_auto,q_auto,c_fill,r_max,dpr_2.0,g_face:center,h_190,w_190,d_headshots_default.png/headshots_${player.playerId}.png"
                     alt="${player.playerName}"
                   />
