@@ -114,7 +114,6 @@ async function buildClock(block) {
       scrolling="NO"
       frameborder="NO"
       transparency="true"
-      loading="lazy"
       src="/blocks/promotion/rolex/rolex.frame.html?cities=rolex${placeholders.rolexId}">
     </iframe>`;
   block.append(clock);
@@ -132,7 +131,6 @@ async function buildToggle(block) {
       scrolling="NO"
       frameborder="NO"
       transparency="true"
-      loading="lazy"
       src="/blocks/promotion/rolex/rolex.frameToggle.html?eventcity=${placeholders.city.split(' ').join('+')}&utc=${placeholders.eventOffset}&lang=en">
     </iframe>
     <iframe
@@ -143,7 +141,6 @@ async function buildToggle(block) {
       scrolling="NO"
       frameborder="NO"
       transparency="true"
-      loading="lazy"
       src="/blocks/promotion/rolex/rolex.frameToggleMobile.html?eventcity=${placeholders.city.split(' ').join('+')}&utc=${placeholders.eventOffset}&lang=en">
     </iframe>`;
   block.append(toggle);
@@ -166,23 +163,17 @@ async function buildToggle(block) {
 }
 
 export default function decorate(block) {
-  // const observer = new IntersectionObserver(async (entries) => {
-  //   if (entries.some((entry) => entry.isIntersecting)) {
-  //     observer.disconnect();
+  const observer = new IntersectionObserver(async (entries) => {
+    if (entries.some((entry) => entry.isIntersecting)) {
+      observer.disconnect();
 
-  //     if (block.className.includes('clock')) {
-  //       buildClock(block);
-  //     } else if (block.className.includes('toggle')) {
-  //       buildToggle(block);
-  //     }
-  //   }
-  // }, { threshold: 0 });
+      if (block.className.includes('clock')) {
+        buildClock(block);
+      } else if (block.className.includes('toggle')) {
+        buildToggle(block);
+      }
+    }
+  }, { threshold: 0 });
 
-  // observer.observe(block.parentElement);
-
-  if (block.className.includes('clock')) {
-    buildClock(block);
-  } else if (block.className.includes('toggle')) {
-    buildToggle(block);
-  }
+  observer.observe(block.parentElement);
 }
