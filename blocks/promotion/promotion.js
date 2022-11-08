@@ -163,9 +163,17 @@ async function buildToggle(block) {
 }
 
 export default function decorate(block) {
-  if (block.className.includes('clock')) {
-    buildClock(block);
-  } else if (block.className.includes('toggle')) {
-    buildToggle(block);
-  }
+  const observer = new IntersectionObserver(async (entries) => {
+    if (entries.some((entry) => entry.isIntersecting)) {
+      observer.disconnect();
+
+      if (block.className.includes('clock')) {
+        buildClock(block);
+      } else if (block.className.includes('toggle')) {
+        buildToggle(block);
+      }
+    }
+  }, { threshold: 0 });
+
+  observer.observe(block.parentElement);
 }
