@@ -159,7 +159,6 @@ async function buildToggle(block) {
   });
 }
 
-
 export default function decorate(block) {
   const observer = new IntersectionObserver(async (entries) => {
     if (entries.some((entry) => entry.isIntersecting)) {
