@@ -715,11 +715,3 @@ if (otId) {
     loadBlock(adsBlock);
   }
 }
-
-// load the delayed iframes, mainly used by the promotion block
-const iFrames = document.querySelectorAll('iframe[data-src]');
-[...iFrames].forEach((iFrame) => {
-  if (!iFrame.src) {
-    iFrame.src = iFrame.dataset.src;
-  }
-});
