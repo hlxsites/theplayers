@@ -3,6 +3,7 @@
 ## Environments
 - Preview: https://main--tour-championship--hlxsites.hlx.page/
 - Live: https://main--tour-championship--hlxsites.hlx.live/
+- Prod: https://www.tourchampionship.com/
 
 ## Installation
 
