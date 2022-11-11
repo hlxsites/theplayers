@@ -13,7 +13,7 @@ function closeVideo(e) {
 }
 
 function buildDefaultVideo(id) {
-  const videoUrl = 'https://players.brightcove.net/6082840763001/SmCdEjug_default/index.html?videoId=';
+  const videoUrl = 'https://players.brightcove.net/6082840763001/6QBtcb032_default/index.html?videoId=';
   return `<div class="video-iframe-wrapper">
     <iframe src='${videoUrl}${id}' allow="encrypted-media" allowfullscreen></iframe>
   </div>`;
