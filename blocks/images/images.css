@@ -10,7 +10,7 @@ main .images figure figcaption {
 }
 
 main .images.small img {
-  width: 100%;
+  width: auto;
   max-width: 330px;
 }
 
