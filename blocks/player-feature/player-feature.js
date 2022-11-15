@@ -70,14 +70,19 @@ export default async function decorate(block) {
   const backgroundImg = transformBackgroundImage(background);
   const wrappedCredits = wrapCredits(credits);
   if (!video) {
+    let isTelLink = false;
     let videoIdElement = block.querySelector('p > em');
     if (!videoIdElement) {
       // some video ids look suspiciusly like phone numbers
       // causing mobile browsers to make them into tel: links
       // detect that case
       videoIdElement = block.querySelector('a[href^="tel:"]');
+      isTelLink = videoIdElement !== undefined;
     }
     video = buildVideoContent(videoIdElement);
+    if (isTelLink) {
+      videoIdElement.remove();
+    }
   }
 
   // order content
