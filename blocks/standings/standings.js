@@ -36,6 +36,7 @@ function writeImgSrc(id, year = new Date().getFullYear()) {
 }
 
 async function populateInternalStandingsBlock(block, config, ph) {
+  block.classList.add('standings-internal');
   const data = await formatStandingsData(config.source);
   if (data.international && data.usa) {
     Object.keys(data).forEach((team) => {
@@ -114,6 +115,7 @@ function loadScript(url, callback, type) {
 }
 
 async function populateExternalStandingsBlock(block, config, ph) {
+  block.classList.add('standings-external');
   loadScript('https://microservice.pgatour.com/js', async () => {
     const resp = await fetch(`${config.source}${config.source.endsWith('.json') ? '?' : '&'}userTrackingId=${generateUserTrackingId(ph.userTrackingId)}`);
     if (resp.ok) {
@@ -122,8 +124,29 @@ async function populateExternalStandingsBlock(block, config, ph) {
         const data = json.tours[0].years[0];
         // build intl table
         if (data.stats && data.stats.statTitles && data.stats.details) {
+          const caption = document.createElement('caption');
+          const dateType = document.createElement('p');
+          dateType.className = 'standings-type standings-team standings-date';
+          dateType.innerHTML = `${config.type} ${ph.through}: <strong>${config.team} ${ph.standings}</strong> `;
+          const lastTrn = data.lastTrnProc;
+          if (lastTrn && lastTrn.endDate) {
+            const date = new Date(lastTrn.endDate);
+            const months = ph.months.split(',').map((m) => m.trim());
+            const month = months[date.getMonth()].slice(0, 3);
+            const day = date.getDate();
+            const year = date.getFullYear();
+            dateType.innerHTML += `<strong>${ph.for} ${month} ${day}, ${year}</strong>`;
+          }
+          caption.append(dateType);
+          if (config.captain) {
+            const captain = document.createElement('p');
+            captain.className = 'standings-captain';
+            captain.innerHTML = `<strong>${ph.captain}:</strong> ${config.captain}`;
+            caption.append(captain);
+          }
           const table = document.createElement('table');
           table.className = 'standings-table standings-table-international';
+          table.prepend(caption);
           // build table head
           const head = document.createElement('thead');
           const headRow = buildRow();
@@ -138,7 +161,7 @@ async function populateExternalStandingsBlock(block, config, ph) {
           head.append(headRow);
           // build table body
           const body = document.createElement('tbody');
-          for (let i = 0; i < 25; i += 1) {
+          for (let i = 0; i < 50; i += 1) {
             const player = data.stats.details[i];
             const row = buildRow();
             const playerData = [
@@ -158,8 +181,29 @@ async function populateExternalStandingsBlock(block, config, ph) {
         // build usa table
         if (data.stats && data.stats[0] && data.stats[0].statTitles && data.stats[0].details) {
           const stats = data.stats[0];
+          const caption = document.createElement('caption');
+          const dateType = document.createElement('p');
+          dateType.className = 'standings-type standings-team standings-date';
+          dateType.innerHTML = `${config.type} ${ph.through}: <strong>${config.team} ${ph.standings}</strong> `;
+          const lastTrn = data.lastTrnProc;
+          if (lastTrn && lastTrn.endDate) {
+            const date = new Date(lastTrn.endDate);
+            const months = ph.months.split(',').map((m) => m.trim());
+            const month = months[date.getMonth()].slice(0, 3);
+            const day = date.getDate();
+            const year = date.getFullYear();
+            dateType.innerHTML += `<strong>${ph.for} ${month} ${day}, ${year}</strong>`;
+          }
+          caption.append(dateType);
+          if (config.captain) {
+            const captain = document.createElement('p');
+            captain.className = 'standings-captain';
+            captain.innerHTML = `<strong>${ph.captain}:</strong> ${config.captain}`;
+            caption.append(captain);
+          }
           const table = document.createElement('table');
           table.className = 'standings-table standings-table-usa';
+          table.prepend(caption);
           // build table head
           const head = document.createElement('thead');
           const headRow = buildRow();

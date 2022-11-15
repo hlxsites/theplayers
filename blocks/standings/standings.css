@@ -96,7 +96,7 @@ main .standings .standings-team-roster li svg {
 }
 
 @media (min-width: 900px) {
-  main .standings {
+  main .standings.standings-internal {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 0 16px;
@@ -128,6 +128,16 @@ main .standings .standings-table td {
 
 main .standings .standings-table {
   width: 100%;
+}
+
+main .standings .standings-table caption {
+  font-size: var(--body-font-size-m);
+  text-transform: initial;
+  text-align: left;
+}
+
+main .standings .standings-table caption .standings-captain {
+  text-transform: uppercase;
 }
 
 main .standings .standings-table th,
