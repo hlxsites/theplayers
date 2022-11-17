@@ -747,6 +747,12 @@ document.addEventListener('click', () => sampleRUM('click'));
 
 loadPage(document);
 
+function buildAdBlock(main) {
+  const section = document.createElement('div');
+  section.append(buildBlock('ads', ''));
+  main.append(section);
+}
+
 function buildHeroBlock(main) {
   const h1 = main.querySelector('h1');
   const picture = main.querySelector('picture');
@@ -896,7 +902,7 @@ async function buildAutoBlocks(main) {
           main.append(adPlaceholder);
         }
       });
-      if (validPositions) main.append(buildBlock('ads', ''));
+      if (validPositions) buildAdBlock(main);
     }
 
     const template = getMetadata('template');
