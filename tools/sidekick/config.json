@@ -1,0 +1,13 @@
+{
+  "project": "PGA The Players",
+  "host": "theplayers.com",
+  "plugins": [
+    {
+      "id": "course",
+      "title": "Course Builder",
+      "environments": [ "dev" ],
+      "url": "/tools/course/index.html",
+      "includePaths": [ "/course", "/course/**" ]
+    }
+  ]
+}
