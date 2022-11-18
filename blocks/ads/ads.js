@@ -25,7 +25,6 @@ function debounce(func, timeout = 500) {
   };
 }
 
-
 const checkBottomAdDisplay = debounce(() => {
   const topAd = document.getElementById('pb-slot-top');
   const bottomAd = document.getElementById('sticky-anchor--wrapper');
