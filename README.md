@@ -2,8 +2,8 @@
 Your project's description...
 
 ## Environments
-- Preview: https://main--theplayers--hlxsites.hlx.page/
-- Live: https://main--theplayers--hlxsites.hlx.live/
+- Preview: https://main--pgatour-com--hlxsites.hlx.page/
+- Live: https://main--pgatour-com--hlxsites.hlx.live/
 
 ## Installation
 
