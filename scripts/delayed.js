@@ -610,40 +610,40 @@ async function populateStatusBarScores(statusBar) {
       const tournament = `${placeholders.tourCode}/${placeholders.tournamentId}`;
       try {
         loadScript('https://microservice.pgatour.com/js', async () => {
-        const resp = await fetch(`https://statdata.pgatour.com/${tournament}/${placeholders.currentYear}/pcup_summary.json?userTrackingId=${generateUserTrackingId(placeholders.userTrackingId)}`);
-        const json = await resp.json();
-        const recentScores = json.rounds.pop().scores;
-        const intlScore = recentScores.find((s) => s.shortName.toLowerCase() === 'intl');
-        const intlScoreEl = statusBarScores.querySelector('.scores-intl .scores-score');
-        if (intlScoreEl) {
-          intlScoreEl.textContent = intlScore.score || '';
-          intlScoreEl.classList.remove('scores-score-lead');
-        }
-        const usaScore = recentScores.find((s) => s.shortName.toLowerCase() === 'usa');
-        const usaScoreEl = statusBarScores.querySelector('.scores-usa .scores-score');
-        if (usaScoreEl) {
-          usaScoreEl.textContent = usaScore.score || '';
-          usaScoreEl.classList.remove('scores-score-lead');
-        }
-        if (intlScore.score && usaScore.score) {
-          const intlNum = Number(intlScore.score);
-          const usaNum = Number(usaScore.score);
-          let lead = null;
-          if (intlNum > usaNum) {
-            intlScoreEl.classList.add('scores-score-lead');
-            lead = 'intl';
+          const resp = await fetch(`https://statdata.pgatour.com/${tournament}/${placeholders.currentYear}/pcup_summary.json?userTrackingId=${generateUserTrackingId(placeholders.userTrackingId)}`);
+          const json = await resp.json();
+          const recentScores = json.rounds.pop().scores;
+          const intlScore = recentScores.find((s) => s.shortName.toLowerCase() === 'intl');
+          const intlScoreEl = statusBarScores.querySelector('.scores-intl .scores-score');
+          if (intlScoreEl) {
+            intlScoreEl.textContent = intlScore.score || '';
+            intlScoreEl.classList.remove('scores-score-lead');
           }
-          if (usaNum > intlNum) {
-            usaScoreEl.classList.add('scores-score-lead');
-            lead = 'usa';
+          const usaScore = recentScores.find((s) => s.shortName.toLowerCase() === 'usa');
+          const usaScoreEl = statusBarScores.querySelector('.scores-usa .scores-score');
+          if (usaScoreEl) {
+            usaScoreEl.textContent = usaScore.score || '';
+            usaScoreEl.classList.remove('scores-score-lead');
           }
-          sessionStorage.setItem(`${tournament.replace('/', '')}Scores`, JSON.stringify({
-            intlScore: intlNum,
-            usaScore: usaNum,
-            lead,
-          }));
-        }
-      });
+          if (intlScore.score && usaScore.score) {
+            const intlNum = Number(intlScore.score);
+            const usaNum = Number(usaScore.score);
+            let lead = null;
+            if (intlNum > usaNum) {
+              intlScoreEl.classList.add('scores-score-lead');
+              lead = 'intl';
+            }
+            if (usaNum > intlNum) {
+              usaScoreEl.classList.add('scores-score-lead');
+              lead = 'usa';
+            }
+            sessionStorage.setItem(`${tournament.replace('/', '')}Scores`, JSON.stringify({
+              intlScore: intlNum,
+              usaScore: usaNum,
+              lead,
+            }));
+          }
+        });
       } catch (error) {
         // eslint-disable-next-line no-console
         console.log('failed to load scores', error);
@@ -697,7 +697,7 @@ async function populateStatusBarWeather(statusBar) {
   }
 }
 
-populateStatusBarWeather(document.querySelector('header > .status-bar'));
+// populateStatusBarWeather(document.querySelector('header > .status-bar'));
 
 /* setup cookie preferences */
 function getCookie(cookieName) {
