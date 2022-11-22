@@ -9,110 +9,12 @@ import {
 } from '../../scripts/scripts.js';
 
 /**
- * collapses all open nav sections
- * @param {Element} sections The container element
- */
-function collapseAllNavSections(sections) {
-  sections.querySelectorAll('.nav-sections > ul > li').forEach((section) => {
-    section.setAttribute('aria-expanded', 'false');
-  });
-}
-
-function displayNextPartner(proud) {
-  const partners = [...proud.querySelectorAll('.nav-partner')];
-  const appeared = partners.findIndex((e) => e.classList.contains('nav-partner-appear'));
-  partners[appeared].classList.remove('nav-partner-appear');
-  partners[(appeared + 1) % partners.length].classList.add('nav-partner-appear');
-}
-
-async function setupPartners(section) {
-  const pages = await lookupPages();
-  const sponsors = pages.filter((e) => e.path.startsWith('/sponsors/'));
-
-  if (sponsors.length > 0) {
-    const hasWhiteBg = [...section.classList].includes('white');
-    section.classList.add('has-sponsors');
-    const partners = document.createElement('div');
-    partners.className = 'nav-partners';
-    partners.innerHTML = '<div class="nav-partners-title"><span>Proud Partners</span></div><div class="nav-partner-wrapper"></div>';
-    sponsors.forEach((sponsor, i) => {
-      const partner = document.createElement('div');
-      partner.className = 'nav-partner';
-      if (!i) partner.classList.add('nav-partner-appear');
-      partner.append(createOptimizedPicture(hasWhiteBg ? sponsor.image : sponsor.logoWhite, sponsor.title, false, [{ width: '300' }]));
-      partners.querySelector('.nav-partner-wrapper').append(partner);
-    });
-    setInterval(() => {
-      displayNextPartner(partners);
-    }, 5000);
-    section.append(partners);
-  }
-}
-
-function setupUser(section) {
-  const isStored = sessionStorage.getItem('gigyaAccount');
-  const icon = section.querySelector('.icon');
-  const text = section.textContent.trim();
-  if (isStored) {
-    const user = JSON.parse(isStored);
-    section.innerHTML = `<button id="nav-user-button" class="nav-user-button" data-status="loading">
-        <img src="${user.thumbnailURL}" alt="User Profile Thumbnail"/></span><span>${text}</span>
-      </button>`;
-  } else {
-    section.innerHTML = `<button id="nav-user-button" class="nav-user-button" data-status="loading">
-        ${icon.outerHTML}<span>${text}</span>
-      </button>`;
-  }
-  const button = section.querySelector('button');
-  button.addEventListener('click', () => {
-    import('../../scripts/delayed.js').then((module) => module.initGigya());
-  });
-}
-
-function parseCountdown(ms) {
-  const dayMs = 24 * 60 * 60 * 1000;
-  const hourMs = 60 * 60 * 1000;
-  let days = Math.floor(ms / dayMs);
-  let hours = Math.floor((ms - days * dayMs) / hourMs);
-  let minutes = Math.round((ms - days * dayMs - hours * hourMs) / 60000);
-  if (minutes === 60) {
-    hours += 1;
-    minutes = 0;
-  } else if (minutes < 10) {
-    minutes = `0${minutes}`;
-  }
-  if (hours === 24) {
-    days += 1;
-    hours = 0;
-  } else if (hours < 10) {
-    hours = `0${hours}`;
-  }
-  return { days, hours, minutes };
-}
-
-function findTimeBetween(date) {
-  return Math.abs(date - new Date());
-}
-
-function updateCountdown() {
-  const days = document.getElementById('countdown-days');
-  const hours = document.getElementById('countdown-hours');
-  const minutes = document.getElementById('countdown-minutes');
-  const countdownData = parseCountdown(findTimeBetween(window.placeholders.countdown));
-  days.textContent = countdownData.days;
-  hours.textContent = countdownData.hours;
-  minutes.textContent = countdownData.minutes;
-}
-
-/**
  * loads and decorates the header, mainly the nav
  * @param {Element} block The header block element
  */
 export default async function decorate(block) {
   const config = readBlockConfig(block);
   block.textContent = '';
-
-  // fetch nav content
   const navPath = config.nav || '/nav';
   const resp = await fetch(`${navPath}.plain.html`);
   if (resp.ok) {
@@ -122,109 +24,75 @@ export default async function decorate(block) {
     const nav = document.createElement('nav');
     nav.innerHTML = html;
 
-    const classes = ['brand', 'sections', 'social', 'tour', 'user'];
-    classes.forEach((c, i) => {
-      const section = nav.children[i];
-      if (section) section.classList.add(`nav-${c}`);
-    });
+    const isPgaTourDotCom = window.location.host === 'www.pgatour.com';
+    const workerPrefix = 'https://little-forest-58aa.david8603.workers.dev/?url=';
+    const headerUrl = 'https://www.pgatour.com/jcr:content/headerIParsys.html';
+    const headerFetchUrl = isPgaTourDotCom ? headerUrl : `${workerPrefix}${encodeURIComponent(headerUrl)}`;
+    const headerResp = await fetch(headerFetchUrl);
+    if (headerResp.ok) {
+      const syntheticHeader = document.createElement('div');
+      const html = await headerResp.text();
+      syntheticHeader.innerHTML = html;
 
-    const navSections = [...nav.children][1];
-    if (navSections) {
-      navSections.querySelectorAll(':scope > ul > li').forEach((navSection) => {
-        if (navSection.querySelector('ul')) {
-          navSection.classList.add('nav-drop');
-          const ul = navSection.querySelector('ul');
-          const title = navSection.innerHTML.split('<')[0].trim();
-          navSection.innerHTML = `<span>${title}</span>${ul.outerHTML}`;
-          navSection.setAttribute('aria-expanded', false);
-          navSection.addEventListener('click', () => {
-            const expanded = navSection.getAttribute('aria-expanded') === 'true';
-            collapseAllNavSections(navSections);
-            navSection.setAttribute('aria-expanded', expanded ? 'false' : 'true');
-          });
-        }
+      // decorate picture
+      nav.querySelector('div').classList.add('nav-brand');
+
+      // tours dropdown
+      nav.append(syntheticHeader.querySelector('.other-tours-dropdown'));
+      const toursNav = nav.querySelector('.other-tours-dropdown .header-tours-nav');
+      toursNav.style.display = 'none';
+      nav.append(toursNav);
+
+      const toursButton = nav.querySelector('.other-tours-dropdown .other-tours');
+      toursButton.addEventListener('click', () => {
+        const expanded = nav.getAttribute('aria-expanded') === 'true';
+        toursNav.style.display = expanded ? 'none' : 'block';
+        nav.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+        toursButton.classList.toggle('active')
       });
-    }
 
-    // hamburger for mobile
-    const hamburger = document.createElement('div');
-    hamburger.classList.add('nav-hamburger');
-    hamburger.innerHTML = '<div class="nav-hamburger-icon"></div>';
-    hamburger.addEventListener('click', () => {
-      const expanded = nav.getAttribute('aria-expanded') === 'true';
-      document.body.style.overflowY = expanded ? '' : 'hidden';
-      nav.setAttribute('aria-expanded', expanded ? 'false' : 'true');
-    });
-    nav.prepend(hamburger);
-    nav.setAttribute('aria-expanded', 'false');
+      const arrow = document.createElement('div');
+      arrow.innerText = '>';
+      arrow.classList.add('arrow')
+      toursButton.appendChild(arrow);
+
+      // search
+      const search = syntheticHeader.querySelector('.nav-search');
+      nav.append(search);
+
+      // super nav dropdown
+      nav.append(syntheticHeader.querySelector('.fatNavigation2 .header-subnav'));
+      const subNav = nav.querySelector('.header-subnav');
+      subNav.style.display = 'none';
+
+      // nav links
+      // nav.append(syntheticHeader.querySelector('.nav'));
+
+      // login
+
+      // hamburger
+      const hamburger = document.createElement('div');
+      hamburger.classList.add('nav-hamburger');
+      hamburger.innerHTML = '<div class="nav-hamburger-icon"></div>';
+      hamburger.addEventListener('click', () => {
+        const expanded = nav.getAttribute('aria-expanded') === 'true';
+        nav.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+        subNav.style.display = expanded ? 'none' : 'block';
+        toursButton.style.display = expanded ? 'block' : 'none';
+        search.style.display = expanded ? 'block' : 'none';
+      });
+      nav.prepend(hamburger);
+      nav.setAttribute('aria-expanded', 'false');
+
+      // leaderboard
+
+    }
 
     wrapImgsInLinks(nav);
-    setupUser(nav.querySelector('.nav-user'));
-
     decorateIcons(nav);
     decorateLinkedPictures(nav);
+
     block.append(nav);
-
-    // build status bar
-    const statusBar = document.createElement('div');
-    statusBar.className = 'status-bar';
-    block.parentNode.append(statusBar);
-    const data = document.createElement('div');
-    data.className = 'status-bar-data';
-
-    try {
-      const placeholders = await fetchPlaceholders();
-      if (placeholders.course) data.insertAdjacentHTML('beforeend', `<div class="status-bar-course"><p>${placeholders.course}</p></div>`);
-      if (placeholders.dates) data.insertAdjacentHTML('beforeend', `<div class="status-bar-dates"><p>${placeholders.dates}</p></div>`);
-      // setup countdown
-      if (placeholders.countdown) {
-        window.placeholders.countdown = new Date(placeholders.countdown);
-        const countdownData = parseCountdown(findTimeBetween(window.placeholders.countdown));
-        const countdown = `<div class="status-bar-countdown">
-          <p>
-            <span id="countdown-days">${countdownData.days}</span> days : 
-            <span id="countdown-hours">${countdownData.hours}</span> hours : 
-            <span id="countdown-minutes">${countdownData.minutes}</span> minutes
-          </p>
-        </div>`;
-        data.insertAdjacentHTML('beforeend', countdown);
-        setInterval(updateCountdown, 60 * 1000); // update countdown every minute
-      }
-      // check for stored weather
-      const isStored = sessionStorage.getItem(`${placeholders.tourCode}${placeholders.tournamentId}Weather`);
-      if (isStored) {
-        // build weather from session storage
-        const weatherData = JSON.parse(isStored);
-        const weather = document.createElement('div');
-        weather.className = 'status-bar-weather';
-        weather.innerHTML = `<p>
-            <a href="/weather">
-              <span class="status-bar-location">${weatherData.location}</span>
-              <img src="${weatherData.icon}"/ >
-              <span class="status-bar-temp">${weatherData.temp}</span>
-            </a>
-          </p>`;
-        data.append(weather);
-      }
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log('failed to load placeholders', error);
-    }
-    if (data.hasChildNodes()) statusBar.append(data);
-
-    const brand = nav.querySelector('.nav-brand');
-    const sectionMeta = brand.querySelector('.section-metadata');
-    if (sectionMeta) {
-      const meta = readBlockConfig(sectionMeta);
-
-      if (meta.background) {
-        brand.classList.add(meta.background);
-      }
-
-      sectionMeta.remove();
-    }
-
-    await setupPartners(brand);
     block.classList.add('appear');
   }
 }
