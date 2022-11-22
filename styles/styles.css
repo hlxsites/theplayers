@@ -373,6 +373,10 @@ main .section.teaser[data-section-status='loaded'] {
   }
 }
 
+main .section.teaser p {
+  text-align: center;
+}
+
 main .section.teaser .default-content-wrapper > p:first-of-type {
   position: relative;
   font-size: var(--body-font-size-xxs);
@@ -423,10 +427,6 @@ main .section.teaser h2 {
   main .section.teaser h2 {
     font-size: var(--heading-font-size-l);
   }
-}
-
-main .section.teaser p {
-  text-align: center;
 }
 
 main .section.teaser .button-container {
