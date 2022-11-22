@@ -220,7 +220,8 @@ export default async function decorate(block) {
       setInterval(updateCountdown, 60 * 1000); // update countdown every minute
     }
     // check for stored weather
-    const isWeatherStored = sessionStorage.getItem(`${placeholders.tourCode}${placeholders.tournamentId}Weather`);
+    // eslint-disable-next-line max-len
+    /* const isWeatherStored = sessionStorage.getItem(`${placeholders.tourCode}${placeholders.tournamentId}Weather`);
     if (isWeatherStored) {
       // build weather from session storage
       const weatherData = JSON.parse(isWeatherStored);
@@ -234,7 +235,7 @@ export default async function decorate(block) {
           </a>
         </p>`;
       data.append(weather);
-    }
+    } */
     if (data.hasChildNodes()) statusBar.append(data);
 
     const brand = nav.querySelector('.nav-brand');
