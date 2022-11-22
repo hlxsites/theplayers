@@ -616,13 +616,13 @@ async function populateStatusBarScores(statusBar) {
           const intlScore = recentScores.find((s) => s.shortName.toLowerCase() === 'intl');
           const intlScoreEl = statusBarScores.querySelector('.scores-intl .scores-score');
           if (intlScoreEl) {
-            intlScoreEl.textContent = intlScore.score || '';
+            intlScoreEl.innerHTML = intlScore.score || '&nbsp;';
             intlScoreEl.classList.remove('scores-score-lead');
           }
           const usaScore = recentScores.find((s) => s.shortName.toLowerCase() === 'usa');
           const usaScoreEl = statusBarScores.querySelector('.scores-usa .scores-score');
           if (usaScoreEl) {
-            usaScoreEl.textContent = usaScore.score || '';
+            usaScoreEl.innerHTML = usaScore.score || '&nbsp;';
             usaScoreEl.classList.remove('scores-score-lead');
           }
           if (intlScore.score && usaScore.score) {
@@ -655,6 +655,7 @@ async function populateStatusBarScores(statusBar) {
 populateStatusBarScores(document.querySelector('header > .status-bar'));
 
 /* status bar weather */
+// eslint-disable-next-line no-unused-vars
 async function populateStatusBarWeather(statusBar) {
   if (statusBar) {
     const statusBarData = document.querySelector('.status-bar-data');
