@@ -98,7 +98,6 @@ header nav > div {
 /* brand */
 header nav .nav-brand {
   grid-area: brand;
-  position: relative;
   background-color: var(--nav-color);
   z-index: 2;
 }
@@ -155,29 +154,22 @@ header nav[aria-expanded=true] .nav-brand a {
 header nav .nav-partners {
   box-sizing: border-box;
   position: absolute;
-  top: 0px;
-  right: -138px;
-  height: var(--nav-height);
-  padding: 4px;
+  top: var(--nav-height);
+  left: 0;
+  padding: 0 10px;
   font-size: 11px;
   text-align: center;
   text-transform: uppercase;
 }
 
-header nav[aria-expanded=true] .nav-partners {
+header nav .nav-partners-title {
   display: none;
   visibility: hidden;
 }
 
-header nav .nav-partners-title {
-  margin-bottom: 4px;
-}
-
 header .nav-partner-wrapper {
-  display: flex;
-  gap: 0 4px;
   position: relative;
-  width: 130px;
+  width: 50px;
 }
 
 header nav[aria-expanded=true] .nav-partner-wrapper {
@@ -187,15 +179,22 @@ header nav[aria-expanded=true] .nav-partner-wrapper {
 
 header nav .nav-partner {
   display: block;
+  position: absolute;
   width: 100%;
-  max-height: 50px;
-  padding: 2px;
-  background-color: var(--color-white-95);
+  height: 50px;
+  opacity: 0;
+  visibility: hidden;
   transition: opacity 2s linear;
 }
 
+header nav .nav-partner-appear {
+  opacity: 1;
+  visibility: visible;
+  filter: grayscale(1) brightness(100);
+}
+
 header nav .nav-partner img {
-  height: 24px;
+  height: 50px;
   max-height: 50px;
 }
 
@@ -220,11 +219,16 @@ header nav .nav-partner img {
   header nav .nav-partner-appear {
     opacity: 1;
     visibility: visible;
+    filter: unset;
   }
 
   header nav .nav-partner img {
     height: auto;
     max-height: 60px;
+  }
+
+  header nav .nav-partners {
+    padding: 10px;
   }
 
   header nav[aria-expanded=false] .nav-partners {
@@ -722,12 +726,13 @@ header .status-bar {
 header .status-bar .status-bar-data {
   display: grid;
   grid-template-areas: 
-    'scores scores scores'
     '. course dates'
     'countdown countdown countdown';
-  grid-template-columns: 1fr auto auto; 
-  grid-template-rows: 1fr 1fr auto; 
+  grid-template-columns: 1fr 2fr 1fr; 
+  grid-template-rows: 50px auto; 
+  align-items: center;
   gap: 0 10px;
+  line-height: 1.2;
 }
 
 @media (min-width: 700px) {
@@ -782,7 +787,8 @@ header .status-bar .status-bar-data > div {
 /* scores */
 header .status-bar .status-bar-data .status-bar-scores {
   grid-area: scores;
-  display: flex;
+  display: none;
+  visibility: hidden;
   padding: 0;
 }
 
@@ -835,6 +841,11 @@ header .status-bar .status-bar-data .status-bar-scores .scores-summary {
 }
 
 @media (min-width: 700px) {
+  header .status-bar .status-bar-data .status-bar-scores {
+    display: flex;
+    visibility: visible;
+  }
+
   header .status-bar .status-bar-data .status-bar-scores > div,
   header .status-bar .status-bar-data .status-bar-scores .scores-intl,
   header .status-bar .status-bar-data .status-bar-scores .scores-usa {
