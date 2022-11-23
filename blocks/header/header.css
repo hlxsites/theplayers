@@ -22,8 +22,8 @@ header .header.appear {
 header nav {
   box-sizing: border-box;
   display: grid;
-  grid-template-areas: 'hamburger brand . tours search';
-  grid-template-columns: 46px 50px 1fr 60px 46px;
+  grid-template-areas: 'hamburger brand . . tours search';
+  grid-template-columns: 46px 50px 1fr  160px 60px 46px;
   grid-template-rows: var(--nav-height);
   align-items: center;
   width: 100%;
@@ -33,9 +33,8 @@ header nav {
 }
 
 header nav[aria-expanded=true] {
-  grid-template-areas: 'hamburger brand . tours search' 'menu . . . .';
+  grid-template-areas: 'hamburger brand . . tours search' 'menu . . . . .';
   grid-template-rows: var(--nav-height) 1fr;
-  grid-template-columns: 46px 50px 1fr 60px 46px;
   position: fixed;
   overflow-y: hidden;
   z-index: 3;
@@ -44,18 +43,17 @@ header nav[aria-expanded=true] {
 }
 
 header nav.search-active {
-  grid-template-areas: 'hamburger brand . tours search' '. . . search-form .';
+  grid-template-areas: 'hamburger brand . . tours search' '. . . search-form . .';
   grid-template-rows: var(--nav-height) 1fr;
-  grid-template-columns: 46px 50px 1fr 60px 46px;
 }
 
 @media (min-width: 900px) {
   header nav {
-    grid-template-areas: 'brand hamburger . tours search';
+    grid-template-areas: 'brand hamburger . . tours search';
   }
 
   header nav[aria-expanded=true] {
-    grid-template-areas: 'brand hamburger . tours search' 'menu . . . .';
+    grid-template-areas: 'brand hamburger . . tours search' 'menu . . . . .';
   }
 }
 
@@ -156,7 +154,7 @@ header nav .other-tours-dropdown button.active {
 header nav .header-tours-nav,
 header nav .header-subnav {
   grid-area: menu;
-  grid-column: 1 / span 5;
+  grid-column: 1 / span 6;
   align-self: start;
   background-color: var(--nav-hover-color);
   visibility: hidden;
@@ -269,9 +267,22 @@ header nav .nav-search .search-icon {
 header nav .search-form {
   display: none;
   grid-area: search-form;
-  grid-column: 4 / span 2
+  grid-column: 4 / span 3;
 }
 
 header nav.search-active .search-form {
-  display: block;
+  display: flex;
+  padding: 10px 15px;
+}
+
+header nav.search-active .search-form input {
+  min-width: 240px;
+  height: 24px;
+}
+
+header nav.search-active .search-form .submit {
+  content:  url(../../icons/search.svg);
+  cursor: pointer;
+  position: relative;
+  right: 30px;
 }

@@ -24,6 +24,13 @@ export default async function decorate(block) {
     const nav = document.createElement('nav');
     nav.innerHTML = html;
 
+    // delete empty divs
+    nav.querySelectorAll('div').forEach((div) => {
+      if (div.innerHTML === '') {
+        div.remove();
+      }
+    });
+
     const isPgaTourDotCom = window.location.host === 'www.pgatour.com';
     const workerPrefix = 'https://little-forest-58aa.david8603.workers.dev/?url=';
     const headerUrl = 'https://www.pgatour.com/jcr:content/headerIParsys.html';
@@ -41,6 +48,12 @@ export default async function decorate(block) {
       nav.append(syntheticHeader.querySelector('.other-tours-dropdown'));
       const toursNav = nav.querySelector('.other-tours-dropdown .header-tours-nav');
       nav.append(toursNav);
+
+      // spacers div
+      const spacer1 = document.createElement('div');
+      const spacer2 = document.createElement('div');
+      nav.append(spacer1);
+      nav.append(spacer2);
 
       const toursButton = nav.querySelector('.other-tours-dropdown .other-tours');
       toursButton.addEventListener('click', () => {
@@ -68,8 +81,23 @@ export default async function decorate(block) {
       
       searchForm.classList.add('search-form');
       const searchText = document.createElement('input');
+      searchText.addEventListener('keyup', (e) => {
+        if (e.key === 'Enter') {
+          const query = searchText.value;
+          window.location = `https://www.pgatour.com/search.html?query=${encodeURIComponent(query)}`;
+        }
+      });
       searchText.placeholder = 'Search...';
       searchForm.append(searchText);
+
+      const submit = document.createElement('span');
+      submit.addEventListener('click', (e) => {
+        e.preventDefault();
+        const query = searchText.value;
+        window.location = `https://www.pgatour.com/search.html?query=${encodeURIComponent(query)}`;
+      });
+      submit.classList.add('submit');
+      searchForm.append(submit);
       
       nav.append(search);
       nav.append(searchForm);
