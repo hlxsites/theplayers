@@ -1,12 +1,68 @@
 import {
   readBlockConfig,
-  fetchPlaceholders,
   decorateIcons,
-  lookupPages,
-  createOptimizedPicture,
   wrapImgsInLinks,
   decorateLinkedPictures,
 } from '../../scripts/scripts.js';
+
+function showToursNav(nav, toursButton, toursNav) {
+  toursButton.classList.add('active')
+  toursNav.classList.add('expanded');
+  nav.classList.remove('search-active');
+}
+
+function hideToursNav(nav, toursButton, toursNav) { 
+  toursButton.classList.remove('active')
+  toursNav.classList.remove('expanded');
+  nav.classList.remove('search-active');
+}
+
+function showHideTours(nav, toursButton, toursNav) {
+  const expanded = toursButton.classList.contains('active');
+  if (expanded) {
+    hideToursNav(nav, toursButton, toursNav);
+  } else {
+    showToursNav(nav, toursButton, toursNav);
+  }
+}
+
+function hideNav(nav, subNav, hamburger, toursButton, search) {
+  nav.setAttribute('aria-expanded', 'false');
+  subNav.classList.remove('expanded');
+
+  toursButton.style.display = 'block';
+  search.style.display = 'block';
+  nav.classList.remove('search-active');
+
+  hamburger.classList.remove('active')
+}
+
+function showNav(nav, subNav, hamburger, toursButton, search) {
+  nav.setAttribute('aria-expanded', 'true');
+  subNav.classList.add('expanded');
+
+  toursButton.style.display = 'none';
+  search.style.display = 'none';
+  nav.classList.remove('search-active');
+
+  hamburger.classList.add('active');
+}
+
+function showHideNav(nav, subNav, hamburger, toursButton, toursNav, search) {
+  hideToursNav(nav, toursButton, toursNav);
+
+  const expanded = hamburger.classList.contains('active');
+  if (expanded) {
+    hideNav(nav, subNav, hamburger, toursButton, search);
+  } else {
+    showNav(nav, subNav, hamburger, toursButton, search);
+  }
+}
+
+function submitSearch(searchText) {
+  const query = searchText.value;
+  window.location = `https://www.pgatour.com/search.html?query=${encodeURIComponent(query)}`;
+}
 
 /**
  * loads and decorates the header, mainly the nav
@@ -31,6 +87,9 @@ export default async function decorate(block) {
       }
     });
 
+    // decorate picture
+    nav.querySelector('div').classList.add('nav-brand');
+
     const isPgaTourDotCom = window.location.host === 'www.pgatour.com';
     const workerPrefix = 'https://little-forest-58aa.david8603.workers.dev/?url=';
     const headerUrl = 'https://www.pgatour.com/jcr:content/headerIParsys.html';
@@ -41,28 +100,26 @@ export default async function decorate(block) {
       const html = await headerResp.text();
       syntheticHeader.innerHTML = html;
 
-      // decorate picture
-      nav.querySelector('div').classList.add('nav-brand');
+      // spacer div
+      const spacer1 = document.createElement('div');
+      spacer1.classList.add('spacer');
+      nav.append(spacer1);
+
+      // nav links
+      const navSections = document.createElement('div');
+      navSections.classList.add('nav-sections');
+      navSections.append(syntheticHeader.querySelector('.nav'));
+      nav.append(navSections);
 
       // tours dropdown
       nav.append(syntheticHeader.querySelector('.other-tours-dropdown'));
       const toursNav = nav.querySelector('.other-tours-dropdown .header-tours-nav');
-      nav.append(toursNav);
-
-      // spacers div
-      const spacer1 = document.createElement('div');
-      const spacer2 = document.createElement('div');
-      nav.append(spacer1);
-      nav.append(spacer2);
+      // nav.append(toursNav);
 
       const toursButton = nav.querySelector('.other-tours-dropdown .other-tours');
-      toursButton.addEventListener('click', () => {
-        const expanded = toursButton.classList.contains('active');
-        toursNav.classList.toggle('expanded');
-        nav.setAttribute('aria-expanded', expanded ? 'false' : 'true');
-        document.body.style.overflowY = expanded ? '' : 'hidden';
-        nav.classList.remove('search-active');
-        toursButton.classList.toggle('active')
+      toursButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        showHideTours(nav, toursButton, toursNav)
       });
 
       // search
@@ -83,8 +140,8 @@ export default async function decorate(block) {
       const searchText = document.createElement('input');
       searchText.addEventListener('keyup', (e) => {
         if (e.key === 'Enter') {
-          const query = searchText.value;
-          window.location = `https://www.pgatour.com/search.html?query=${encodeURIComponent(query)}`;
+          e.preventDefault();
+          submitSearch(searchText);
         }
       });
       searchText.placeholder = 'Search...';
@@ -93,14 +150,14 @@ export default async function decorate(block) {
       const submit = document.createElement('span');
       submit.addEventListener('click', (e) => {
         e.preventDefault();
-        const query = searchText.value;
-        window.location = `https://www.pgatour.com/search.html?query=${encodeURIComponent(query)}`;
+        submitSearch(searchText);
       });
       submit.classList.add('submit');
       searchForm.append(submit);
       
+      search.append(searchForm);
       nav.append(search);
-      nav.append(searchForm);
+      
 
       // super nav dropdown
       nav.append(syntheticHeader.querySelector('.fatNavigation2 .header-subnav'));
@@ -111,6 +168,7 @@ export default async function decorate(block) {
           listItem.classList.add('hasSubs');
           let prevText = '';
           listItem.querySelector('a').addEventListener('click', (e) => {
+            e.preventDefault();
             if (prevText === '') {
               prevText = e.target.innerText;
               e.target.innerText = 'back';
@@ -118,8 +176,7 @@ export default async function decorate(block) {
               e.target.innerText = prevText;
               prevText = '';
             }
-            
-            e.preventDefault();
+          
             ul.classList.toggle('active');
             listItem.classList.toggle('active');
             listItem.closest('ul').classList.toggle('sub-active');
@@ -131,35 +188,44 @@ export default async function decorate(block) {
       const hamburger = document.createElement('div');
       hamburger.classList.add('nav-hamburger');
       hamburger.innerHTML = '<div class="nav-hamburger-icon"></div>';
-      hamburger.addEventListener('click', () => {
-        const expanded = hamburger.classList.contains('active');
-        const toursExpanded = toursButton.classList.contains('active');
-        if(toursExpanded) {
-          toursNav.classList.toggle('expanded');
-          toursButton.classList.toggle('active')
-        }
-
-        nav.setAttribute('aria-expanded', expanded ? 'false' : 'true');
-        document.body.style.overflowY = expanded ? '' : 'hidden';
-        subNav.classList.toggle('expanded');
-        toursButton.style.display = expanded ? 'block' : 'none';
-        search.style.display = expanded ? 'block' : 'none';
-
-        hamburger.classList.toggle('active')
-        nav.classList.remove('search-active');
+      hamburger.addEventListener('click', (e) => {
+        e.preventDefault();
+        showHideNav(nav, subNav, hamburger, toursButton, toursNav, search);
       });
       nav.prepend(hamburger);
       nav.setAttribute('aria-expanded', 'false');
 
       // leaderboard
 
-      // nav links
-      // nav.append(syntheticHeader.querySelector('.nav'));
-
       // login
 
       // watch now links
+      nav.querySelectorAll('.watch-button').forEach((watchButton) => {
+        // TODO
+        watchButton.querySelectorAll('.live-label').forEach(lbl => lbl.remove());
+      });
 
+      // more links
+      const dropDown = nav.querySelector('.nav .dropdown');
+      const more = document.createElement('a');
+      more.href = "#";
+      more.innerText = 'MORE';
+      more.addEventListener('click', (e) => {
+        e.preventDefault();
+        dropDown.classList.toggle('active');
+      });
+
+      dropDown.prepend(more);
+      const dropDownMenu = dropDown.querySelector('.dropdown-menu');
+      dropDown.querySelector('.dropdown-toggle').remove();
+      nav.querySelectorAll('.nav-sections .nav li').forEach((li, idx) => {
+        if (idx > 7) {
+          if (!li.classList.contains('dropdown')) {
+            dropDownMenu.append(li.cloneNode(true));
+            li.classList.add('in-more');
+          }
+        }
+      });
     }
 
     wrapImgsInLinks(nav);
