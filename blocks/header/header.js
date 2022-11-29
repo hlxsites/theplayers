@@ -6,13 +6,13 @@ import {
 } from '../../scripts/scripts.js';
 
 function showToursNav(nav, toursButton, toursNav) {
-  toursButton.classList.add('active')
+  toursButton.classList.add('active');
   toursNav.classList.add('expanded');
   nav.classList.remove('search-active');
 }
 
-function hideToursNav(nav, toursButton, toursNav) { 
-  toursButton.classList.remove('active')
+function hideToursNav(nav, toursButton, toursNav) {
+  toursButton.classList.remove('active');
   toursNav.classList.remove('expanded');
   nav.classList.remove('search-active');
 }
@@ -33,8 +33,7 @@ function hideNav(nav, subNav, hamburger, toursButton, search) {
   toursButton.style.display = 'block';
   search.style.display = 'block';
   nav.classList.remove('search-active');
-
-  hamburger.classList.remove('active')
+  hamburger.classList.remove('active');
 }
 
 function showNav(nav, subNav, hamburger, toursButton, search) {
@@ -44,7 +43,6 @@ function showNav(nav, subNav, hamburger, toursButton, search) {
   toursButton.style.display = 'none';
   search.style.display = 'none';
   nav.classList.remove('search-active');
-
   hamburger.classList.add('active');
 }
 
@@ -97,8 +95,8 @@ export default async function decorate(block) {
     const headerResp = await fetch(headerFetchUrl);
     if (headerResp.ok) {
       const syntheticHeader = document.createElement('div');
-      const html = await headerResp.text();
-      syntheticHeader.innerHTML = html;
+      const markup = await headerResp.text();
+      syntheticHeader.innerHTML = markup;
 
       // spacer div
       const spacer1 = document.createElement('div');
@@ -119,12 +117,12 @@ export default async function decorate(block) {
       const toursButton = nav.querySelector('.other-tours-dropdown .other-tours');
       toursButton.addEventListener('click', (e) => {
         e.preventDefault();
-        showHideTours(nav, toursButton, toursNav)
+        showHideTours(nav, toursButton, toursNav);
       });
 
       // search
       const search = document.createElement('div');
-      search.classList.add('nav-search')
+      search.classList.add('nav-search');
 
       const searchForm = document.createElement('div');
       const searchButton = document.createElement('span');
@@ -135,7 +133,6 @@ export default async function decorate(block) {
       });
       search.append(searchButton);
 
-      
       searchForm.classList.add('search-form');
       const searchText = document.createElement('input');
       searchText.addEventListener('keyup', (e) => {
@@ -154,10 +151,9 @@ export default async function decorate(block) {
       });
       submit.classList.add('submit');
       searchForm.append(submit);
-      
+
       search.append(searchForm);
       nav.append(search);
-      
 
       // super nav dropdown
       nav.append(syntheticHeader.querySelector('.fatNavigation2 .header-subnav'));
@@ -176,12 +172,34 @@ export default async function decorate(block) {
               e.target.innerText = prevText;
               prevText = '';
             }
-          
+
             ul.classList.toggle('active');
             listItem.classList.toggle('active');
             listItem.closest('ul').classList.toggle('sub-active');
           });
         }
+      });
+
+      // init tabs in supernav
+      const tablist = subNav.querySelector('.nav-tabs');
+      const tabContent = subNav.querySelector('.tab-content');
+      tablist.querySelectorAll(':scope > li').forEach((li, idx) => {
+        if (idx === 0) {
+          li.classList.add('active');
+          tabContent.querySelector('#navtab-0').classList.add('active');
+        } else {
+          li.classList.remove('active');
+        }
+
+        li.addEventListener('click', (e) => {
+          e.preventDefault();
+          tablist.querySelector('li.active').classList.remove('active');
+          tabContent.querySelector('.tab-pane.active').classList.remove('active');
+
+          const tabId = new URL(e.target.href).hash;
+          tabContent.querySelector(tabId).classList.add('active');
+          e.target.closest('li').classList.add('active');
+        });
       });
 
       // hamburger
@@ -202,13 +220,15 @@ export default async function decorate(block) {
       // watch now links
       nav.querySelectorAll('.watch-button').forEach((watchButton) => {
         // TODO
-        watchButton.querySelectorAll('.live-label').forEach(lbl => lbl.remove());
+        watchButton.querySelectorAll('.live-label').forEach((lbl) => {
+          lbl.remove();
+        });
       });
 
       // more links
       const dropDown = nav.querySelector('.nav .dropdown');
       const more = document.createElement('a');
-      more.href = "#";
+      more.href = '#';
       more.innerText = 'MORE';
       more.addEventListener('click', (e) => {
         e.preventDefault();
@@ -227,6 +247,11 @@ export default async function decorate(block) {
         }
       });
     }
+
+    nav.querySelectorAll('img[data-src]').forEach((image) => {
+      const realSrc = image.dataset.src.startsWith('/') ? image.dataset.src : `/${image.dataset.src}`;
+      image.src = `https://pga-tour-res.cloudinary.com/image/upload/c_fill,f_auto,h_215,q_auto,w_665/v1/${realSrc}`;
+    });
 
     wrapImgsInLinks(nav);
     decorateIcons(nav);
