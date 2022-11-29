@@ -373,7 +373,11 @@ header nav .header-subnav .tab-pane .fatNavigationTabContent {
 
 header nav .header-subnav .tab-pane .fatNavigationTabContent > div {
   padding: 8px;
-  border-right: 1px solid var(--nav-secondary-color);
+  border-left: 1px solid var(--nav-secondary-color);
+}
+
+header nav .header-subnav .tab-pane .fatNavigationTabContent > div:first-of-type {
+  border-left: none;
 }
 
 header nav .header-subnav .column-center .content-item {
@@ -523,7 +527,7 @@ header nav .header-subnav .module-lite-registration .success-message {
   }
 
   header nav .header-subnav .tab-pane .fatNavigationTabContent {
-    grid-template-columns: minmax(260px, 1fr) 2fr;
+    grid-template-columns: minmax(250px, 1fr) 2fr;
   } 
 
   header nav .header-subnav .column-center {
@@ -532,8 +536,13 @@ header nav .header-subnav .module-lite-registration .success-message {
 }
 
 @media (min-width: 900px) {
+  header nav .header-subnav .tab-content {
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
   header nav .header-subnav .tab-pane .fatNavigationTabContent {
-    grid-template-columns: minmax(260px, 1fr) minmax(auto, 700px) minmax(220px, 1fr);
+    grid-template-columns: minmax(250px, 1fr) 2fr minmax(250px, 1fr);
   } 
 
   header nav .header-subnav .column-center {
