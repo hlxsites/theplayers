@@ -26,34 +26,30 @@ function showHideTours(nav, toursButton, toursNav) {
   }
 }
 
-function hideNav(nav, subNav, hamburger, toursButton, search) {
+function hideNav(nav, subNav, hamburger) {
   nav.setAttribute('aria-expanded', 'false');
   subNav.classList.remove('expanded');
 
-  toursButton.style.display = 'block';
-  search.style.display = 'block';
   nav.classList.remove('search-active');
   hamburger.classList.remove('active');
 }
 
-function showNav(nav, subNav, hamburger, toursButton, search) {
+function showNav(nav, subNav, hamburger) {
   nav.setAttribute('aria-expanded', 'true');
   subNav.classList.add('expanded');
 
-  toursButton.style.display = 'none';
-  search.style.display = 'none';
   nav.classList.remove('search-active');
   hamburger.classList.add('active');
 }
 
-function showHideNav(nav, subNav, hamburger, toursButton, toursNav, search) {
+function showHideNav(nav, subNav, hamburger, toursButton, toursNav) {
   hideToursNav(nav, toursButton, toursNav);
 
   const expanded = hamburger.classList.contains('active');
   if (expanded) {
-    hideNav(nav, subNav, hamburger, toursButton, search);
+    hideNav(nav, subNav, hamburger);
   } else {
-    showNav(nav, subNav, hamburger, toursButton, search);
+    showNav(nav, subNav, hamburger);
   }
 }
 

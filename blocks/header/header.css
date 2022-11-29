@@ -15,6 +15,7 @@ header {
 header .header {
   display: none;
 }
+
 header .header.appear {
   display: unset;
 }
@@ -28,9 +29,9 @@ header nav {
   grid-template-rows: var(--nav-height);
   align-items: center;
   width: 100%;
-  background-color: var(--nav-color);
   color: var(--nav-text-color);
   z-index: 2;
+  background: linear-gradient(to bottom,#003E7E 0,#083666 100%);
 }
 
 header nav[aria-expanded=true] {
@@ -92,7 +93,7 @@ header nav .nav-hamburger-icon::after {
 }
 
 header nav[aria-expanded=true] .nav-hamburger-icon {
-  background-color: var(--nav-color);
+  background-color: transparent;
 }
 
 header nav[aria-expanded=true] .nav-hamburger-icon::after,
@@ -165,6 +166,10 @@ header nav .other-tours-dropdown button {
   font-size: var(--body-font-size-xs);
   line-height: 16px;
   background-color: transparent;
+}
+
+header nav[aria-expanded=true] .other-tours-dropdown button {
+  display: none;
 }
 
 header nav .other-tours-dropdown button::after {
@@ -545,6 +550,10 @@ header nav .nav-search {
   border-left: 1px inset var(--nav-border-color);
 }
 
+header nav[aria-expanded=true] .nav-search .search-icon {
+  display: none;
+}
+
 header nav .nav-search .search-icon {
   grid-area: search;
   content: url(../../icons/search.svg);
@@ -601,6 +610,10 @@ header nav .nav-sections .nav .dropdown-menu {
 @media (min-width: 900px) {
   header nav .nav-sections {
     display: block;
+  }
+
+  header nav[aria-expanded=true] .nav-sections .nav {
+    display: none;
   }
 
   header nav .spacer {
