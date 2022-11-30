@@ -4,7 +4,7 @@ import {
   wrapImgsInLinks,
   decorateLinkedPictures,
   decorateBlock,
-  loadBlock
+  loadBlock,
 } from '../../scripts/scripts.js';
 
 function showToursNav(nav, toursButton, toursNav) {
