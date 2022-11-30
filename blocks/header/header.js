@@ -3,6 +3,8 @@ import {
   decorateIcons,
   wrapImgsInLinks,
   decorateLinkedPictures,
+  decorateBlock,
+  loadBlock
 } from '../../scripts/scripts.js';
 
 function showToursNav(nav, toursButton, toursNav) {
@@ -82,22 +84,23 @@ export default async function decorate(block) {
     });
 
     // decorate picture
-    nav.querySelector('div').classList.add('nav-brand');
+    const headerDivs = nav.querySelectorAll('div');
+    const brand = headerDivs[0];
+    const headerGlobalContent = headerDivs[1];
+    const headerLeaderboard = headerDivs[2];
+
+    brand.classList.add('nav-brand');
 
     const isPgaTourDotCom = window.location.host === 'www.pgatour.com';
     const workerPrefix = 'https://little-forest-58aa.david8603.workers.dev/?url=';
-    const headerUrl = 'https://www.pgatour.com/jcr:content/headerIParsys.html';
+    const headerUrl = headerGlobalContent.querySelector('a').href;
+    headerGlobalContent.remove();
     const headerFetchUrl = isPgaTourDotCom ? headerUrl : `${workerPrefix}${encodeURIComponent(headerUrl)}`;
     const headerResp = await fetch(headerFetchUrl);
     if (headerResp.ok) {
       const syntheticHeader = document.createElement('div');
       const markup = await headerResp.text();
       syntheticHeader.innerHTML = markup;
-
-      // spacer div
-      const spacer1 = document.createElement('div');
-      spacer1.classList.add('spacer');
-      nav.append(spacer1);
 
       // nav links
       const navSections = document.createElement('div');
@@ -209,8 +212,6 @@ export default async function decorate(block) {
       nav.prepend(hamburger);
       nav.setAttribute('aria-expanded', 'false');
 
-      // leaderboard
-
       // login
 
       // watch now links
@@ -254,6 +255,13 @@ export default async function decorate(block) {
     decorateLinkedPictures(nav);
 
     block.append(nav);
+
+    // leaderboard
+    const leaderboard = headerLeaderboard.querySelector('.leaderboard');
+    decorateBlock(leaderboard);
+    loadBlock(leaderboard);
+    block.append(headerLeaderboard);
+
     block.classList.add('appear');
   }
 }
