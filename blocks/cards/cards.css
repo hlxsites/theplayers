@@ -257,6 +257,11 @@ main .cards.two-cols h3 {
 }
 
 /* company */
+main .cards.company {
+  background-color: var(--highlight-background-color);
+  margin-bottom: 1em;
+}
+
 main .cards.company > ul > li {
   padding-top: 20px;
 }
@@ -267,12 +272,31 @@ main .cards.company > ul > li img {
   max-width: 100%;
 }
 
+main .cards.company h2 {
+  color: var(--color-blue);
+}
+
+main .cards.company p {
+  color: var(--color-black);
+}
+
 main .cards.company h2,
 main .cards.company p {
   text-align: center;
+  font-weight: 700;
+  margin: 0;
 }
 
 @media (min-width: 600px) {
+  main .cards.company {
+    background-color: unset;
+  }
+
+  main .cards.company h2,
+  main .cards.company p {
+    text-align: left;
+  }
+
   main .cards.company > ul > li {
     display: grid;
     grid-template-columns: 200px 1fr;
@@ -285,7 +309,7 @@ main .cards.company p {
 }
 
 @media (min-width: 900px) {
-  main .cards > ul {
+  main .cards.company > ul {
     grid-template-columns: 1fr;
   }
 }
