@@ -519,7 +519,7 @@ header nav .header-subnav .module-lite-registration .success-message {
   display: none;
 }
 
-header nav .header-subnav .tab-content {
+header nav .header-subnav .container {
   max-width: 1280px;
   margin: 0 auto;
 }
@@ -599,6 +599,12 @@ header nav.search-active .search-form .submit {
   content:  url(../../icons/search.svg);
   cursor: pointer;
   position: relative;
+}
+
+@media (min-width: 1200px) {
+  header nav.search-active .search-form {
+    right: 104px
+  }
 }
 
 /* nav section links */

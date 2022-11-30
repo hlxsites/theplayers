@@ -111,7 +111,6 @@ export default async function decorate(block) {
       // tours dropdown
       nav.append(syntheticHeader.querySelector('.other-tours-dropdown'));
       const toursNav = nav.querySelector('.other-tours-dropdown .header-tours-nav');
-      // nav.append(toursNav);
 
       const toursButton = nav.querySelector('.other-tours-dropdown .other-tours');
       toursButton.addEventListener('click', (e) => {
