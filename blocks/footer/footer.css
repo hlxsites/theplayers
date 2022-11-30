@@ -95,6 +95,7 @@ footer .footer .footer-social .social-items {
   footer .footer .footer-global {
     background-color: var(--background-color);
     padding-bottom: 0;
+    max-width: unset;
   }
 
   footer .footer .footer-dont-sell {
@@ -103,6 +104,11 @@ footer .footer .footer-social .social-items {
 
   footer .footer .sub-footer-global {
     padding-top: 0;
+  }
+
+  footer .footer .footer-lists .container {
+    max-width: 1400px;
+    margin: 0 auto;
   }
 
   footer .footer .footer-lists .footer-main {
