@@ -104,6 +104,8 @@ main .columns img {
 main .columns.small-images img {
   object-fit: contain;
   max-width: 330px;
+  max-height: 585px;
+  padding: 16px;
 }
 
 main .columns .button-container {

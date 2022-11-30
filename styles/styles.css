@@ -724,6 +724,16 @@ main .section.teaser .teaser-play::before {
 }
 
 /* company pages */
+.company-pages h1, 
+.company-pages h2, 
+.company-pages h3,
+.company-pages h4, 
+.company-pages h5, 
+.company-pages h6 {
+  font-weight: 700;
+  color: var(--color-blue);
+}
+
 .company-pages main .section > .default-content-wrapper h1,
 .company-pages main .section > .default-content-wrapper h2,
 .company-pages main .section > .default-content-wrapper h3,
@@ -733,17 +743,16 @@ main .section.teaser .teaser-play::before {
   text-align: left;
   margin-bottom: .5em;
   margin-top: .5em;
-  font-weight: 700;
 }
 
 .company-pages main .section > .default-content-wrapper h1 {
-  font-weight: 700;
   font-size: var(--heading-font-size-m);
   line-height: 30px;
   margin-bottom: 2em;
 }
 
-.company-pages main .cards-container {
+.company-pages main .cards-container,
+.company-pages main .columns-container {
   background-color: var(--color-blue);
   max-width: 1280px;
   margin: 0 auto;
