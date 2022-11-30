@@ -26,6 +26,7 @@
   --color-gray-light: #ccc;
   --color-gray-lighter: #f2f2f2;
   --color-white: #fff;
+  --color-red: #e50b1d;
 
   /* colors assignments */
   --link-color: var(--color-blue-dark);
@@ -39,7 +40,7 @@
 
   /* fonts */
   --body-font-family: 'Roboto Condensed', 'Roboto Condensed-fallback';
-  --heading-font-family: 'Crimson Text', 'Crimson Text-fallback';
+  --heading-font-family: 'Roboto Condensed', 'Roboto Condensed-fallback';
   --fixed-font-family: 'Roboto Mono', menlo, consolas, 'Liberation Mono', monospace;
 
   /* body sizes */
@@ -720,4 +721,41 @@ main .section.teaser .teaser-play::before {
 
 .icon.icon-close::after {
   transform: rotate(-45deg)
+}
+
+/* company pages */
+.company-pages main .section > .default-content-wrapper h1,
+.company-pages main .section > .default-content-wrapper h2,
+.company-pages main .section > .default-content-wrapper h3,
+.company-pages main .section > .default-content-wrapper h4,
+.company-pages main .section > .default-content-wrapper h5,
+.company-pages main .section > .default-content-wrapper h6 {
+  text-align: left;
+  margin-bottom: .5em;
+  margin-top: .5em;
+}
+
+.company-pages main .section > .default-content-wrapper h1 {
+  font-weight: 700;
+  font-size: var(--heading-font-size-m);
+  line-height: 30px;
+}
+
+.company-pages main .cards-container {
+  background-color: var(--color-blue);
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+}
+
+.company-pages main .section.cards-container > .default-content-wrapper h1,
+.company-pages main .section.cards-container > .default-content-wrapper h2 {
+  color: var(--color-white);
+}
+
+.company-pages main .section.cards-container > .default-content-wrapper h3,
+.company-pages main .section.cards-container > .default-content-wrapper h4,
+.company-pages main .section.cards-container > .default-content-wrapper h5,
+.company-pages main .section.cards-container > .default-content-wrapper h6 {
+  color: var(--color-red);
 }

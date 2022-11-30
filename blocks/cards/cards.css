@@ -255,3 +255,37 @@ main .cards.two-cols h3 {
     grid-gap: 30px;
   }
 }
+
+/* company */
+main .cards.company > ul > li {
+  padding-top: 20px;
+}
+
+main .cards.company > ul > li img {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+}
+
+main .cards.company h2,
+main .cards.company p {
+  text-align: center;
+}
+
+@media (min-width: 600px) {
+  main .cards.company > ul > li {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    padding: 0;
+  }
+
+  main .cards.company > ul > li img {
+    margin: 0;
+  }
+}
+
+@media (min-width: 900px) {
+  main .cards > ul {
+    grid-template-columns: 1fr;
+  }
+}
