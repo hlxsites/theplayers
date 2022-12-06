@@ -31,7 +31,7 @@
   /* colors assignments */
   --link-color: var(--color-blue-dark);
   --link-hover-color: var(--color-blue);
-  --background-color: var(--color-gray-lighter);
+  --background-color: var(--color-white);
   --overlay-background-color: var(--color-blue-lighter);
   --overlay-text-color: var(--color-white);
   --highlight-background-color: var(--color-white);
@@ -723,7 +723,22 @@ main .section.teaser .teaser-play::before {
   transform: rotate(-45deg)
 }
 
+/* hightlight */
+.section.highlight > .default-content-wrapper {
+  background-color: var(--color-white);
+  padding: 1rem 2rem;
+  text-align: left;
+}
+
 /* company pages */
+.company-pages li {
+  text-align: start;
+}
+
+.company-pages main .section:not(:first-child) {
+  background-color: var(--color-blue);
+}
+
 .company-pages h1, 
 .company-pages h2, 
 .company-pages h3,
@@ -731,7 +746,10 @@ main .section.teaser .teaser-play::before {
 .company-pages h5, 
 .company-pages h6 {
   font-weight: 700;
-  color: var(--color-blue);
+}
+
+.company-pages main .section {
+  padding: 1rem;
 }
 
 .company-pages main .section > .default-content-wrapper h1,
@@ -741,36 +759,23 @@ main .section.teaser .teaser-play::before {
 .company-pages main .section > .default-content-wrapper h5,
 .company-pages main .section > .default-content-wrapper h6 {
   text-align: left;
-  margin-bottom: .5em;
-  margin-top: .5em;
 }
 
-.company-pages main .section > .default-content-wrapper h1 {
-  font-size: var(--heading-font-size-m);
-  line-height: 30px;
-  margin-bottom: 2em;
+.company-pages main .section:not(:first-child) > .default-content-wrapper {
+  padding: 2.5rem 0;
 }
 
-.company-pages main .cards-container,
-.company-pages main .columns-container {
-  background-color: var(--color-blue);
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 1rem 2rem;
-}
-
-.company-pages main .section.cards-container > .default-content-wrapper h1,
-.company-pages main .section.cards-container > .default-content-wrapper h2 {
+.company-pages main .section:not(:first-child) > .default-content-wrapper h1,
+.company-pages main .section:not(:first-child) > .default-content-wrapper h2 {
   color: var(--color-white);
   margin-top: 0;
-  margin-bottom: 0;
+  margin-bottom: .5rem;
 }
 
-.company-pages main .section.cards-container > .default-content-wrapper h3,
-.company-pages main .section.cards-container > .default-content-wrapper h4,
-.company-pages main .section.cards-container > .default-content-wrapper h5,
-.company-pages main .section.cards-container > .default-content-wrapper h6 {
+.company-pages main .section:not(:first-child) > .default-content-wrapper h3,
+.company-pages main .section:not(:first-child) > .default-content-wrapper h4,
+.company-pages main .section:not(:first-child) > .default-content-wrapper h5,
+.company-pages main .section:not(:first-child) > .default-content-wrapper h6 {
   color: var(--color-red);
-  margin-top: 0;
-  margin-bottom: 1em;
-}
+  margin: 0;
+} 
