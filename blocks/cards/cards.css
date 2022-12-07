@@ -274,20 +274,18 @@ main .cards.company > ul > li img {
 }
 
 main .cards.company .cards-card-body {
-  padding: .5rem 0 0 0;
+  padding: .5rem 0 0;
 }
 
 main .cards.company h2 {
   color: var(--color-blue);
   margin-bottom: .25rem;
+  font-weight: 700;
 }
 
+/* stylelint-disable-next-line no-descending-specificity */
 main .cards.company p {
   color: var(--color-black);
   margin: 0;
-}
-
-main .cards.company h2,
-main .cards.company p {
   font-weight: 700;
 }

@@ -722,6 +722,7 @@ main .section.teaser .teaser-play::before {
 }
 
 /* hightlight */
+/* stylelint-disable-next-line no-descending-specificity */
 .section.highlight > .default-content-wrapper {
   background-color: var(--color-white);
   padding: 1rem 2rem;
@@ -739,6 +740,7 @@ main .section.teaser .teaser-play::before {
   padding-block: 1rem;
 }
 
+/* stylelint-disable-next-line no-descending-specificity */
 .company-pages :is(h1, h2, h3, h4, h5, h6) {
   font-weight: 700;
 }
@@ -760,7 +762,7 @@ main .section.teaser .teaser-play::before {
   color: var(--color-white);
 }
 
-.company-pages main .section:not(:first-child) > .default-content-wrapper :is(h3, h4, h5, h6) {
+.company-pages main .section:not(:first-child):not(.highlight) > .default-content-wrapper :is(h3, h4, h5, h6) {
   color: var(--color-red);
   margin: 0;
 } 
