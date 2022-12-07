@@ -334,9 +334,7 @@ main .section.highlight {
 }
 
 /* stylelint-disable-next-line no-descending-specificity */
-.left-align main .default-content-wrapper h2,
-.left-align main .default-content-wrapper h3,
-.left-align main .default-content-wrapper h4 {
+.left-align main .default-content-wrapper :is(h2, h3, h4) {
   font-family: var(--body-font-family);
   font-weight: light;
   text-align: left;
@@ -737,45 +735,32 @@ main .section.teaser .teaser-play::before {
 
 .company-pages main .section:not(:first-child) {
   background-color: var(--color-blue);
+  margin-block: 0;
+  padding-block: 1rem;
 }
 
-.company-pages h1, 
-.company-pages h2, 
-.company-pages h3,
-.company-pages h4, 
-.company-pages h5, 
-.company-pages h6 {
+.company-pages :is(h1, h2, h3, h4, h5, h6) {
   font-weight: 700;
 }
 
-.company-pages main .section {
-  padding: 1rem;
-}
-
-.company-pages main .section > .default-content-wrapper h1,
-.company-pages main .section > .default-content-wrapper h2,
-.company-pages main .section > .default-content-wrapper h3,
-.company-pages main .section > .default-content-wrapper h4,
-.company-pages main .section > .default-content-wrapper h5,
-.company-pages main .section > .default-content-wrapper h6 {
+.company-pages main .section > .default-content-wrapper :is(h1, h2, h3, h4, h5, h6) {
   text-align: left;
 }
 
-.company-pages main .section:not(:first-child) > .default-content-wrapper {
+.company-pages main .section:not(:first-child):not(.highlight) > .default-content-wrapper {
   padding: 2.5rem 0;
 }
 
-.company-pages main .section:not(:first-child) > .default-content-wrapper h1,
-.company-pages main .section:not(:first-child) > .default-content-wrapper h2 {
-  color: var(--color-white);
+.company-pages main .section:not(:first-child) > .default-content-wrapper :is(h1, h2) {
   margin-top: 0;
   margin-bottom: .5rem;
 }
 
-.company-pages main .section:not(:first-child) > .default-content-wrapper h3,
-.company-pages main .section:not(:first-child) > .default-content-wrapper h4,
-.company-pages main .section:not(:first-child) > .default-content-wrapper h5,
-.company-pages main .section:not(:first-child) > .default-content-wrapper h6 {
+.company-pages main .section:not(:first-child):not(.highlight) > .default-content-wrapper :is(h1, h2) {
+  color: var(--color-white);
+}
+
+.company-pages main .section:not(:first-child) > .default-content-wrapper :is(h3, h4, h5, h6) {
   color: var(--color-red);
   margin: 0;
 } 
