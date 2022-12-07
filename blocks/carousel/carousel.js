@@ -7,11 +7,13 @@ async function insertGallerySlides(block) {
   const limit = config.limit || 24;
   block.innerHTML = '';
 
-  const directURL = `${galleryURL}&size=${limit}`;
+  const paramDelimiter = galleryURL.includes('=') ? '&' : '?';
+  const directURL = `${galleryURL}${paramDelimiter}size=${limit}`;
   const resp = await fetch(`https://little-forest-58aa.david8603.workers.dev/?url=${encodeURIComponent(directURL)}`);
   const json = await resp.json();
 
-  json.items.forEach((photo) => {
+  const items = json.items !== undefined ? json.items : json.images;
+  items.forEach((photo) => {
     const div = document.createElement('div');
     div.innerHTML = `
       <div class="gallery-image"><picture><img src="${damPrefix}${photo.image}" alt="${photo.description}"/ ></picture></div>
