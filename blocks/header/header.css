@@ -12,10 +12,6 @@ header {
   color: var(--nav-text-color);
 }
 
-header .header {
-  display: none;
-}
-
 header .header.appear {
   display: unset;
 }
