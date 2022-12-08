@@ -825,16 +825,57 @@ export function decorateLinkedPictures(main) {
   });
 }
 
+async function loadHeaderFooterContent(header, footer) {
+  const isProd = window.location.host === 'www.pgatour.com';
+  const pgaTourProdUrl = 'https://www.pgatour.com';
+  const pgaTourStagingUrl = 'https://pgatour-uat.dev.pgatourstaging.com/';
+  const workerPrefix = 'https://little-forest-58aa.david8603.workers.dev/?url=';
+  const fetchUrl = isProd ? pgaTourProdUrl : `${workerPrefix}${encodeURIComponent(pgaTourStagingUrl)}`;
+  const resp = await fetch(fetchUrl);
+  if (resp.ok) {
+    const syntheticDiv = document.createElement('div');
+    const markup = await resp.text();
+    syntheticDiv.innerHTML = markup;
+    syntheticDiv.querySelectorAll('style').forEach((style) => {
+      style.remove();
+    });
+
+    if (!isProd) {
+      syntheticDiv.querySelectorAll('a').forEach((link) => {
+        const href = link.getAttribute('href');
+        if (href.startsWith('/')) {
+          link.href = `https://pgatour-uat.dev.pgatourstaging.com${href}`;
+        }
+      });
+
+      syntheticDiv.querySelectorAll('img').forEach((img) => {
+        const src = img.getAttribute('src');
+        if (src.startsWith('/')) {
+          img.src = `https://pgatour-uat.dev.pgatourstaging.com${src}`;
+        }
+      });
+    }
+
+    const headerBlock = document.createElement('div');
+    headerBlock.classList.add('header', 'block');
+    headerBlock.append(syntheticDiv.querySelector('#__next > div'));
+    header.append(headerBlock);
+
+    const footerBlock = document.createElement('div');
+    footerBlock.classList.add('footer', 'block');
+    footerBlock.append(...syntheticDiv.querySelector('#__next footer').children);
+    footer.append(footerBlock);
+  }
+}
+
 async function loadHeader(header) {
-  const headerBlock = buildBlock('header', '');
-  header.append(headerBlock);
+  const headerBlock = header.querySelector('.block');
   decorateBlock(headerBlock);
   await loadBlock(headerBlock);
 }
 
 async function loadFooter(footer) {
-  const footerBlock = buildBlock('footer', '');
-  footer.append(footerBlock);
+  const footerBlock = footer.querySelector('.block');
   decorateBlock(footerBlock);
   await loadBlock(footerBlock);
 }
@@ -979,7 +1020,10 @@ async function loadEager(doc) {
   if (main) {
     await decorateMain(main);
     await waitForLCP();
-    if (!isAppView()) loadHeader(doc.querySelector('header'));
+    if (!isAppView()) {
+      await loadHeaderFooterContent(doc.querySelector('header'), doc.querySelector('footer'));
+      loadHeader(doc.querySelector('header'));
+    }
   }
 }
 
