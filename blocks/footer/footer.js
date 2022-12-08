@@ -15,6 +15,39 @@ function decorateLogo(logo, container) {
   container.append(logoDiv);
 }
 
+function buildNavList(navHeader, navLinks) {
+  const li = document.createElement('li');
+  li.classList.add('nav-list');
+  li.addEventListener('click', () => {
+    li.classList.toggle('active');
+  });
+
+  const span = document.createElement('span');
+  span.classList.add('nav-list-heading');
+  span.textContent = navHeader;
+  li.prepend(span);
+
+  const subUl = document.createElement('ul');
+  subUl.classList.add('nav-sublist');
+  li.append(subUl);
+
+  navLinks.forEach((link) => {
+    const subLi = document.createElement('li');
+    subLi.classList.add('nav-item');
+    const a = document.createElement('a');
+    subLi.append(a);
+    a.href = link.href;
+    a.innerText = link.innerText;
+    const linkImg = link.querySelector('img');
+    if (linkImg) {
+      a.prepend(linkImg);
+    }
+    subUl.append(subLi);
+  });
+
+  return li;
+}
+
 function decorateNav(navLists, privacyLinks, container) {
   const nav = document.createElement('nav');
   const ul = document.createElement('ul');
@@ -24,61 +57,14 @@ function decorateNav(navLists, privacyLinks, container) {
     const parent = navList.closest('div');
     const navHeader = parent.querySelector('h3').innerText;
 
-    const li = document.createElement('li');
-    li.classList.add('nav-list');
-    li.addEventListener('click', () => {
-      li.classList.toggle('active');
-    });
-
-    const span = document.createElement('span');
-    span.classList.add('nav-list-heading');
-    span.textContent = navHeader;
-    li.prepend(span);
+    const navLinks = [...navList.querySelectorAll('li')].map((item) => item.querySelector('a'));
+    const li = buildNavList(navHeader, navLinks);
     ul.append(li);
-
-    const subUl = document.createElement('ul');
-    subUl.classList.add('nav-sublist');
-    li.append(subUl);
-
-    navList.querySelectorAll('li').forEach((item) => {
-      const subLi = document.createElement('li');
-      subLi.classList.add('nav-item');
-      const a = document.createElement('a');
-      subLi.append(a);
-      a.href = item.querySelector('a').href;
-      a.innerText = item.querySelector('a').innerText;
-      const linkImg = item.querySelector('img');
-      if (linkImg) {
-        a.prepend(linkImg);
-      }
-      subUl.append(subLi);
-    });
   });
 
-  const privacyLi = document.createElement('li');
+  const privacyLi = buildNavList('Privacy & Use', privacyLinks);
   privacyLi.classList.add('nav-list', 'nav-privacy');
-  const span = document.createElement('span');
-  span.classList.add('nav-list-heading');
-  span.textContent = 'Privacy & Use';
-  privacyLi.prepend(span);
-  privacyLi.addEventListener('click', () => {
-    privacyLi.classList.toggle('active');
-  });
   ul.append(privacyLi);
-
-  const privacySubUl = document.createElement('ul');
-  privacySubUl.classList.add('nav-sublist');
-  privacyLi.append(privacySubUl);
-
-  privacyLinks.forEach((link) => {
-    const subLi = document.createElement('li');
-    subLi.classList.add('nav-item');
-    const a = document.createElement('a');
-    subLi.append(a);
-    a.href = link.href;
-    a.innerText = link.innerText;
-    privacySubUl.append(subLi);
-  });
 
   nav.append(ul);
 
