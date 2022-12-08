@@ -21,8 +21,9 @@
   --color-blue-95: #003360f2;
   --color-tan-95: #C2A36Ef2;
   --color-black: #000;
-  --color-gray-dark: #4d4d4d;
-  --color-gray: #999;
+  --color-gray-dark: #1A202C;
+  --color-gray: #757575;
+  --color-gray-20: #75757544;
   --color-gray-light: #ccc;
   --color-gray-lighter: #f2f2f2;
   --color-white: #fff;
@@ -39,9 +40,9 @@
   --heading-color: var(--color-black);
 
   /* fonts */
-  --body-font-family: 'Roboto Condensed', 'Roboto Condensed-fallback';
-  --heading-font-family: 'Roboto Condensed', 'Roboto Condensed-fallback';
-  --fixed-font-family: 'Roboto Mono', menlo, consolas, 'Liberation Mono', monospace;
+  --body-font-family: "Suisse Intl", "Suisse Intl-fallback", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --heading-font-family: "Suisse Intl", "Suisse Intl-fallback", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --fixed-font-family: menlo, consolas, 'Liberation Mono', monospace;
 
   /* body sizes */
   --body-font-size-xxl: 32px;
@@ -70,18 +71,17 @@
   }
 }
 
-@font-face {
-  font-family: 'Crimson Text-fallback';
-  size-adjust: 97.13%;
-  ascent-override: 107%;
-  src: local("Times New Roman");
+html {
+  font-size: 62.5%;
 }
 
 @font-face {
-  font-family: 'Roboto Condensed-fallback';
-  size-adjust: 88.91%;
-  ascent-override: 110%;
-  src: local("Arial");
+  font-family: 'Suisse Intl-fallback';
+  src: local(Arial);
+  size-adjust: 101%;
+  ascent-override: 103%;
+  descent-override: normal;
+  line-gap-override: normal;
 }
 
 body {
