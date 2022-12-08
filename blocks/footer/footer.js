@@ -111,7 +111,6 @@ export default async function decorate(block) {
 
   decorateLogo(logo, container);
   decorateNav(navLists, privacyLinks, container);
-  // decoratePrivacyLinks(privacyLinks, container);
   decorateSocialLinks(socialLinks, copyRightText, container);
   decorateLegal(trademarksText, container);
 
