@@ -1,10 +1,3 @@
-import {
-  readBlockConfig,
-  wrapImgsInLinks,
-  decorateIcons,
-  decorateLinkedPictures,
-} from '../../scripts/scripts.js';
-
 function decorateLogo(logo, container) {
   const logoDiv = document.createElement('div');
   logoDiv.classList.add('brand');
@@ -25,18 +18,22 @@ function decorateLogo(logo, container) {
 function decorateNav(navLists, privacyLinks, container) {
   const nav = document.createElement('nav');
   const ul = document.createElement('ul');
-  ul.classList.add('nav-list');
+  ul.classList.add('nav-lists');
 
   navLists.forEach((navList) => {
     const parent = navList.closest('div');
     const navHeader = parent.querySelector('h3').innerText;
 
     const li = document.createElement('li');
-    li.classList.add('nav-heading');
+    li.classList.add('nav-list');
     li.addEventListener('click', () => {
       li.classList.toggle('active');
     });
-    li.prepend(navHeader);
+
+    const span = document.createElement('span');
+    span.classList.add('nav-list-heading');
+    span.textContent = navHeader;
+    li.prepend(span);
     ul.append(li);
 
     const subUl = document.createElement('ul');
@@ -59,8 +56,11 @@ function decorateNav(navLists, privacyLinks, container) {
   });
 
   const privacyLi = document.createElement('li');
-  privacyLi.classList.add('nav-heading', 'nav-privacy');
-  privacyLi.prepend('Privacy & Use');
+  privacyLi.classList.add('nav-list', 'nav-privacy');
+  const span = document.createElement('span');
+  span.classList.add('nav-list-heading');
+  span.textContent = 'Privacy & Use';
+  privacyLi.prepend(span);
   privacyLi.addEventListener('click', () => {
     privacyLi.classList.toggle('active');
   });
@@ -83,20 +83,6 @@ function decorateNav(navLists, privacyLinks, container) {
   nav.append(ul);
 
   container.append(nav);
-}
-
-function decoratePrivacyLinks(privacyLinks, container) {
-  const div = document.createElement('div');
-  div.classList.add('privacy-links');
-
-  privacyLinks.forEach((link) => {
-    const a = document.createElement('a');
-    a.href = link.href;
-    a.innerText = link.innerText;
-    div.append(a);
-  });
-
-  container.append(div);
 }
 
 function decorateSocialLinks(socialLinks, copyRightText, container) {
@@ -139,7 +125,7 @@ export default async function decorate(block) {
 
   decorateLogo(logo, container);
   decorateNav(navLists, privacyLinks, container);
-  decoratePrivacyLinks(privacyLinks, container);
+  // decoratePrivacyLinks(privacyLinks, container);
   decorateSocialLinks(socialLinks, copyRightText, container);
   decorateLegal(trademarksText, container);
 
