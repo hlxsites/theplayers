@@ -168,13 +168,15 @@ footer .footer .legal {
   footer .footer nav .nav-lists .nav-list {
     border-bottom: none;
     position: relative;
-    cursor: unset;
     grid-column: span 2;
+  }
+
+  footer .footer nav .nav-lists .nav-list .nav-list-heading {
+    cursor: unset;
   }
 
   footer .footer nav .nav-lists .nav-privacy .nav-list-heading {
     display: none;
-    cursor: unset;
   }
 
   footer .footer nav .nav-lists .nav-privacy .nav-sublist .nav-item:first-child {
