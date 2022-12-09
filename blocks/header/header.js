@@ -33,6 +33,12 @@ function decorateNav(navLinks, container) {
   container.append(nav);
 }
 
+function executeSearch(searchTerm) {
+  const isProd = window.location.host === 'www.pgatour.com';
+  const domain = isProd ? '' : 'https://pgatour-uat.dev.pgatourstaging.com';
+  window.location = `${domain}/search/${encodeURIComponent(searchTerm)}`;
+}
+
 function decorateUserActions(container) {
   const actions = document.createElement('div');
   actions.classList.add('user-actions');
@@ -46,18 +52,53 @@ function decorateUserActions(container) {
   });
   actions.append(tours);
 
+  const searchDialog = document.createElement('dialog');
+  searchDialog.classList.add('search-dialog');
+  container.append(searchDialog);
+
+  const dialogContainer = document.createElement('div');
+  dialogContainer.classList.add('dialog-container');
+  searchDialog.append(dialogContainer);
+
+  const input = document.createElement('input');
+  input.placeholder = 'Search';
+  input.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+      executeSearch(input.value);
+    }
+  });
+  dialogContainer.append(input);
+
+  const searchClose = document.createElement('button');
+  searchClose.classList.add('close', 'close-search');
+  searchClose.setAttribute('aria-label', 'Close Search');
+  searchClose.addEventListener('click', () => {
+    searchDialog.classList.remove('active');
+    searchDialog.close();
+  });
+  dialogContainer.append(searchClose);
+
   const search = document.createElement('button');
   search.classList.add('search');
   search.addEventListener('click', () => {
-    const expanded = search.getAttribute('data-expanded') === 'true';
-    search.setAttribute('data-expanded', expanded ? 'false' : 'true');
+    const active = searchDialog.classList.contains('active');
+    if (!active) {
+      searchDialog.show();
+      searchDialog.classList.add('active');
+    }
   });
+  search.setAttribute('aria-label', 'Search');
   actions.append(search);
+
+  const searchButton = search.cloneNode(true);
+  dialogContainer.prepend(searchButton);
+  searchButton.addEventListener('click', () => {
+    executeSearch(input.value);
+  });
 
   const hamburger = document.createElement('button');
   hamburger.classList.add('hamburger');
-  // hamburger.setAttribute('aria-controls', 'primary-navigation');
-  // hamburger.setAttribute('aria-expanded', 'false');
+  hamburger.setAttribute('aria-label', 'Menu');
 
   const icon = document.createElement('div');
   icon.classList.add('hamburger-icon');
