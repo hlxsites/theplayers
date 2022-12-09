@@ -74,6 +74,7 @@ function decorateUserActions(container) {
   searchClose.setAttribute('aria-label', 'Close Search');
   searchClose.addEventListener('click', () => {
     searchDialog.classList.remove('active');
+    input.value = '';
     searchDialog.close();
   });
   dialogContainer.append(searchClose);
@@ -84,6 +85,7 @@ function decorateUserActions(container) {
     const active = searchDialog.classList.contains('active');
     if (!active) {
       searchDialog.show();
+      input.focus();
       searchDialog.classList.add('active');
     }
   });
