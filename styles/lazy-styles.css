@@ -1,33 +1,33 @@
 @font-face {
-  font-family: Suisse Intl;
+  font-family: "Suisse Intl";
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url(/fonts/SuisseIntl-Regular-WebS.woff2) format("woff2")
+  src: url("/fonts/SuisseIntl-Regular-WebS.woff2") format("woff2")
 }
 
 @font-face {
-  font-family: Suisse Intl;
+  font-family: "Suisse Intl";
   font-style: italic;
   font-weight: 400;
   font-display: swap;
-  src: url(/fonts/SuisseIntl-RegularItalic-WebS.woff2) format("woff2")
+  src: url("/fonts/SuisseIntl-RegularItalic-WebS.woff2") format("woff2")
 }
 
 @font-face {
-  font-family: Suisse Intl;
+  font-family: "Suisse Intl";
   font-style: normal;
   font-weight: 600;
   font-display: swap;
-  src: url(/fonts/SuisseIntl-SemiBold-WebS.woff2) format("woff2")
+  src: url("/fonts/SuisseIntl-SemiBold-WebS.woff2") format("woff2")
 }
 
 @font-face {
-  font-family: Suisse Intl;
+  font-family: "Suisse Intl";
   font-style: italic;
   font-weight: 600;
   font-display: swap;
-  src: url(/fonts/SuisseIntl-SemiBoldItalic-WebS.woff2) format("woff2")
+  src: url("/fonts/SuisseIntl-SemiBoldItalic-WebS.woff2") format("woff2")
 }
 
 @font-face {
@@ -35,7 +35,7 @@
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url(/fonts/Tobias-Regular.woff2) format("woff2")
+  src: url("/fonts/Tobias-Regular.woff2") format("woff2")
 }
 
 main .login-modal {

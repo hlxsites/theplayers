@@ -69,7 +69,6 @@ header .header .header-container .user-actions > button {
   height: 32px;
   margin: 0 auto;
   padding: 0 .8rem;
-  margin: 0;
   background: var(--header-background-color);
   z-index: 3;
   font-size: 1.5rem;
@@ -88,7 +87,7 @@ header .header .header-container .user-actions .search {
 }
 
 header .header .header-container .user-actions .search::before {
-  content: url(/icons/search.svg);
+  content: url("/icons/search.svg");
   color: var(--header-text-color);
 }
 
@@ -133,14 +132,17 @@ header .header .primary-navigation-dialog[open] {
 header .header .primary-navigation-dialog.hide {
   animation: hide-dialog .5s;
 }
+
 @keyframes show-dialog {
   from {
       transform: translateY(-110%);
   }
+  
   to {
       transform: translateY(0%);
   }
 }
+
 @keyframes hide-dialog {
   to {
       transform: translateY(-110%);

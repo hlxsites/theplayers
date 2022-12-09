@@ -41,8 +41,8 @@
   --heading-color: var(--color-black);
 
   /* fonts */
-  --body-font-family: "Suisse Intl", "Suisse Intl-fallback", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --heading-font-family: "Suisse Intl", "Suisse Intl-fallback", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --body-font-family: "Suisse Intl", "Suisse Intl-fallback", "Helvetica Neue", helvetica, arial, sans-serif;
+  --heading-font-family: "Suisse Intl", "Suisse Intl-fallback", "Helvetica Neue", helvetica, arial, sans-serif;
   --fixed-font-family: menlo, consolas, 'Liberation Mono', monospace;
 
   /* body sizes */
@@ -78,7 +78,7 @@ html {
 
 @font-face {
   font-family: 'Suisse Intl-fallback';
-  src: local(Arial);
+  src: local(arial);
   size-adjust: 101%;
   ascent-override: 103%;
   descent-override: normal;

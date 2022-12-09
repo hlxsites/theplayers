@@ -72,7 +72,7 @@ function decorateUserActions(container) {
   container.append(actions);
 }
 
-function buildNavDialog(navList, tourLinks) {
+function buildNavDialog(navList) {
   const dialog = document.createElement('dialog');
   dialog.id = 'primary-navigation';
   dialog.classList.add('primary-navigation-dialog');
