@@ -19,23 +19,7 @@ function decorateNav(navLinks, container) {
   const nav = document.createElement('nav');
   nav.classList.add('primary-navigation');
 
-  const hamburger = document.createElement('button');
-  hamburger.classList.add('hamburger');
-  hamburger.setAttribute('aria-controls', 'primary-navigation');
-  hamburger.setAttribute('aria-expanded', 'false');
-
-  const icon = document.createElement('div');
-  icon.classList.add('hamburger-icon');
-  hamburger.append(icon);
-  hamburger.addEventListener('click', () => {
-    const expanded = hamburger.getAttribute('aria-expanded') === 'true';
-    hamburger.setAttribute('aria-expanded', expanded ? 'false' : 'true');
-  });
-
-  nav.append(hamburger);
-
   const ul = document.createElement('ul');
-  ul.setAttribute('id', 'primary-navigation');
   ul.classList.add('primary-navigation-list');
 
   navLinks.forEach((link) => {
@@ -47,6 +31,77 @@ function decorateNav(navLinks, container) {
   nav.append(ul);
 
   container.append(nav);
+}
+
+function decorateUserActions(container) {
+  const actions = document.createElement('div');
+  actions.classList.add('user-actions');
+
+  const tours = document.createElement('button');
+  tours.classList.add('tours');
+  tours.innerText = 'Tours';
+  tours.addEventListener('click', () => {
+    const expanded = tours.getAttribute('data-expanded') === 'true';
+    tours.setAttribute('data-expanded', expanded ? 'false' : 'true');
+  });
+  actions.append(tours);
+
+  const search = document.createElement('button');
+  search.classList.add('search');
+  search.addEventListener('click', () => {
+    const expanded = search.getAttribute('data-expanded') === 'true';
+    search.setAttribute('data-expanded', expanded ? 'false' : 'true');
+  });
+  actions.append(search);
+
+  const hamburger = document.createElement('button');
+  hamburger.classList.add('hamburger');
+  // hamburger.setAttribute('aria-controls', 'primary-navigation');
+  // hamburger.setAttribute('aria-expanded', 'false');
+
+  const icon = document.createElement('div');
+  icon.classList.add('hamburger-icon');
+  hamburger.append(icon);
+  hamburger.addEventListener('click', () => {
+    const dialog = document.querySelector('#primary-navigation');
+    dialog.show();
+  });
+
+  actions.append(hamburger);
+
+  container.append(actions);
+}
+
+function buildNavDialog(navList, tourLinks) {
+  const dialog = document.createElement('dialog');
+  dialog.id = 'primary-navigation';
+  dialog.classList.add('primary-navigation-dialog');
+
+  const container = document.createElement('div');
+  container.classList.add('dialog-container');
+  dialog.append(container);
+
+  const header = document.createElement('div');
+  header.classList.add('dialog-header');
+  container.append(header);
+
+  const close = document.createElement('button');
+  close.classList.add('close');
+  close.addEventListener('click', () => {
+    dialog.classList.add('hide');
+    dialog.addEventListener('animationend', () => {
+      if (dialog.classList.contains('hide')) {
+        dialog.classList.remove('hide');
+        dialog.close();
+      }
+    });
+  });
+  close.setAttribute('aria-label', 'Close');
+  header.append(close);
+
+  container.append(navList);
+
+  return dialog;
 }
 
 /**
@@ -78,9 +133,11 @@ export default async function decorate(block) {
     }
   });
 
-  decorateNav(navLinks, container);
-
   block.innerHTML = '';
+  decorateNav(navLinks, container);
+  decorateUserActions(container);
+  block.appendChild(buildNavDialog(container.querySelector('.primary-navigation-list').cloneNode(true), tourLinks));
+
   block.append(container);
   block.classList.add('appear');
 }

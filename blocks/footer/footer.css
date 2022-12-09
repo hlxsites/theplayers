@@ -1,7 +1,7 @@
 footer .footer {
   --footer-top-border-color: var(--color-gray-dark);
   --footer-light-text-color: var(--color-gray);
-  --footer-internal-border-color: var(--color-gray-20);
+  --footer-internal-border-color: var(--color-black-20);
 
   margin: 2.5rem 1.25rem;
 }

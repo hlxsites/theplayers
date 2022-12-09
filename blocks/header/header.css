@@ -1,12 +1,23 @@
 header .header {
+  --header-border-color: var(--color-black-20);
+  --header-hover-color: var(--color-black-50);
+  --header-text-color: var(--color-gray-dark);
+  --header-background-color: var(--color-white);
 }
 
 header .header li {
   list-style: none;
 }
 
-header .header a:hover {
+header .header a,
+header .header button {
+  color: var(--header-text-color);
+}
+
+header .header a:hover,
+header .header button:hover  {
   text-decoration: none;
+  color: var(--header-hover-color);
 }
 
 header .header.appear {
@@ -14,6 +25,7 @@ header .header.appear {
   padding-block: 2rem;
   align-items: center;
   justify-content: center;
+  border-bottom: 1px solid var(--header-border-color);
 }
 
 header .header .header-container {
@@ -23,57 +35,174 @@ header .header .header-container {
   width: 100%;
 }
 
-header .header .header-container .primary-navigation .hamburger {
-  height: 32px;
-  margin: 0 auto;
-  padding: 0 0 0 3rem;
-  margin: 0;
-  background: transparent;
-  z-index: 3;
+header .header .header-container .brand {
+  display: flex;
 }
 
-header .header .header-container .primary-navigation .hamburger .hamburger-icon,
-header .header .header-container .primary-navigation .hamburger .hamburger-icon::after,
-header .header .header-container .primary-navigation .hamburger .hamburger-icon::before {
-  box-sizing: border-box;
-  display: block;
-  position: relative;
-  top: 6.5px;
-  height: 2px;
-  width: 2rem;
-  margin: auto;
-  background: black;
-  z-index: 3;
-}
-
-header .header .header-container .primary-navigation .hamburger .hamburger-icon::after,
-header .header .header-container .primary-navigation .hamburger .hamburger-icon::before {
-  content: '';
-  position: absolute;
-  top: 6.5px;
-}
-
-header .header .header-container .primary-navigation .hamburger .hamburger-icon::after {
-  top: -6.5px;
-}
-
-header .header .header-container .primary-navigation .hamburger + .primary-navigation-list {
+header .header .header-container .primary-navigation {
   display: none;
 }
 
+header .header .primary-navigation-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  font-size: 2.4rem;
+  line-height: 2.8rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+header .header .header-container .primary-navigation-list {
+  flex-direction: row;
+  font-size: 1.5rem;
+  line-height: 1.6rem;
+  letter-spacing: -0.01em;
+}
+
+header .header .header-container .user-actions {
+  display: flex;
+  align-items: center;
+}
+
+header .header .header-container .user-actions > button {
+  height: 32px;
+  margin: 0 auto;
+  padding: 0 .8rem;
+  margin: 0;
+  background: var(--header-background-color);
+  z-index: 3;
+  font-size: 1.5rem;
+  line-height: 1.6rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  text-transform: none;
+}
+
+header .header .header-container .user-actions .tours {
+  display: none;
+}
+
+header .header .header-container .user-actions .search {
+  height: 24px;
+}
+
+header .header .header-container .user-actions .search::before {
+  content: url(/icons/search.svg);
+  color: var(--header-text-color);
+}
+
+header .header .header-container .hamburger .hamburger-icon,
+header .header .header-container .hamburger .hamburger-icon::after,
+header .header .header-container .hamburger .hamburger-icon::before {
+  box-sizing: border-box;
+  position: relative;
+  height: 2px;
+  width: 2rem;
+  margin: auto;
+  background: var(--header-text-color);
+  z-index: 3;
+}
+
+header .header .header-container .hamburger .hamburger-icon::after,
+header .header .header-container .hamburger .hamburger-icon::before {
+  content: '';
+  position: absolute;
+  top: -6.5px;
+  display: block;
+}
+
+header .header .header-container .hamburger .hamburger-icon::after {
+  top: 6.5px;
+}
+
+/* primary nav diagog */ 
+header .header .primary-navigation-dialog {
+  width: 100%;
+  height: 100%;
+  border-color: var(--header-background-color);
+  position: fixed;
+  inset: 0;
+  z-index: 4;
+}
+
+header .header .primary-navigation-dialog[open] {
+  animation: show-dialog .5s;
+}
+
+header .header .primary-navigation-dialog.hide {
+  animation: hide-dialog .5s;
+}
+@keyframes show-dialog {
+  from {
+      transform: translateY(-110%);
+  }
+  to {
+      transform: translateY(0%);
+  }
+}
+@keyframes hide-dialog {
+  to {
+      transform: translateY(-110%);
+  }
+}
+
+header .header .primary-navigation-dialog .dialog-container {
+  display: grid;
+}
+
+header .header .primary-navigation-dialog .dialog-container .dialog-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 8rem;
+  position: relative;
+}
+
+header .header .primary-navigation-dialog .dialog-container .dialog-header .close {
+  position: absolute;
+  right: 3rem;
+  top: 50%;
+  height: 32px;
+  width: 32px;
+  padding: 0 .8rem;
+  margin: 0;
+  background: var(--header-background-color);
+}
+
+header .header .primary-navigation-dialog .dialog-container .dialog-header .close::after,
+header .header .primary-navigation-dialog .dialog-container .dialog-header .close::before {
+  box-sizing: border-box;
+  height: 2px;
+  width: 2rem;
+  background: var(--header-text-color);
+  content: '';
+  position: absolute;
+  display: block;
+  rotate: 45deg;
+  left: 0;
+}
+
+header .header .primary-navigation-dialog .dialog-container .dialog-header .close::after {
+  rotate: -45deg;
+}
+
+header .header .primary-navigation-dialog .dialog-container .primary-navigation-list {
+  border-bottom: 1px solid var(--header-border-color);
+  padding-block-end: 3rem;
+  padding-inline-start: 2rem;
+}
+
 @media (min-width: 900px) {
-  header .header .header-container .primary-navigation .hamburger {
+  header .header .header-container .hamburger {
     display: none;
   }
 
-  header .header .header-container .primary-navigation .hamburger + .primary-navigation-list {
+  header .header .header-container .user-actions .tours {
+    display: block;
+  }
+
+  header .header .header-container .primary-navigation {
     display: flex;
-    gap: 2rem;
-    align-items: center;
-    justify-content: inherit;
-    font-size: 1.5rem;
-    line-height: 1.6rem;
-    font-weight: 600;
-    letter-spacing: -0.01em;
   }
 }
