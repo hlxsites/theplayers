@@ -68,7 +68,7 @@
 
 @media (min-width: 700px) {
   :root {
-    --nav-height: 60px;
+    --nav-height: 88px;
   }
 }
 
@@ -143,13 +143,13 @@ p, dl, ol, ul, pre, blockquote {
 }
 
 a:any-link {
-  color: var(--link-color);
+  color: var(--text-color);
   text-decoration: none;
 }
 
 a:hover {
   text-decoration: underline;
-  color: var(--link-hover-color);
+  color: var(--color-black-50)
 }
 
 code, pre, samp {
@@ -177,8 +177,8 @@ a.button:any-link, button {
   margin: 16px 0;
   border: 1px solid white;
   padding: 5px 16px;
-  background-color: var(--link-color);
-  color: var(--background-color);
+  background-color: var(--color-white);
+  color: var(--text-color);
   font-family: var(--font-family-body);
   font-style: normal;
   font-weight: normal;
