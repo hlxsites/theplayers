@@ -54,3 +54,7 @@ indices:
         select: head > meta[name="external-link"]
         value: |
           attribute(el, 'content')
+      language:
+        select: head > meta[name="language"]
+        value: |
+          attribute(el, 'content')
