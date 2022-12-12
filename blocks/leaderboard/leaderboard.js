@@ -170,13 +170,13 @@ function createNavBtn(link, label) {
   const btn = document.createElement('li');
   btn.innerHTML = `<a href="${link}" ${link.includes('leaderboard') ? 'class="active"' : ''}>${label}</a>`;
   return btn;
-} 
+}
 
 function createMediaBtn(type, ph, forLegend = false) {
-  const el = !forLegend ? 'button' : 'i'
+  const el = !forLegend ? 'button' : 'i';
   const btn = document.createElement(el);
   btn.className = 'leaderboard-round-score-button';
-  btn.title = `${ph.view} ${ph[`${type}s`]}`
+  btn.title = `${ph.view} ${ph[`${type}s`]}`;
   btn.innerHTML = `<span class="icon icon-${type}"></span>`;
   return btn;
 }
@@ -301,10 +301,10 @@ async function populateFullLeaderboard(block, config) {
           // }
           matchRow.append(intlCell, score, usaCell);
           body.append(matchRow);
-        })
+        });
         table.append(caption, body);
         rounds.prepend(table);
-      })
+      });
       block.append(rounds);
     }
     // build legend

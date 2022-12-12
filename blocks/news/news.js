@@ -4,19 +4,24 @@ import {
   toClassName,
   updateExternalLinks,
   fetchPlaceholders,
+  getMetadata,
 } from '../../scripts/scripts.js';
 
 async function mergeLocalNews(feed, maxItems) {
+  const pageLang = getMetadata('language') ? getMetadata('language') : 'en';
   const resp = await fetch('/query-index.json');
   const json = await resp.json();
   const newerThan = feed.items[feed.items.length - 1].created;
   const matched = json.data.filter((item) => {
-    if (item.date) {
-      const itemDate = new Date(Math.round((item.date - (25567 + 1)) * 86400 * 1000)).valueOf();
-      item.created = itemDate;
-      item.link = item.path;
-      item.type = 'article';
-      return (itemDate > newerThan);
+    const itemLang = item.language ? item.language : 'en';
+    if (itemLang === pageLang) {
+      if (item.date) {
+        const itemDate = new Date(Math.round((item.date - (25567 + 1)) * 86400 * 1000)).valueOf();
+        item.created = itemDate;
+        item.link = item.path;
+        item.type = 'article';
+        return (itemDate > newerThan);
+      }
     }
     return false;
   });
