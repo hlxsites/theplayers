@@ -48,7 +48,7 @@ footer .footer nav .nav-lists .nav-list .nav-list-heading {
   position: relative;
   display: block;
   cursor: pointer;
-  font-size: 1.5rem;
+  font-size: var(--body-font-size-s);
   line-height: 1.6rem;
   font-weight: 600;
   letter-spacing: -0.01em;
@@ -80,7 +80,7 @@ footer .footer nav .nav-lists .nav-list .nav-sublist {
 }
 
 footer .footer nav .nav-lists .nav-list .nav-sublist .nav-item {
-  font-size: 1.5rem;
+  font-size: var(--body-font-size-s);
   line-height: 2.4rem;
   font-weight: 400;
   letter-spacing: 0;
@@ -115,7 +115,7 @@ footer .footer .social-links {
 
 footer .footer .social-links .copyright {
   grid-area: copyright;
-  font-size: 1.1rem;
+  font-size: var(--body-font-size-xxs);
   line-height: 1.4rem;
   font-weight: 400;
   letter-spacing: 0.02em;
@@ -136,7 +136,7 @@ footer .footer .social-links .social-container a > svg {
 
 footer .footer .legal {
   text-align: center;
-  font-size: 1.1rem;
+  font-size: var(--body-font-size-xxs);
   line-height: 1.4rem;
   font-weight: 400;
   letter-spacing: 0.02em;
@@ -178,7 +178,7 @@ footer .footer .legal {
   }
 
   footer .footer nav .nav-lists .nav-privacy .nav-sublist .nav-item {
-    font-size: 1.1rem;
+    font-size: var(--body-font-size-xxs);
     line-height: 1.4rem;
     font-weight: 400;
     letter-spacing: 0.02em;
