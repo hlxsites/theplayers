@@ -12,41 +12,126 @@
 
  :root {
   /* colors */
-  --link-color: #035fe6;
-  --link-hover-color: #136ff6;
-  --background-color: #fff;
-  --overlay-background-color: #eee;
-  --highlight-background-color: #ccc;
-  --text-color: #000;
+  --color-black: #000;
+  --color-slate: #393939;
+  --color-dark-grey: #757575;
+  --color-light-grey: #949494;
+  --color-off-white: #F2F2F2;
+  --color-white: #FFF;
+  --color-rain: #004C95;
+  --color-water: #0084FF;
+  --color-sky: #A1D9FF;
+  --color-green: #50BF93;
+  --color-fairway: #25845D;
+  --color-rough: #86A646;
+  --color-range: #EEFC47;
+  --color-sun: #FAE100;
+  --color-flag: #FF4B04;
+  --color-mulligan: #FF4F04;
+  --color-bunker: #F2D6BD;
+  --color-sand: #F5EFEB;
+  --color-stone: #D6D4D2;
+  --color-path: #8A8E84;
+  --color-fringe: #4F4F32;
+  --color-highlight-sky: #DEF2FF;
+  --color-highlight-green: #C2E9D9;
+  --color-highlight-sun: #FDF4A6;
+  --color-highlight-mulligan: #FFC1A7;
+  --color-white-75: rgba(0 0 0 .75);
+  --color-white-50: rgba(0 0 0 .50);
+  --color-white-25: rgba(0 0 0 .25);
+  --color-white-20: rgba(0 0 0 .20);
+  --color-white-10: rgba(0 0 0 .10);
+  --color-white-05: rgba(0 0 0 .05);
+  --color-black-75: rgba(0 0 0 .75);
+  --color-black-50: rgba(0 0 0 .50);
+  --color-black-25: rgba(0 0 0 .25);
+  --color-black-20: rgba(0 0 0 .20);
+  --color-black-10: rgba(0 0 0 .10);
+  --color-black-05: rgba(0 0 0 .05);
+
+  --text-color: var(--color-black);
+  --background-color: var(--color-white);
+  --link-color: var(--text-color);
+  --link-hover-color: var(--color-light-grey);
+  --overlay-background-color: var(--color-dark-grey);
 
   /* fonts */
-  --body-font-family: 'helvetica neue', helvetica, ubuntu, roboto, noto, sans-serif;
+  --body-font-family: "Suisse Intl", "Suisse Intl-fallback", "Helvetica Neue", helvetica, arial, sans-serif;
   --heading-font-family: var(--body-font-family);
   --fixed-font-family: 'Roboto Mono', menlo, consolas, 'Liberation Mono', monospace;
 
-  /* body sizes */
-  --body-font-size-m: 22px;
-  --body-font-size-s: 18px;
-  --body-font-size-xs: 14px;
-
   /* heading sizes */
-  --heading-font-size-xxl: 48px;
-  --heading-font-size-xl: 40px;
-  --heading-font-size-l: 32px;
-  --heading-font-size-m: 24px;
-  --heading-font-size-s: 20px;
-  --heading-font-size-xs: 18px;
+  --heading-font-size-xxxl: 7rem;
+  --heading-font-size-xxl: 5.8rem;
+  --heading-font-size-xl: 4rem;
+  --heading-font-size-l: 3.5rem;
+  --heading-font-size-m: 2.4rem;
+  --heading-font-size-s: 1.9rem;
+  --heading-font-size-xs: 1.5rem;
+  --heading-font-size-xxs: 1.3rem;
+
+  --heading-line-height-xxxl: 7rem;
+  --heading-line-height-xxl: 6.2rem;
+  --heading-line-height-xl: 4.4rem;
+  --heading-line-height-l: 3.8rem;
+  --heading-line-height-m: 2.8rem;
+  --heading-line-height-s: 2.2rem;
+  --heading-line-height-xs: 1.6rem;
+  --heading-line-height-xxs: 1.4rem;
+
+  --heading-letter-spacing-xxxl: -1.4px;
+  --heading-letter-spacing-xxl: -1.15px;
+  --heading-letter-spacing-xl: -.8px;
+  --heading-letter-spacing-l: -.7px;
+  --heading-letter-spacing-m: -.5px;
+  --heading-letter-spacing-s: -.2px;
+  --heading-letter-spacing-xs: -.15px;
+  --heading-letter-spacing-xxs: 0;
+
+  /* body sizes */
+  --body-font-size-xxl: 2rem;
+  --body-font-size-xl: 1.7rem;
+  --body-font-size-l: 1.5rem;
+  --body-font-size-m: 1.3rem;
+  --body-font-size-s: 1.1rem;
+
+  --body-line-height-xxl: 2.8rem;
+  --body-line-height-xl: 2.6rem;
+  --body-line-height-l: 2.4rem;
+  --body-line-height-m: 1.8rem;
+  --body-line-height-s: 1.4rem;
+
+  --body-letter-spacing-xxl: 0;
+  --body-letter-spacing-xl: 0;
+  --body-letter-spacing-l: 0;
+  --body-letter-spacing-m: 0;
+  --body-letter-spacing-s: .2px;
+
 
   /* nav height */
-  --nav-height: 64px;
+  --nav-height: 88px;
+}
 
+html {
+  font-size: 62.5%;
+}
+
+@font-face {
+  font-family: 'Suisse Intl-fallback';
+  src: local(arial);
+  size-adjust: 101%;
+  ascent-override: 103%;
+  descent-override: normal;
+  line-gap-override: normal;
 }
 
 body {
   font-size: var(--body-font-size-m);
   margin: 0;
   font-family: var(--body-font-family);
-  line-height: 1.6;
+  line-height: var(--body-line-height-m);
+  letter-spacing: var(--body-letter-spacing-m);
   color: var(--text-color);
   background-color: var(--background-color);
   display: none;
@@ -54,6 +139,12 @@ body {
 
 body.appear {
   display: unset;
+}
+
+/* progressive section appearance */
+main .section[data-section-status='loading'],
+main .section[data-section-status='initialized'] {
+  display: none;
 }
 
 header {
@@ -64,18 +155,46 @@ h1, h2, h3,
 h4, h5, h6 {
   font-family: var(--heading-font-family);
   font-weight: 600;
-  line-height: 1.25;
   margin-top: 1em;
   margin-bottom: .5em;
   scroll-margin: calc(var(--nav-height) + 1em);
 }
 
-h1 { font-size: var(--heading-font-size-xxl) }
-h2 { font-size: var(--heading-font-size-xl) }
-h3 { font-size: var(--heading-font-size-l) }
-h4 { font-size: var(--heading-font-size-m) }
-h5 { font-size: var(--heading-font-size-s) }
-h6 { font-size: var(--heading-font-size-xs) }
+h1 { 
+  font-size: var(--heading-font-size-xxl);
+  line-height: var(--heading-line-height-xxl);
+  letter-spacing: var(--heading-letter-spacing-xxl);
+}
+
+h2 { 
+  font-size: var(--heading-font-size-xl);
+  line-height: var(--heading-line-height-xl);
+  letter-spacing: var(--heading-letter-spacing-xl);
+}
+
+h3 { 
+  font-size: var(--heading-font-size-l);
+  line-height: var(--heading-line-height-l);
+  letter-spacing: var(--heading-letter-spacing-l);
+}
+
+h4 { 
+  font-size: var(--heading-font-size-m);
+  line-height: var(--heading-line-height-m);
+  letter-spacing: var(--heading-letter-spacing-m);
+}
+
+h5 { 
+  font-size: var(--heading-font-size-s);
+  line-height: var(--heading-line-height-s);
+  letter-spacing: var(--heading-letter-spacing-s);
+}
+
+h6 { 
+  font-size: var(--heading-font-size-xs);
+  line-height: var(--heading-line-height-xs);
+  letter-spacing: var(--heading-letter-spacing-xs);
+}
 
 p, dl, ol, ul, pre, blockquote {
   margin-top: 1em;
@@ -210,28 +329,9 @@ main img {
   }  
 }
 
-@media (min-width: 900px) {
-  :root {
-    --heading-font-size-xxl: 60px;
-    --heading-font-size-xl: 48px;
-    --heading-font-size-l: 36px;
-    --heading-font-size-m: 30px;
-    --heading-font-size-s: 24px;
-    --heading-font-size-xs: 22px;  
-  }
-  
+@media (min-width: 900px) {  
   .section > div {
     max-width: 1200px;
     margin: auto;
   }
-}
-
-/* progressive section appearance */
-main .section[data-section-status='loading'],
-main .section[data-section-status='initialized'] {
-  display: none;
-}
-
-main .section.highlight {
-  background-color: var(--highlight-background-color);
 }
