@@ -2,12 +2,18 @@ import { getPgaTourDomain } from '../../scripts/scripts.js';
 
 function closeDialog(dlg) {
   dlg.classList.add('hide');
-  dlg.addEventListener('animationend', () => {
-    if (dlg.classList.contains('hide')) {
-      dlg.classList.remove('hide');
-      dlg.close();
-    }
-  });
+  const hasAnimation = window.getComputedStyle(dlg, null).getPropertyValue('animation-name') !== 'none';
+  if (hasAnimation) {
+    dlg.addEventListener('animationend', () => {
+      if (dlg.classList.contains('hide')) {
+        dlg.classList.remove('hide');
+        dlg.close();
+      }
+    });
+  } else {
+    dlg.classList.remove('hide');
+    dlg.close();
+  }
 }
 
 function buildMoreLinks(moreLink) {

@@ -236,19 +236,12 @@ header .header .tours-navigation.hide {
   }
 }
 @media (min-width: 900px) {
-  @keyframes show-tours-dialog {
-    from {
-        transform: translateX(-200%);
-    }
-  
-    to {
-        transform: translateX(0%);
-    }
+  header .header .tours-navigation[open] {
+    animation-name: none;
   }
-  @keyframes hide-tours-dialog {
-    to {
-        transform: translateX(-200%);
-    }
+  
+  header .header .tours-navigation.hide {
+    animation-name: none;
   }
 }
 
