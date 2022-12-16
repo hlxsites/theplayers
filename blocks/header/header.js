@@ -1,5 +1,15 @@
 import { getPgaTourDomain } from '../../scripts/scripts.js';
 
+function closeDialog(dlg) {
+  dlg.classList.add('hide');
+  dlg.addEventListener('animationend', () => {
+    if (dlg.classList.contains('hide')) {
+      dlg.classList.remove('hide');
+      dlg.close();
+    }
+  });
+}
+
 function buildMoreLinks(moreLink) {
   const moreLi = document.createElement('li');
   moreLi.classList.add('more');
@@ -180,14 +190,7 @@ function buildToursDialog(tourLinks) {
   const close = document.createElement('button');
   close.classList.add('close');
   close.addEventListener('click', () => {
-    document.body.style.overflowY = 'auto';
-    dialog.classList.add('hide');
-    dialog.addEventListener('animationend', () => {
-      if (dialog.classList.contains('hide')) {
-        dialog.classList.remove('hide');
-        dialog.close();
-      }
-    });
+    closeDialog(dialog);
   });
   close.setAttribute('aria-label', 'Close');
   headerContent.append(close);
@@ -259,13 +262,12 @@ function buildNavDialog(navList) {
   close.classList.add('close');
   close.addEventListener('click', () => {
     document.body.style.overflowY = 'auto';
-    dialog.classList.add('hide');
-    dialog.addEventListener('animationend', () => {
-      if (dialog.classList.contains('hide')) {
-        dialog.classList.remove('hide');
-        dialog.close();
-      }
-    });
+    const toursDialog = document.querySelector('#tours-navigation[open]');
+    if (toursDialog) {
+      closeDialog(toursDialog);
+    }
+
+    closeDialog(dialog);
   });
   close.setAttribute('aria-label', 'Close');
   headerContent.append(close);
