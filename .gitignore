@@ -3,7 +3,5 @@ coverage/*
 logs/*
 node_modules/*
 
-helix-importer-tools
-.cache
-
+helix-importer-ui
 .DS_Store
