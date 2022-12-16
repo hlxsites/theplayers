@@ -223,19 +223,36 @@ header .header .tours-navigation.hide {
 
 @keyframes show-tours-dialog {
   from {
-      transform: translateY(130%);
+      transform: translateY(200%);
   }
 
   to {
       transform: translateY(0%);
   }
 }
-
 @keyframes hide-tours-dialog {
   to {
-      transform: translateY(130%);
+      transform: translateY(200%);
   }
 }
+@media (min-width: 900px) {
+  @keyframes show-tours-dialog {
+    from {
+        transform: translateX(-200%);
+    }
+  
+    to {
+        transform: translateX(0%);
+    }
+  }
+  @keyframes hide-tours-dialog {
+    to {
+        transform: translateX(-200%);
+    }
+  }
+}
+
+
 
 header .header .tours-navigation .close {
   border: 1px solid var(--header-border-color);
@@ -452,6 +469,9 @@ header .header .search-dialog .close {
     width: 440px;
     position: absolute;
     inset: 100px auto;
-    box-shadow: 0 0 100vh rgba(0 0 0 80%);
+  }
+
+  header .header .tours-navigation[open]::backdrop {
+    background-color: #0004;
   }
 }

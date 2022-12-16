@@ -87,7 +87,7 @@ function decorateUserActions(container) {
   tours.innerText = 'Tours';
   tours.addEventListener('click', () => {
     const toursDialog = document.querySelector('#tours-navigation');
-    toursDialog.show();
+    toursDialog.showModal();
   });
   actions.append(tours);
 
