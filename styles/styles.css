@@ -53,8 +53,8 @@
   --text-color: var(--color-black);
   --background-color: var(--color-white);
   --link-color: var(--text-color);
-  --link-hover-color: var(--color-light-grey);
-  --overlay-background-color: var(--color-dark-grey);
+  --link-hover-color: var(--color-slate);
+  --overlay-background-color: var(--color-black-50);
 
   /* fonts */
   --body-font-family: "Suisse Intl", "Suisse Intl-fallback", "Helvetica Neue", helvetica, arial, sans-serif;
@@ -228,25 +228,27 @@ pre {
 
 a.button:any-link, button {
   font-family: var(--body-font-family);
-  display: inline-block;
-  box-sizing: border-box;
-  text-decoration: none;
-  border: 2px solid transparent;
-  padding: 5px 30px;
-  text-align: center;
+  font-size: var(--heading-font-size-xs);
+  line-height: var(--heading-line-height-xs);
+  letter-spacing: var(--heading-letter-spacing-xs);
   font-style: normal; 
   font-weight: 600;
-  cursor: pointer;
-  color: var(--background-color);
-  background-color: var(--link-color);
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  box-sizing: border-box;
+  padding: 5px 30px;
   margin: 16px 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  border-radius: 30px;
+  border-radius: 100px;
+  cursor: pointer;
+  color: var(--background-color);
+  background-color: var(--link-color);
 }
 
-a.button:hover, a.button:focus, button:hover, button:focus  {
+a.button:hover, button:hover  {
   background-color: var(--link-hover-color);
   cursor: pointer;
 }
@@ -259,7 +261,7 @@ button:disabled, button:disabled:hover {
 a.button.secondary, button.secondary {
   background-color: unset;
   border: 2px solid currentcolor;
-  color: var(--text-color)
+  color: var(--text-color);
 } 
 
 
