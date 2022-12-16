@@ -739,7 +739,7 @@ initHlx();
 
 const LCP_BLOCKS = ['carousel', 'hero']; // add your LCP blocks to the list
 const RUM_GENERATION = 'project-1'; // add your RUM generation information here
-const PRODUCTION_DOMAINS = ['www.theplayers.com'];
+const PRODUCTION_DOMAINS = ['www.pgatour.com'];
 
 sampleRUM('top');
 window.addEventListener('load', () => sampleRUM('load'));
@@ -825,12 +825,18 @@ export function decorateLinkedPictures(main) {
   });
 }
 
-async function loadHeaderFooterContent(header, footer) {
+export function getPgaTourDomain() {
   const isProd = window.location.host === 'www.pgatour.com';
-  const pgaTourProdUrl = 'https://www.pgatour.com';
+  const pgaTourProdUrl = 'https://www.pgatour.com/';
   const pgaTourStagingUrl = 'https://pgatour-uat.dev.pgatourstaging.com/';
+
+  return isProd ? pgaTourProdUrl : pgaTourStagingUrl;
+}
+
+async function loadHeaderFooterContent(header, footer) {
+  const pgaTourContentUrl = getPgaTourDomain();
   const workerPrefix = 'https://little-forest-58aa.david8603.workers.dev/?url=';
-  const fetchUrl = isProd ? pgaTourProdUrl : `${workerPrefix}${encodeURIComponent(pgaTourStagingUrl)}`;
+  const fetchUrl = `${workerPrefix}${encodeURIComponent(pgaTourContentUrl)}`;
   const resp = await fetch(fetchUrl);
   if (resp.ok) {
     const syntheticDiv = document.createElement('div');
@@ -840,21 +846,19 @@ async function loadHeaderFooterContent(header, footer) {
       style.remove();
     });
 
-    if (!isProd) {
-      syntheticDiv.querySelectorAll('a').forEach((link) => {
-        const href = link.getAttribute('href');
-        if (href.startsWith('/')) {
-          link.href = `https://pgatour-uat.dev.pgatourstaging.com${href}`;
-        }
-      });
+    syntheticDiv.querySelectorAll('img').forEach((img) => {
+      const src = img.getAttribute('src');
+      if (src.startsWith('/')) {
+        img.src = `${pgaTourContentUrl}${src}`;
+      }
+    });
 
-      syntheticDiv.querySelectorAll('img').forEach((img) => {
-        const src = img.getAttribute('src');
-        if (src.startsWith('/')) {
-          img.src = `https://pgatour-uat.dev.pgatourstaging.com${src}`;
-        }
-      });
-    }
+    syntheticDiv.querySelectorAll('a').forEach((link) => {
+      const href = link.getAttribute('href');
+      if (href.startsWith('/')) {
+        link.href = `${pgaTourContentUrl}${href}`;
+      }
+    });
 
     const headerBlock = document.createElement('div');
     headerBlock.classList.add('header', 'block');
