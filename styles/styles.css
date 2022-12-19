@@ -156,6 +156,11 @@ header {
   height: var(--nav-height);
 }
 
+header .header,
+footer .footer {
+  display: none;
+}
+
 h1, h2, h3,
 h4, h5, h6 {
   font-family: var(--heading-font-family);
@@ -169,78 +174,91 @@ h4, h5, h6 {
   font-size: var(--heading-font-size-xxxl);
   line-height: var(--heading-line-height-xxxl);
   letter-spacing: var(--heading-letter-spacing-xxxl);
+  font-weight: 600;
 }
 
 h1, .heading-xxl { 
   font-size: var(--heading-font-size-xxl);
   line-height: var(--heading-line-height-xxl);
   letter-spacing: var(--heading-letter-spacing-xxl);
+  font-weight: 600;
 }
 
 h2, .heading-xl { 
   font-size: var(--heading-font-size-xl);
   line-height: var(--heading-line-height-xl);
   letter-spacing: var(--heading-letter-spacing-xl);
+  font-weight: 600;
 }
 
 h3, .heading-l { 
   font-size: var(--heading-font-size-l);
   line-height: var(--heading-line-height-l);
   letter-spacing: var(--heading-letter-spacing-l);
+  font-weight: 600;
 }
 
 h4, .heading-m { 
   font-size: var(--heading-font-size-m);
   line-height: var(--heading-line-height-m);
   letter-spacing: var(--heading-letter-spacing-m);
+  font-weight: 600;
 }
 
 h5, .heading-s { 
   font-size: var(--heading-font-size-s);
   line-height: var(--heading-line-height-s);
   letter-spacing: var(--heading-letter-spacing-s);
+  font-weight: 600;
 }
 
 h6, .heading-xs { 
   font-size: var(--heading-font-size-xs);
   line-height: var(--heading-line-height-xs);
   letter-spacing: var(--heading-letter-spacing-xs);
+  font-weight: 600;
 }
 
 .heading-xxs {
   font-size: var(--heading-font-size-xxs);
   line-height: var(--heading-line-height-xxs);
   letter-spacing: var(--heading-letter-spacing-xxs);
+  font-weight: 600;
 }
 
 .text-xxl {
   font-size: var(--body-font-size-xxl);
   line-height: var(--body-line-height-xxl);
   letter-spacing: var(--body-letter-spacing-xxl);
+  font-weight: 400;
 }
 
 .text-xl {
   font-size: var(--body-font-size-xl);
   line-height: var(--body-line-height-xl);
   letter-spacing: var(--body-letter-spacing-xl);
+  font-weight: 400;
 }
 
 .text-l {
   font-size: var(--body-font-size-l);
   line-height: var(--body-line-height-l);
   letter-spacing: var(--body-letter-spacing-l);
+  font-weight: 400;
 }
 
 .text-m {
   font-size: var(--body-font-size-m);
   line-height: var(--body-line-height-m);
   letter-spacing: var(--body-letter-spacing-m);
+  font-weight: 400;
 }
 
 .text-s {
   font-size: var(--body-font-size-s);
   line-height: var(--body-line-height-s);
   letter-spacing: var(--body-letter-spacing-s);
+  font-weight: 400;
 }
 
 p, dl, ol, ul, pre, blockquote {

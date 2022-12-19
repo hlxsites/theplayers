@@ -1,6 +1,9 @@
 header .header {
   --header-border-color: var(--color-black-20);
   --header-background-color: var(--color-white);
+}
+
+header .header.appear {
   display: flex;
   padding-block: 2rem;
   align-items: center;

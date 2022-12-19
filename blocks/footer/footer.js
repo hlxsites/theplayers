@@ -1,3 +1,5 @@
+import { decorateIcons } from '../../scripts/lib-franklin.js';
+
 function decorateLogo(logo, container) {
   const logoDiv = document.createElement('div');
   logoDiv.classList.add('brand');
@@ -22,10 +24,16 @@ function buildNavList(navHeader, navLinks) {
     li.classList.toggle('active');
   });
 
-  const span = document.createElement('span');
-  span.classList.add('nav-list-heading');
-  span.textContent = navHeader;
-  li.prepend(span);
+  const navHeading = document.createElement('h2');
+  navHeading.classList.add('nav-list-heading', 'heading-xs');
+  navHeading.textContent = navHeader;
+
+  const icon = document.createElement('span');
+  icon.classList.add('icon', 'icon-arrow-down');
+  navHeading.append(icon);
+
+  li.prepend(navHeading);
+
 
   const subUl = document.createElement('ul');
   subUl.classList.add('nav-sublist');
@@ -33,7 +41,7 @@ function buildNavList(navHeader, navLinks) {
 
   navLinks.forEach((link) => {
     const subLi = document.createElement('li');
-    subLi.classList.add('nav-item');
+    subLi.classList.add('nav-item', 'text-l');
     const a = document.createElement('a');
     subLi.append(a);
     a.href = link.href;
@@ -76,7 +84,7 @@ function decorateSocialLinks(socialLinks, copyRightText, container) {
   div.classList.add('social-links');
 
   const copyright = document.createElement('p');
-  copyright.classList.add('copyright');
+  copyright.classList.add('copyright', 'text-s');
   copyright.innerText = copyRightText.innerText;
   div.append(copyright);
 
@@ -93,7 +101,7 @@ function decorateSocialLinks(socialLinks, copyRightText, container) {
 
 function decorateLegal(trademarksText, container) {
   const legal = document.createElement('p');
-  legal.classList.add('legal');
+  legal.classList.add('legal', 'text-s');
   legal.innerHTML = trademarksText.innerHTML;
   container.append(legal);
 }
@@ -116,5 +124,6 @@ export default async function decorate(block) {
 
   block.innerHTML = '';
   block.append(container);
+  decorateIcons(block);
   block.classList.add('appear');
 }

@@ -1,0 +1,197 @@
+footer .footer {
+  --footer-top-border-color: var(--color-black);
+  --footer-internal-border-color: var(--color-black-20);
+  --footer-light-text-color: var(--color-black-50);
+  padding: 0 2rem 3rem;
+}
+
+footer .footer.appear {
+  display: block;
+}
+
+footer .footer li {
+  list-style: none;
+}
+
+footer .footer a:hover {
+  text-decoration: none;
+}
+
+footer .footer .brand {
+  margin-bottom: 3.2rem;
+}
+
+footer .footer nav {
+  border-top: 2px solid var(--footer-top-border-color);
+}
+
+@media (min-width: 900px) {
+  footer .footer .brand {
+    margin-bottom: 1.8rem;
+  }
+
+  footer .footer {
+    border-top: 1px solid var(--footer-internal-border-color);
+    padding: 4.8rem 2rem;
+  }
+
+  footer .footer nav {
+    border-top: none;
+  }
+}
+
+footer .footer nav .nav-lists {
+  margin: 0;
+  padding: 0;
+}
+
+footer .footer nav .nav-lists .nav-list {
+  border-bottom: 1px solid var(--footer-internal-border-color);
+}
+
+footer .footer nav .nav-lists .nav-list .nav-list-heading {
+  cursor: pointer;
+  display: block;
+  padding-block: 1.6rem;
+  margin: 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+footer .footer nav .nav-lists .nav-list .nav-list-heading .icon {
+  transition: transform .3s;
+}
+
+footer .footer nav .nav-lists .nav-list.active .nav-list-heading .icon {
+  transform: rotate(180deg);
+}
+
+footer .footer nav .nav-lists .nav-list .nav-sublist {
+  margin: 0;
+  padding: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .3s;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+footer .footer nav .nav-lists .nav-list.active .nav-sublist {
+  max-height: 300px;
+  visibility: visible;
+  transition: max-height .3s;
+}
+
+footer .footer nav .nav-lists .nav-list .nav-sublist .nav-item a {
+  display: inline-flex;
+  gap: .8rem;
+}
+
+footer .footer nav .nav-lists .nav-list .nav-sublist .nav-item:last-child {
+  margin-bottom: 2.4rem;
+}
+
+@media (min-width: 900px) {
+  footer .footer nav .nav-lists {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+  }
+
+  footer .footer nav .nav-lists .nav-list {
+    border-bottom: none;
+    grid-column: span 2;
+  }
+
+  footer .footer nav .nav-lists .nav-list .nav-list-heading {
+    cursor: unset;
+  }
+
+  footer .footer nav .nav-lists .nav-list .nav-list-heading .icon {
+    display: none;
+  }
+
+  footer .footer nav .nav-lists .nav-privacy .nav-list-heading {
+    display: none;
+  }
+
+  footer .footer nav .nav-lists .nav-list .nav-sublist {
+    max-height: 300px;
+  }
+
+  footer .footer nav .nav-lists .nav-list .nav-sublist .nav-item:last-child {
+    margin-bottom: 0;
+  }
+
+  footer .footer nav .nav-lists .nav-privacy {
+    grid-row: 2;
+    grid-column: 1 / span 12;
+    margin-top: 3.6rem;
+  }
+
+  footer .footer nav .nav-lists .nav-privacy .nav-sublist {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border-block: 1px solid var(--footer-internal-border-color);
+    padding-block: 1.6rem;
+  }
+
+  footer .footer nav .nav-lists .nav-privacy .nav-sublist .nav-item {
+    font-size: var(--body-font-size-s);
+    line-height: var(--body-line-height-s);
+    letter-spacing: var(--body-letter-spacing-s);
+    font-weight: 400;
+  }
+}
+
+footer .footer .social-links {
+  display: grid;
+  margin-top: 3.2rem;
+  text-align: center;
+  grid-template-areas: 
+    'social'
+    'copyright';
+}
+
+footer .footer .social-links .copyright {
+  grid-area: copyright;
+}
+
+footer .footer .social-links .social-container {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  grid-area: social;
+}
+
+footer .footer .social-links .social-container a > svg {
+  height: 25px;
+  color: currentcolor;
+  display: inherit;
+}
+
+footer .footer .legal {
+  text-align: center;
+  color: var(--footer-light-text-color)
+}
+
+@media (min-width: 900px) { 
+  footer .footer .social-links {
+    grid-template-areas: 
+      'copyright social';
+    text-align: left;
+    border-bottom: 1px solid var(--footer-internal-border-color);
+    margin-top: 0;
+    padding-block: 1.4rem;
+  }
+
+  footer .footer .social-links .social-container {
+    justify-content: right;
+    align-items: center;
+  }
+
+  footer .footer .legal {
+    text-align: left;
+  }
+}
