@@ -1,20 +1,21 @@
 import {
   sampleRUM,
   buildBlock,
-  loadHeader,
-  loadFooter,
+  loadBlock,
   decorateButtons,
   decorateIcons,
   decorateSections,
   decorateBlocks,
+  decorateBlock,
   decorateTemplateAndTheme,
   waitForLCP,
   loadBlocks,
   loadCSS,
 } from './lib-franklin.js';
 
-const LCP_BLOCKS = []; // add your LCP blocks to the list
+const LCP_BLOCKS = ['carousel', 'hero']; // add your LCP blocks to the list
 window.hlx.RUM_GENERATION = 'project-1'; // add your RUM generation information here
+const PRODUCTION_DOMAINS = ['www.pgatour.com'];
 
 function buildHeroBlock(main) {
   const h1 = main.querySelector('h1');
@@ -85,6 +86,89 @@ export function addFavIcon(href) {
 }
 
 /**
+ * @returns the pgatour domain from which to load content
+ */
+export function getPgaTourDomain() {
+  const isProd = window.location.host === 'www.pgatour.com';
+  const pgaTourProdUrl = 'https://www.pgatour.com';
+  const pgaTourStagingUrl = 'https://pgatour-uat.dev.pgatourstaging.com';
+
+  return isProd ? pgaTourProdUrl : pgaTourStagingUrl;
+}
+
+/**
+ * load the header and footer content from pgatour.com
+ * @param {*} header the header element
+ * @param {*} footer the footer element
+ */
+async function loadHeaderFooterContent(header, footer) {
+  const pgaTourContentUrl = getPgaTourDomain();
+  const workerPrefix = 'https://little-forest-58aa.david8603.workers.dev/?url=';
+  const fetchUrl = `${workerPrefix}${encodeURIComponent(pgaTourContentUrl)}`;
+  const resp = await fetch(fetchUrl);
+  if (resp.ok) {
+    const syntheticDiv = document.createElement('div');
+    const markup = await resp.text();
+    syntheticDiv.innerHTML = markup;
+    syntheticDiv.querySelectorAll('style').forEach((style) => {
+      style.remove();
+    });
+
+    syntheticDiv.querySelectorAll('img').forEach((img) => {
+      const src = img.getAttribute('src');
+      if (src.startsWith('/')) {
+        img.src = `${pgaTourContentUrl}${src}`;
+      }
+    });
+
+    syntheticDiv.querySelectorAll('a').forEach((link) => {
+      const href = link.getAttribute('href');
+      if (href.startsWith('/')) {
+        link.href = `${pgaTourContentUrl}${href}`;
+      }
+    });
+
+    const headerBlock = document.createElement('div');
+    headerBlock.classList.add('header', 'block');
+    headerBlock.append(syntheticDiv.querySelector('#__next > div'));
+    header.append(headerBlock);
+
+    const footerBlock = document.createElement('div');
+    footerBlock.classList.add('footer', 'block');
+    footerBlock.append(...syntheticDiv.querySelector('#__next footer').children);
+    footer.append(footerBlock);
+  }
+}
+
+/**
+ * checks is search param 'view' is set to 'app'
+ */
+function isAppView() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get('view') === 'app';
+}
+
+/**
+ * A custom verison of loadHeader, different than what is found in lib-franklin 
+ * it doesn't build the block, just loads and decorates based on content loaded in loadHeaderFooterContent
+ */
+async function loadHeaderEx(header) {
+  const headerBlock = header.querySelector('.block');
+  decorateBlock(headerBlock);
+  await loadBlock(headerBlock);
+}
+
+/**
+ * A custom verison of loadFooter, different than what is found in lib-franklin 
+ * it doesn't build the block, just loads and decorates based on content loaded in loadHeaderFooterContent
+ */
+async function loadFooterEx(footer) {
+  const footerBlock = footer.querySelector('.block');
+  decorateBlock(footerBlock);
+  await loadBlock(footerBlock);
+}
+
+/**
  * loads everything that doesn't need to be delayed.
  */
 async function loadLazy(doc) {
@@ -95,8 +179,13 @@ async function loadLazy(doc) {
   const element = hash ? main.querySelector(hash) : false;
   if (hash && element) element.scrollIntoView();
 
-  loadHeader(doc.querySelector('header'));
-  loadFooter(doc.querySelector('footer'));
+  if (isAppView()) {
+    document.querySelector('header').remove();
+  } else {
+    await loadHeaderFooterContent(doc.querySelector('header'), doc.querySelector('footer'));
+    loadHeaderEx(doc.querySelector('header'));
+    loadFooterEx(doc.querySelector('footer'));
+  }
 
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
   addFavIcon(`${window.hlx.codeBasePath}/styles/favicon.svg`);
