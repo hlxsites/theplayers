@@ -82,7 +82,7 @@ footer .footer nav .nav-lists .nav-list.active .nav-sublist {
   transition: max-height .3s;
 }
 
-footer .footer nav .nav-lists .nav-list .nav-sublist .nav-item a {
+footer .footer nav .nav-lists .nav-list .nav-sublist .nav-item a:not(:empty) {
   display: inline-flex;
   gap: .8rem;
 }

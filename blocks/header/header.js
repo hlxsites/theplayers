@@ -285,6 +285,19 @@ function buildNavDialog(navList) {
   close.setAttribute('aria-label', 'Close');
   headerContent.append(close);
 
+  // when changing from breakpoints, close the dialogs to avoid weird styling issues
+  const mediaQuery = window.matchMedia('(min-width:900px)');
+  mediaQuery.addEventListener('change', () => {
+    const toursDialog = document.querySelector('#tours-navigation');
+    if (toursDialog.open) {
+      toursDialog.close();
+    }
+
+    if (mediaQuery.matches && dialog.open) {
+      dialog.close();
+    }
+  });
+
   // unroll the more links for mobile nav dialog
   const more = navList.querySelector('.more');
   const moreUl = more.querySelector('ul');

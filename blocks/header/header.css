@@ -223,6 +223,7 @@ header .header .primary-navigation-dialog.hide {
 header .header .tours-navigation {
   width: 100%;
   height: max-content;
+  max-height: 100%;
   position: fixed;
   bottom: 0;
   z-index: 5;
@@ -281,10 +282,20 @@ header .header .tours-navigation .close svg {
 }
 
 @media (min-width: 900px) {
+  header .header .tours-navigation[open] {
+    animation-name: none;
+  }
+  
+  header .header .tours-navigation.hide {
+    animation-name: none;
+  }
+
   header .header .tours-navigation {
     width: 440px;
     position: absolute;
-    inset: 100px auto;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
   } 
 
   header .header .tours-navigation[open]::backdrop {
@@ -317,14 +328,6 @@ header .header .header-container .user-actions .user {
   header .header .header-container .user-actions .tours {
     display: block;
     border-radius: 0;
-  }
-
-  header .header .tours-navigation[open] {
-    animation-name: none;
-  }
-  
-  header .header .tours-navigation.hide {
-    animation-name: none;
   }
 }
 
