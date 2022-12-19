@@ -20,9 +20,6 @@ function decorateLogo(logo, container) {
 function buildNavList(navHeader, navLinks) {
   const li = document.createElement('li');
   li.classList.add('nav-list');
-  li.addEventListener('click', () => {
-    li.classList.toggle('active');
-  });
 
   const navHeading = document.createElement('h2');
   navHeading.classList.add('nav-list-heading', 'heading-xs');
@@ -33,6 +30,9 @@ function buildNavList(navHeader, navLinks) {
   navHeading.append(icon);
 
   li.prepend(navHeading);
+  navHeading.addEventListener('click', () => {
+    li.classList.toggle('active');
+  });
 
 
   const subUl = document.createElement('ul');

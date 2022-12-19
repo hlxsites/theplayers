@@ -51,7 +51,6 @@ footer .footer nav .nav-lists .nav-list {
 
 footer .footer nav .nav-lists .nav-list .nav-list-heading {
   cursor: pointer;
-  display: block;
   padding-block: 1.6rem;
   margin: 0;
   display: flex;
