@@ -41,7 +41,7 @@
     grid-template-columns: 1fr;
 }
 
-main .cards.full-width > ul > li {
+.cards.full-width > ul > li {
     display: grid;
     grid-template-columns: 200px 1fr;
 }

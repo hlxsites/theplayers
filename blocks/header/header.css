@@ -126,6 +126,7 @@ header .header .navigation-list.secondary-navigation-list {
 /* general dialog, nav and tours */
 header .header .dialog-container {
   display: grid;
+  grid-template-rows: var(--nav-height) 1fr min-content;
 }
 
 header .header .dialog-container .dialog-header {
@@ -192,6 +193,10 @@ header .header .primary-navigation-dialog {
   overflow-y: auto;
   box-sizing: border-box;
   padding: 0 1em;
+}
+
+header .header .primary-navigation-dialog .dialog-container {
+  height: 100%;
 }
 
 header .header .primary-navigation-dialog .dialog-container .navigation-list {
