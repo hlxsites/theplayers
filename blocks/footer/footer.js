@@ -1,5 +1,21 @@
 import { decorateIcons } from '../../scripts/lib-franklin.js';
 
+function setupCookieChoices(container) {
+  const privacyNavList = container.querySelector('.nav-privacy .nav-sublist');
+  if (privacyNavList) {
+    const subLi = document.createElement('li');
+    subLi.classList.add('nav-item', 'text-l');
+    subLi.classList.add('onetrust-link');
+
+    const cookieLink = document.createElement('a');
+    cookieLink.className = 'ot-sdk-show-settings';
+    cookieLink.id = 'ot-sdk-btn';
+    subLi.append(cookieLink);
+    const insertAt = privacyNavList.childElementCount - 1;
+    privacyNavList.insertBefore(subLi, privacyNavList.children[insertAt]);
+  }
+}
+
 function decorateLogo(logo, container) {
   const logoDiv = document.createElement('div');
   logoDiv.classList.add('brand');
@@ -33,7 +49,6 @@ function buildNavList(navHeader, navLinks) {
   navHeading.addEventListener('click', () => {
     li.classList.toggle('active');
   });
-
 
   const subUl = document.createElement('ul');
   subUl.classList.add('nav-sublist');
@@ -121,6 +136,7 @@ export default async function decorate(block) {
   decorateNav(navLists, privacyLinks, container);
   decorateSocialLinks(socialLinks, copyRightText, container);
   decorateLegal(trademarksText, container);
+  setupCookieChoices(container);
 
   block.innerHTML = '';
   block.append(container);

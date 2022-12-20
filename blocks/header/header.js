@@ -17,6 +17,22 @@ function closeDialog(dlg) {
   }
 }
 
+function buildSignInDialog() {
+  const dialog = document.createElement('dialog');
+  dialog.id = 'sign-in-dialog';
+  dialog.className = 'sign-in-dialog';
+
+  return dialog;
+}
+
+function buildSignUpDialog() {
+  const dialog = document.createElement('dialog');
+  dialog.id = 'sign-up-dialog';
+  dialog.className = 'sign-up-dialog';
+
+  return dialog;
+}
+
 function buildMoreLinks(moreLink) {
   const moreLi = document.createElement('li');
   moreLi.classList.add('more');
@@ -24,12 +40,29 @@ function buildMoreLinks(moreLink) {
 
   moreLink.addEventListener('click', (e) => {
     e.preventDefault();
-    moreLi.classList.toggle('open');
+    let docListener;
+    const open = moreLi.classList.contains('open');
+    if (!open) {
+      moreLi.classList.add('open');
+      docListener = document.addEventListener('click', (evt) => {
+        if (!moreLi.contains(evt.target) && moreLi.classList.contains('open')) {
+          moreLi.classList.remove('open');
+          if (docListener) {
+            document.removeEventListener('click', docListener);
+          }
+        }
+      });
+    } else {
+      moreLi.classList.remove('open');
+      if (docListener) {
+        document.removeEventListener('click', docListener);
+      }
+    }
   });
 
   const domain = getPgaTourDomain();
 
-  moreLi.insertAdjacentHTML('beforeend', '<span class="icon icon-arrow-down">More<span>');
+  moreLi.insertAdjacentHTML('beforeend', '<span class="icon icon-arrow-down"><span>');
   // TODO this is hardcoded for now, but probably shouldn't be
   moreLi.insertAdjacentHTML('beforeend', `
   <div>
@@ -102,10 +135,10 @@ function decorateUserActions(container) {
   const user = document.createElement('button');
   user.innerHTML = '<span class="icon icon-user"></span>';
   user.classList.add('user');
-  user.addEventListener('click', () => {
-    const expanded = user.getAttribute('data-expanded') === 'true';
-    user.setAttribute('data-expanded', expanded ? 'false' : 'true');
-  });
+  // user.addEventListener('click', () => {
+  //   const signInDialog = document.querySelector('#sign-in-dialog');
+  //   signInDialog.showModal();
+  // });
   user.setAttribute('aria-label', 'Profile');
   actions.append(user);
 
@@ -139,7 +172,7 @@ function decorateUserActions(container) {
   dialogContainer.append(searchClose);
 
   const search = document.createElement('button');
-  search.innerHTML = `<span class="icon icon-search">Search</span>`;
+  search.innerHTML = '<span class="icon icon-search"></span>';
   search.classList.add('search');
   search.addEventListener('click', () => {
     const active = searchDialog.classList.contains('active');
@@ -159,7 +192,7 @@ function decorateUserActions(container) {
   });
 
   const hamburger = document.createElement('button');
-  hamburger.innerHTML = '<span class="icon icon-menu">Menu</span>';
+  hamburger.innerHTML = '<span class="icon icon-menu"></span>';
   hamburger.classList.add('hamburger');
   hamburger.setAttribute('aria-label', 'Menu');
 
@@ -243,17 +276,17 @@ function buildNavDialog(navList) {
   container.classList.add('dialog-container');
   dialog.append(container);
 
-  const header = document.createElement('div');
-  header.classList.add('dialog-header');
-  container.append(header);
+  const dialogHeader = document.createElement('div');
+  dialogHeader.classList.add('dialog-header');
+  container.append(dialogHeader);
 
   const headerContent = document.createElement('div');
   headerContent.classList.add('dialog-header-content');
-  header.append(headerContent);
+  dialogHeader.append(headerContent);
 
-  const body = document.createElement('div');
-  body.classList.add('dialog-body');
-  container.append(body);
+  const dialogBody = document.createElement('div');
+  dialogBody.classList.add('dialog-body');
+  container.append(dialogBody);
 
   const toursButton = document.createElement('button');
   toursButton.classList.add('tours');
@@ -294,6 +327,7 @@ function buildNavDialog(navList) {
     }
 
     if (mediaQuery.matches && dialog.open) {
+      document.body.style.overflowY = 'auto';
       dialog.close();
     }
   });
@@ -304,8 +338,27 @@ function buildNavDialog(navList) {
   moreUl.classList.add('navigation-list', 'secondary-navigation-list');
   more.remove();
 
-  body.append(navList);
-  body.append(moreUl);
+  dialogBody.append(navList);
+  dialogBody.append(moreUl);
+
+  const dialogFooter = document.createElement('div');
+  dialogFooter.classList.add('dialog-footer');
+  dialogFooter.innerHTML = `
+    <img src="${domain}/images/logos/pga-tour-logo.svg" alt="PGA TOUR">
+    <h4>Create An Account</h4>
+    <p>Track your favorite players, tours, topics and tournaments</p>
+    <div class="button-container">
+      <button class="button sign-up">Sign Up</button>
+      <button class="button secondary sign-in">Sign In</button>
+    </div>
+  `;
+  // dialogFooter.querySelector('.sign-up').addEventListener('click', () => {
+  //   document.querySelector('#sign-up-dialog').showModal();
+  // });
+  // dialogFooter.querySelector('.sign-in').addEventListener('click', () => {
+  //   document.querySelector('#sign-in-dialog').showModal();
+  // });
+  container.append(dialogFooter);
 
   return dialog;
 }
@@ -346,10 +399,11 @@ export default async function decorate(block) {
   decorateUserActions(container);
   block.append(buildNavDialog(container.querySelector('.primary-navigation-list').cloneNode(true)));
   block.append(buildToursDialog(tourLinks));
+  block.append(buildSignInDialog());
+  block.append(buildSignUpDialog());
 
   block.append(container);
 
   decorateIcons(block);
-  
   block.classList.add('appear');
 }

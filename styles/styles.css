@@ -11,16 +11,9 @@
  */
 
  :root {
-  /* colors */
+  /* colors from style guide */
   --color-black: #000;
-  --color-near-black: #1A202C;
-  --color-tour-blue: #20487C;
   --color-white: #FFF;
-
-  --color-black-50: #00000080;
-  --color-black-20: #00000033;
-
-  /* 
   --color-slate: #393939;
   --color-dark-grey: #757575;
   --color-light-grey: #949494;
@@ -45,16 +38,24 @@
   --color-highlight-sun: #FDF4A6;
   --color-highlight-mulligan: #FFC1A7;
   --color-black-75: #000000BF;
+  --color-black-50: #00000080;
   --color-black-25: #00000040;
+  --color-black-20: #0003;
   --color-black-10: #0000001A;
   --color-black-05: #0000000D;
   --color-white-75: #FFFFFFBF;
   --color-white-50: #FFFFFF80;
   --color-white-25: #FFFFFF40;
-  --color-white-20: #FFFFFF33;
+  --color-white-20: #FFF3;
   --color-white-10: #FFFFFF1A;
-  --color-white-05: #FFFFFF0D; */
+  --color-white-05: #FFFFFF0D; 
 
+  /* other colors used */  
+  --color-near-black: #1A202C;
+  --color-tour-blue: #20487C;
+  --color-tour-red: #d90109;
+
+  /* element colors */
   --text-color: var(--color-near-black);
   --background-color: var(--color-white);
   --link-color: var(--text-color);
@@ -75,7 +76,6 @@
   --heading-font-size-s: 1.9rem;
   --heading-font-size-xs: 1.5rem;
   --heading-font-size-xxs: 1.3rem;
-
   --heading-line-height-xxxl: 7rem;
   --heading-line-height-xxl: 6.2rem;
   --heading-line-height-xl: 4.4rem;
@@ -84,7 +84,6 @@
   --heading-line-height-s: 2.2rem;
   --heading-line-height-xs: 1.6rem;
   --heading-line-height-xxs: 1.4rem;
-
   --heading-letter-spacing-xxxl: -1.4px;
   --heading-letter-spacing-xxl: -1.15px;
   --heading-letter-spacing-xl: -.8px;
@@ -100,13 +99,11 @@
   --body-font-size-l: 1.5rem;
   --body-font-size-m: 1.3rem;
   --body-font-size-s: 1.1rem;
-
   --body-line-height-xxl: 2.8rem;
   --body-line-height-xl: 2.6rem;
   --body-line-height-l: 2.4rem;
   --body-line-height-m: 1.8rem;
   --body-line-height-s: 1.4rem;
-
   --body-letter-spacing-xxl: 0;
   --body-letter-spacing-xl: 0;
   --body-letter-spacing-l: 0;
@@ -132,11 +129,11 @@ html {
 }
 
 body {
-  font-size: var(--body-font-size-m);
   margin: 0;
+  font-size: var(--body-font-size-l);
   font-family: var(--body-font-family);
-  line-height: var(--body-line-height-m);
-  letter-spacing: var(--body-letter-spacing-m);
+  line-height: var(--body-line-height-l);
+  letter-spacing: var(--body-letter-spacing-l);
   color: var(--text-color);
   background-color: var(--background-color);
   display: none;
@@ -272,7 +269,7 @@ a:any-link {
 }
 
 a:hover {
-  text-decoration: underline;
+  text-decoration: none;
   color: var(--link-hover-color);
 }
 
@@ -290,6 +287,11 @@ pre {
 }
 
 /* buttons */
+.button-container {
+  display: flex; 
+  width: 100%; 
+  gap: 1rem;
+}
 
 a.button:any-link, button {
   font-family: var(--body-font-family);
@@ -302,7 +304,7 @@ a.button:any-link, button {
   text-decoration: none;
   display: inline-block;
   box-sizing: border-box;
-  padding: 5px 30px;
+  padding: 1.6rem 2.4rem;
   margin: 16px 0;
   white-space: nowrap;
   overflow: hidden;
@@ -311,6 +313,8 @@ a.button:any-link, button {
   cursor: pointer;
   color: var(--background-color);
   background-color: var(--link-color);
+  border: none;
+  flex: 0 1 250px;
 }
 
 a.button:hover, button:hover  {
@@ -349,7 +353,7 @@ main input:hover {
 }
 
 main .section {
-  padding: 64px 16px;
+  padding: 2rem 1rem;
 }
 
 main pre {
@@ -392,7 +396,7 @@ main img {
 
 @media (min-width: 600px) {
   main .section {
-    padding: 64px 32px;
+    padding: 3rem 1rem;
   }  
 }
 
@@ -401,4 +405,24 @@ main img {
     max-width: 1200px;
     margin: auto;
   }
+}
+
+main .section > .default-content-wrapper {
+  padding: 1rem 2rem;
+}
+
+/* company pages */
+.company-pages main .section:not(:first-child) {
+  color: var(--color-white);
+  background-color: var(--color-tour-blue);
+}
+
+.company-pages main .section:not(:first-child) :is(h3, h4, h5, h6) {
+  color: var(--color-tour-red);
+}
+
+/* highlight */
+main .section.highlight > .default-content-wrapper {
+  background-color: var(--color-white);
+  color: var(--text-color);
 }

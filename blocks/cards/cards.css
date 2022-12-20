@@ -9,11 +9,12 @@
 
 .cards > ul > li {
     border: 1px solid var(--highlight-background-color);
-    background-color: var(--background-color)
+    background-color: var(--background-color);
+    color: var(--text-color);
 }
 
 .cards .cards-card-body {
-    margin: 16px;
+    padding: 16px;
 }
 
 .cards .cards-card-image {
@@ -28,4 +29,19 @@
     width: 100%;
     aspect-ratio: 4 / 3;
     object-fit: cover;
+}
+
+.company-pages .cards h2,
+.company-pages .cards h2 > a {
+    color: var(--color-tour-blue);
+}
+
+/* full-width cards */
+.cards.full-width > ul {
+    grid-template-columns: 1fr;
+}
+
+main .cards.full-width > ul > li {
+    display: grid;
+    grid-template-columns: 200px 1fr;
 }

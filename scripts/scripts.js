@@ -15,7 +15,30 @@ import {
 
 const LCP_BLOCKS = ['carousel', 'hero']; // add your LCP blocks to the list
 window.hlx.RUM_GENERATION = 'project-1'; // add your RUM generation information here
-const PRODUCTION_DOMAINS = ['www.pgatour.com'];
+
+/**
+ * Add dynamic font sizing CSS class names to headings
+ *
+ * The CSS class names are determined by character counts.
+ * @param {Element} block The container element
+ * @param {string} classPrefix Prefix in CSS class names before "-long", "-very-long", "-x-long".
+ * Default is "heading".
+ * @param {string} selector CSS selector to select the target heading tags. Default is "h1, h2".
+ */
+export function addHeaderSizing(block, classPrefix = 'heading', selector = 'h1, h2') {
+  const headings = block.querySelectorAll(selector);
+  const sizes = [
+    { name: 'long', threshold: 30 },
+    { name: 'very-long', threshold: 40 },
+    { name: 'x-long', threshold: 50 },
+  ];
+  headings.forEach((h) => {
+    const { length } = h.textContent;
+    sizes.forEach((size) => {
+      if (length >= size.threshold) h.classList.add(`${classPrefix}-${size.name}`);
+    });
+  });
+}
 
 function buildHeroBlock(main) {
   const h1 = main.querySelector('h1');
@@ -23,9 +46,62 @@ function buildHeroBlock(main) {
   // eslint-disable-next-line no-bitwise
   if (h1 && picture && (h1.compareDocumentPosition(picture) & Node.DOCUMENT_POSITION_PRECEDING)) {
     const section = document.createElement('div');
-    section.append(buildBlock('hero', { elems: [picture, h1] }));
+    const elems = [];
+    const currentSection = h1.closest('main > div');
+    if (!currentSection.previousElementSibling) {
+      [...currentSection.children].forEach((child) => { elems.push(child); });
+    } else {
+      elems.push(picture);
+      elems.push(h1);
+    }
+
+    section.append(buildBlock('hero', { elems }));
     main.prepend(section);
+    const sibling = section.nextElementSibling;
+    if (sibling) { // remove empty sibling if exists
+      if (!sibling.textContent.trim().length) sibling.remove();
+    }
   }
+}
+
+export function linkPicture(picture) {
+  const nextSib = picture.parentNode.nextElementSibling;
+  if (nextSib) {
+    const a = nextSib.querySelector('a');
+    if (a && a.textContent.startsWith('https://')) {
+      a.innerHTML = '';
+      a.className = '';
+      a.appendChild(picture);
+    }
+  }
+}
+
+export function decorateLinkedPictures(main) {
+  /* thanks to word online */
+  main.querySelectorAll('picture').forEach((picture) => {
+    if (!picture.closest('div.block')) {
+      linkPicture(picture);
+    }
+  });
+}
+
+export function loadScript(url, callback, attributes) {
+  const head = document.querySelector('head');
+  if (!head.querySelector(`script[src="${url}"]`)) {
+    const script = document.createElement('script');
+    script.src = url;
+
+    if (attributes) {
+      Object.keys(attributes).forEach((key) => {
+        script.setAttribute(key, attributes[key]);
+      });
+    }
+
+    head.append(script);
+    script.onload = callback;
+    return script;
+  }
+  return head.querySelector(`script[src="${url}"]`);
 }
 
 /**
@@ -53,6 +129,7 @@ export function decorateMain(main) {
   buildAutoBlocks(main);
   decorateSections(main);
   decorateBlocks(main);
+  decorateLinkedPictures(main);
 }
 
 /**
@@ -149,8 +226,8 @@ function isAppView() {
 }
 
 /**
- * A custom verison of loadHeader, different than what is found in lib-franklin 
- * it doesn't build the block, just loads and decorates based on content loaded in loadHeaderFooterContent
+ * A custom verison of loadHeader, different than what is found in lib-franklin
+ * only loads and decorates the block based on content loaded in loadHeaderFooterContent
  */
 async function loadHeaderEx(header) {
   const headerBlock = header.querySelector('.block');
@@ -159,8 +236,8 @@ async function loadHeaderEx(header) {
 }
 
 /**
- * A custom verison of loadFooter, different than what is found in lib-franklin 
- * it doesn't build the block, just loads and decorates based on content loaded in loadHeaderFooterContent
+ * A custom verison of loadFooter, different than what is found in lib-franklin
+ * only loads and decorates the block based on content loaded in loadHeaderFooterContent
  */
 async function loadFooterEx(footer) {
   const footerBlock = footer.querySelector('.block');

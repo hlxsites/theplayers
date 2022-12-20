@@ -2,7 +2,8 @@ footer .footer {
   --footer-top-border-color: var(--color-black);
   --footer-internal-border-color: var(--color-black-20);
   --footer-light-text-color: var(--color-black-50);
-  padding: 0 2rem 3rem;
+
+  padding: 3rem 2rem;
 }
 
 footer .footer.appear {
@@ -26,13 +27,13 @@ footer .footer nav {
 }
 
 @media (min-width: 900px) {
-  footer .footer .brand {
-    margin-bottom: 1.8rem;
-  }
-
   footer .footer {
     border-top: 1px solid var(--footer-internal-border-color);
     padding: 4.8rem 2rem;
+  }
+  
+  footer .footer .brand {
+    margin-bottom: 1.8rem;
   }
 
   footer .footer nav {
@@ -118,10 +119,6 @@ footer .footer nav .nav-lists .nav-list .nav-sublist .nav-item:last-child {
     max-height: 300px;
   }
 
-  footer .footer nav .nav-lists .nav-list .nav-sublist .nav-item:last-child {
-    margin-bottom: 0;
-  }
-
   footer .footer nav .nav-lists .nav-privacy {
     grid-row: 2;
     grid-column: 1 / span 12;
@@ -142,6 +139,23 @@ footer .footer nav .nav-lists .nav-list .nav-sublist .nav-item:last-child {
     letter-spacing: var(--body-letter-spacing-s);
     font-weight: 400;
   }
+
+  footer .footer nav .nav-lists .nav-list .nav-sublist .nav-item:last-child {
+    margin-bottom: 0;
+  }
+}
+
+footer .footer #ot-sdk-btn.ot-sdk-show-settings, footer .footer #ot-sdk-btn.optanon-show-settings {
+  color: inherit;
+  cursor: pointer;
+  font-size: unset;
+  border: unset;
+  background-color: unset;
+  padding: unset;
+}
+
+footer .footer #ot-sdk-btn.ot-sdk-show-settings:hover, footer .footer #ot-sdk-btn.optanon-show-settings:hover {
+  color: var(--link-hover-color);
 }
 
 footer .footer .social-links {

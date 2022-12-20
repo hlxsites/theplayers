@@ -9,6 +9,8 @@ header .header.appear {
   align-items: center;
   justify-content: center;
   border-bottom: 1px solid var(--header-border-color);
+  height: var(--nav-height);
+  box-sizing: border-box;
 }
 
 header .header li {
@@ -19,7 +21,7 @@ header .header a:hover {
   text-decoration: none;
 }
 
-header .header button {
+header .header button:not(.button) {
   border: none;
   background-color: inherit;
   color: inherit;
@@ -105,6 +107,7 @@ header .header .navigation-list.secondary-navigation-list {
     font-size: var(--heading-font-size-xxs);
     line-height: var(--heading-line-height-xxs);
     letter-spacing: var(--heading-letter-spacing-xxs);
+    z-index: 2;
   }
 
   header .header .header-container .primary-navigation-list li.more.open > div {
@@ -133,7 +136,7 @@ header .header .dialog-container .dialog-header {
   display: flex;
   justify-content: center;
   align-items: center;
-  position: relative;
+  background-color: var(--header-background-color);
 }
 
 header .header .dialog-container .dialog-header-content {
@@ -187,6 +190,8 @@ header .header .primary-navigation-dialog {
   inset: 0;
   z-index: 4;
   overflow-y: auto;
+  box-sizing: border-box;
+  padding: 0 1em;
 }
 
 header .header .primary-navigation-dialog .dialog-container .navigation-list {
@@ -217,6 +222,15 @@ header .header .primary-navigation-dialog.hide {
   to {
       transform: translateY(-110%);
   }
+}
+
+/* user sigin and up in nav dialog */
+header .header .primary-navigation-dialog .dialog-footer h4 {
+  margin-bottom: .4rem;
+}
+
+header .header .primary-navigation-dialog .dialog-footer p {
+  margin-top: 0;
 }
 
 /* tours dialog */
@@ -270,11 +284,13 @@ header .header .tours-navigation .dialog-body > ul  > li {
   font-weight: 600;
 }
 
+/* stylelint-disable-next-line no-descending-specificity  */
 header .header .tours-navigation .close {
   outline: transparent solid 2px;
   outline-offset: 2px;
 }
 
+/* stylelint-disable-next-line no-descending-specificity  */
 header .header .tours-navigation .close svg {
   border: 1px solid var(--header-border-color);
   border-radius: 100px;
@@ -328,6 +344,7 @@ header .header .header-container .user-actions .user {
   header .header .header-container .user-actions .tours {
     display: block;
     border-radius: 0;
+    flex: 1 0 max-content;
   }
 }
 
@@ -371,6 +388,7 @@ header .header .search-dialog .dialog-container > input:focus-visible {
   border-radius: 4px;
 }
 
+/* stylelint-disable-next-line no-descending-specificity  */
 header .header .search-dialog .dialog-container .close svg {
   border: 1px solid var(--header-border-color);
   border-radius: 100px;

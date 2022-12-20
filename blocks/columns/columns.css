@@ -1,25 +1,37 @@
 .columns > div {
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
+    gap: 3.2rem;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    padding: 1rem 3rem;
 }
 
 .columns img {
     width: 100%;
 }
 
+.columns.small-images img {
+    width: 330px;
+}
+
+.company-pages .columns h2,
+.company-pages .columns h2 > a {
+    color: var(--color-tour-blue);
+}
+
 @media (min-width: 900px) {
     .columns > div {
         display: flex;
         align-items: center;
-        flex-direction: unset;
+        flex-direction: row;
     }
 
     .columns > div > div {
         flex: 1;
-        margin-left: 32px;
     }
 
-    .columns > div > div:first-of-type {
-        margin-left: unset;
+    .columns.small-images > div > div.columns-contains-image {
+        flex: 0 1 330px;
     }
 }
