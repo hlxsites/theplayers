@@ -378,6 +378,7 @@ header .header .search-dialog .dialog-container {
   max-width: 1280px;
   gap: 2rem;
   grid-template-columns: 24px 1fr 24px;
+  grid-template-rows: 1fr;
 }
 
 header .header .search-dialog .dialog-container > input {
