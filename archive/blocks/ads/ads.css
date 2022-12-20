@@ -1,9 +1,0 @@
-/* stylelint-disable */
-#sticky-anchor--wrapper {
-  transition: visibility .2s, opacity .2s;
-}
-
-#sticky-anchor--wrapper[aria-hidden=true] {
-  visibility: hidden;
-  opacity: 0;
-}
