@@ -689,6 +689,7 @@ async function OptanonWrapper() {
   }
 
   loadScript(`https://assets.adobedtm.com/d17bac9530d5/90b3c70cfef1/launch-1ca88359b76c${isProd ? '.min' : ''}.js`);
+  sampleRUM('loadlaunch');
 }
 
 const otId = placeholders.onetrustId;
