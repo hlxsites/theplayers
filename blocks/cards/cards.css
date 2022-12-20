@@ -273,6 +273,13 @@ main .cards.full-width p {
   color: var(--color-black);
 }
 
+main .cards.full-width .cards-card-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
 main .cards.full-width .cards-card-title {
   flex-direction: column;
   align-items: center;
@@ -291,7 +298,11 @@ main .cards.full-width .cards-card-title {
   }
 
   main .cards.full-width .cards-card-title {
-    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  main .cards.full-width .cards-card-body {
     align-items: flex-start;
     text-align: left;
   }
