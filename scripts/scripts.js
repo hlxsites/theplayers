@@ -51,8 +51,8 @@ export function sampleRUM(checkpoint, data = {}) {
             data.cwv[measurement.name] = measurement.value;
             sendPing();
           };
-            // When loading `web-vitals` using a classic script, all the public
-            // methods can be found on the `webVitals` global namespace.
+          // When loading `web-vitals` using a classic script, all the public
+          // methods can be found on the `webVitals` global namespace.
           window.webVitals.getCLS(storeCWV);
           window.webVitals.getFID(storeCWV);
           window.webVitals.getLCP(storeCWV);
@@ -632,13 +632,13 @@ export function decorateButtons(element) {
           up.classList.add('button-container');
         }
         if (up.childNodes.length === 1 && up.tagName === 'STRONG'
-            && twoup.childNodes.length === 1 && twoup.tagName === 'P') {
+          && twoup.childNodes.length === 1 && twoup.tagName === 'P') {
           a.className = 'button primary';
           twoup.classList.add('button-container');
           up.outerHTML = a.outerHTML;
         }
         if (up.childNodes.length === 1 && up.tagName === 'EM'
-            && twoup.childNodes.length === 1 && twoup.tagName === 'P') {
+          && twoup.childNodes.length === 1 && twoup.tagName === 'P') {
           a.className = 'button secondary';
           twoup.classList.add('button-container');
           up.outerHTML = a.outerHTML;
@@ -738,7 +738,7 @@ initHlx();
  */
 
 const LCP_BLOCKS = ['carousel', 'hero']; // add your LCP blocks to the list
-const RUM_GENERATION = 'project-1'; // add your RUM generation information here
+const RUM_GENERATION = 'intercept-aa-2'; // add your RUM generation information here
 const PRODUCTION_DOMAINS = ['www.theplayers.com'];
 
 sampleRUM('top');
@@ -1051,4 +1051,26 @@ export function addHeaderSizing(block, classPrefix = 'heading', selector = 'h1, 
       if (length >= size.threshold) h.classList.add(`${classPrefix}-${size.name}`);
     });
   });
+}
+
+
+try {
+  Object.defineProperty(window, 's', {
+    set(x) {
+      this._hlx_s = x;
+      const handler = {
+        get(_, prop) {
+          if (prop === 't') {
+            sampleRUM('adobe-analytics');
+          }
+          return Reflect.get(...arguments);
+        }
+      };
+      this._hlx_s_proxy = new Proxy(this._hlx_s, handler);
+    },
+    get(x) {
+      return this._hlx_s_proxy;
+    }
+  });
+} catch (e) {
 }
