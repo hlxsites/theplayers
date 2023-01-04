@@ -646,12 +646,18 @@ export function decorateButtons(element) {
       }
     }
   });
+  // combine adjacent button containers
   element.querySelectorAll('.button-container').forEach((container) => {
-    const next = container.nextElementSibling;
-    if (next && next.className === 'button-container') {
-      [...next.children].forEach((button) => container.append(button));
-      next.remove();
+    const adjacentContainers = [];
+    let next = container.nextElementSibling;
+    while (next && next.className === 'button-container') {
+      adjacentContainers.push(next);
+      next = next.nextElementSibling;
     }
+    adjacentContainers.forEach((ac) => {
+      [...ac.children].forEach((child) => container.append(child));
+      ac.remove();
+    });
   });
 }
 
@@ -833,12 +839,18 @@ async function loadFooter(footer) {
   await loadBlock(footerBlock);
 }
 
-export function loadScript(url, callback, type) {
+export function loadScript(url, callback, attributes) {
   const head = document.querySelector('head');
   if (!head.querySelector(`script[src="${url}"]`)) {
     const script = document.createElement('script');
     script.src = url;
-    if (type) script.setAttribute('type', type);
+
+    if (attributes) {
+      Object.keys(attributes).forEach((key) => {
+        script.setAttribute(key, attributes[key]);
+      });
+    }
+
     head.append(script);
     script.onload = callback;
     return script;

@@ -34,19 +34,21 @@ function buildVideoContent(section) {
 
 export default async function decorate(block) {
   const link = block.querySelector('a');
-  const source = link.getAttribute('href');
-  if (source && link.textContent.endsWith(source)) {
-    const resp = await fetch(`${source}.plain.html`);
-    if (resp.ok) {
-      const html = await resp.text();
-      const feature = document.createElement('div');
-      feature.innerHTML = html;
-      block.innerHTML = `<div>${feature.querySelector('div').outerHTML}</div>`;
-      const video = block.querySelector('.embed, .video');
-      decorateButtons(block);
-      if (video) {
-        decorateBlock(video);
-        await loadBlock(video);
+  if (link) {
+    const source = link.getAttribute('href');
+    if (source && link.textContent.endsWith(source)) {
+      const resp = await fetch(`${source}.plain.html`);
+      if (resp.ok) {
+        const html = await resp.text();
+        const feature = document.createElement('div');
+        feature.innerHTML = html;
+        block.innerHTML = `<div>${feature.querySelector('div').outerHTML}</div>`;
+        const video = block.querySelector('.embed, .video');
+        decorateButtons(block);
+        if (video) {
+          decorateBlock(video);
+          await loadBlock(video);
+        }
       }
     }
   }
@@ -67,12 +69,22 @@ export default async function decorate(block) {
   // transform content
   const backgroundImg = transformBackgroundImage(background);
   const wrappedCredits = wrapCredits(credits);
-  if (!video) video = buildVideoContent(block.querySelector('p > em'));
+  if (!video) {
+    let videoIdElement = block.querySelector('p > em');
+    if (!videoIdElement) {
+      // some video ids look suspiciusly like phone numbers
+      // causing mobile browsers to make them into tel: links
+      // detect that case
+      videoIdElement = block.querySelector('a[href^="tel:"]');
+    }
+    video = buildVideoContent(videoIdElement);
+    videoIdElement.remove();
+  }
 
   // order content
   const content = [status, name, wrappedCredits];
   if (hasBio) content.push(credits.nextElementSibling);
-  content.push(button);
+  if (button) content.push(button);
   if (video) content.push(video);
 
   // wrap content
