@@ -1053,24 +1053,24 @@ export function addHeaderSizing(block, classPrefix = 'heading', selector = 'h1, 
   });
 }
 
-
 try {
+  const hidden = Symbol('hidden');
+  const proxy = Symbol('proxy');
   Object.defineProperty(window, 's', {
     set(x) {
-      this._hlx_s = x;
+      this[hidden] = x;
       const handler = {
-        get(_, prop) {
+        get(target, prop, receiver) {
           if (prop === 't') {
             sampleRUM('adobe-analytics');
           }
-          return Reflect.get(...arguments);
-        }
+          return Reflect.get(target, prop, receiver);
+        },
       };
-      this._hlx_s_proxy = new Proxy(this._hlx_s, handler);
+      this[proxy] = new Proxy(this[hidden], handler);
     },
-    get(x) {
-      return this._hlx_s_proxy;
-    }
+    get() {
+      return this[proxy];
+    },
   });
-} catch (e) {
-}
+} catch (e) { /* ignore */ }
