@@ -226,6 +226,17 @@ function isAppView() {
 }
 
 /**
+ * check if the page is inside an iframe.
+ */
+function isInIFrame() {
+  try {
+    return window.self !== window.top;
+  } catch (e) {
+    return true;
+  }
+}
+
+/**
  * A custom verison of loadHeader, different than what is found in lib-franklin
  * only loads and decorates the block based on content loaded in loadHeaderFooterContent
  */
@@ -256,8 +267,9 @@ async function loadLazy(doc) {
   const element = hash ? main.querySelector(hash) : false;
   if (hash && element) element.scrollIntoView();
 
-  if (isAppView()) {
-    document.querySelector('header').remove();
+  if (isAppView() || isInIFrame()) {
+    doc.querySelector('header').remove();
+    doc.querySelector('footer').remove();
   } else {
     await loadHeaderFooterContent(doc.querySelector('header'), doc.querySelector('footer'));
     loadHeaderEx(doc.querySelector('header'));
