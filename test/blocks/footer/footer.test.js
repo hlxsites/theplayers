@@ -4,11 +4,11 @@
 import { readFile } from '@web/test-runner-commands';
 import { expect } from '@esm-bundle/chai';
 
-document.body.innerHTML = await readFile({ path: '../../scripts/dummy.html' });
+document.body.innerHTML = await readFile({ path: '../../pages/scripts/dummy.html' });
 
-const { buildBlock, decorateBlock, loadBlock } = await import('../../../scripts/lib-franklin.js');
+const { buildBlock, decorateBlock, loadBlock } = await import('../../../pages/scripts/lib-franklin.js');
 
-document.body.innerHTML = await readFile({ path: '../../scripts/body.html' });
+document.body.innerHTML = await readFile({ path: '../../pages/scripts/body.html' });
 
 const sleep = async (time = 1000) => new Promise((resolve) => {
   setTimeout(() => {
