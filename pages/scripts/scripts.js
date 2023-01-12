@@ -299,4 +299,7 @@ async function loadPage() {
   loadDelayed();
 }
 
-loadPage();
+// just avoids some weird issues with page load during tests
+if (!window.inTest) {
+  loadPage();
+}
