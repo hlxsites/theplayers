@@ -21,6 +21,9 @@ document.querySelector('header').append(headerBlock);
 decorateBlock(headerBlock);
 await loadBlock(headerBlock);
 await sleep();
+/*
+
+Header and footer are loaded from the tour domain, commenting out for now
 
 describe('Header block', () => {
   it('Hamburger shows and hides nav', async () => {
@@ -43,3 +46,4 @@ describe('Header block', () => {
     expect(title.getAttribute('aria-expanded')).to.equal('false');
   });
 });
+*/
