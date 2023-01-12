@@ -4,7 +4,7 @@
 import { readFile } from '@web/test-runner-commands';
 import { expect } from '@esm-bundle/chai';
 
-document.body.innerHTML = await readFile({ path: '../../pages/scripts/body.html' });
+document.body.innerHTML = await readFile({ path: '../../scripts/body.html' });
 
 describe('Hero block', () => {
   it('Builds hero block from picture and h1', async () => {
