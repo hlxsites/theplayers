@@ -73,14 +73,14 @@
 }
 
 /* BLOCKQUOTE */
-.genesis main .blockquote-container {
+.genesis main [data-section-status='loaded'].blockquote-container {
   position: relative;
   height: 100vh;
   display: flex;
   align-items: center;
 }
 
-.genesis main .blockquote-container::after {
+.genesis main [data-section-status='loaded'].blockquote-container::after {
   content: '';
   position: absolute;
   top: 50%;
