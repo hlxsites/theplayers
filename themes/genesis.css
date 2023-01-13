@@ -18,7 +18,7 @@
 .genesis main .hero {
   display: grid;
   grid-template-rows: 1fr 1fr;
-  height: min(150vw, 900px);
+  height: 100vh;
   background-image: linear-gradient(transparent 66%, var(--background-color));
   fill: var(--color-gray);
   color: var(--color-gray);
@@ -72,7 +72,50 @@
   flex-wrap: nowrap;
 }
 
-/* REVEAL */
-.genesis main .reveal {
+/* BLOCKQUOTE */
+.genesis main .blockquote-container {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
+.genesis main .blockquote-container::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  display: block;
+  height: 2px;
+  background-color: currentcolor;
+  width: 100%;
+}
+
+.genesis main .blockquote-wrapper {
+  position: relative;
+  z-index: 1;
+}
+
+.genesis main .blockquote figure {
+  border: 2px solid;
+  padding: 0 32px;
+}
+
+.genesis main .blockquote figure {
+  background-color: var(--background-color);
+}
+
+.genesis main .shadow .blockquote figure {
+  background-color: var(--text-color);
+}
+
+.genesis main .blockquote blockquote {
+  text-align: center;
+}
+
+.genesis main .blockquote blockquote p:first-of-type:before,
+.genesis main .blockquote blockquote p:last-of-type:after,
+.genesis main .blockquote figcaption {
   font-family: var(--serif-font-family);
 }
