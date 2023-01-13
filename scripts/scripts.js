@@ -143,10 +143,6 @@ export function decorateMain(main) {
       section.prepend(picture);
     }
   });
-
-  window.addEventListener('scroll', () => {
-    document.body.style.setProperty('--scroll', window.pageYOffset / (document.body.offsetHeight - window.innerHeight));
-  }, false);
 }
 
 /**
