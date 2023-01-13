@@ -1,0 +1,55 @@
+main .reveal-container {
+  padding: 0;
+}
+
+main .reveal-wrapper {
+  overflow-x: hidden;
+}
+
+main .reveal {
+  opacity: 0;
+  padding: 32px;
+  background-color: var(--color-gray);
+  color: var(--color-white);
+}
+
+main .reveal[data-intersecting=true] {
+  animation: reveal .8s linear 1;
+  animation-delay: calc(var(--scroll) * -1s);
+  animation-fill-mode: forwards;
+  animation-play-state: paused;
+}
+
+main .reveal[data-intersecting=true].right {
+  animation: reveal .8s linear 1, right-reveal .6s linear 1;
+  animation-delay: calc(var(--scroll) * -1s);
+  animation-fill-mode: forwards;
+  animation-play-state: paused;
+}
+
+@keyframes reveal {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes right-reveal {
+  to {
+    margin-right: 0;
+  }
+}
+
+@media (min-width: 600px) {
+  main .reveal-wrapper {
+    max-width: unset;
+    margin: unset;
+  }
+
+  main .reveal.right {
+    box-sizing: content-box;
+    float: right;
+    width: min(50vw, 200px);
+    margin-right: -100vw;
+    /* padding-right: max(32px, 50%); */
+  }
+}
