@@ -259,7 +259,7 @@ h6, .heading-xs {
   font-weight: 400;
 }
 
-p, dl, ol, ul, pre, blockquote {
+p, dl, ol, ul, pre {
   margin-top: 1em;
   margin-bottom: 1em;
 }
@@ -334,7 +334,6 @@ a.button.secondary, button.secondary {
   color: var(--text-color);
 } 
 
-
 main input {
   font-size: 1.25rem;
   width: 100%;
@@ -363,23 +362,6 @@ main pre {
   border-radius: .25em;
   overflow-x: auto;
   white-space: pre;
-}
-
-main blockquote {
-  font-style: italic;
-  margin: 3rem;
-  text-indent: -1rem;
-  hanging-punctuation: first;
-}
-
-main blockquote p::before {
-  content: "“";
-  line-height: 0;
-}
-
-main blockquote p::after {
-  content: "”";
-  line-height: 0;
 }
 
 hr {
@@ -428,7 +410,13 @@ main .section.highlight > .default-content-wrapper {
   color: var(--text-color);
 }
 
-main .section[data-background] {
+/* shadow */
+main .section.shadow {
+  background-color: var(--text-color);
+  color: var(--color-white);
+}
+
+main .section[data-section-status='loaded'][data-background] {
   display: flex;
   flex-direction: column;
   justify-content: center;
