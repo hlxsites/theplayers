@@ -1,4 +1,3 @@
-/* eslint-disable no-nested-ternary */
 import {
   readBlockConfig,
   decorateIcons,
@@ -48,6 +47,11 @@ function calculateTP(start, current) {
   return { tp: Math.abs(tp), posMove: tp > 0 };
 }
 
+function calculateThru(thru) {
+  if (thru) return thru < 18 ? thru : 'F';
+  return '--';
+}
+
 async function populateLeaderboard(block, config) {
   const placeholders = await fetchPlaceholders();
   // fetch leaderboard content
@@ -86,7 +90,7 @@ async function populateLeaderboard(block, config) {
               </div>
               <div>
                 <p class="leaderboard-leader-stats-title">Thru</p>
-                <p class="leaderboard-leader-stats-stat">${player.thru ? player.thru < 18 : player.thru ? 'F' : '--'}</p>
+                <p class="leaderboard-leader-stats-stat">${calculateThru(player.thru)}</p>
               </div>
             </div>
           </div>`;
