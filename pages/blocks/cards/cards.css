@@ -269,6 +269,7 @@ main .cards.full-width h2 {
   color: var(--color-tour-blue);
 }
 
+/* stylelint-disable-next-line no-descending-specificity  */
 main .cards.full-width p {
   color: var(--color-black);
 }
