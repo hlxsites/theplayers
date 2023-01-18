@@ -40,7 +40,7 @@ function buildLeaderboardTable() {
 
 function calculateTP(start, current) {
   // eslint-disable-next-line no-param-reassign
-  start = parseInt(start.replace('T', ''), 10);
+  start = parseInt(start.replace('T', ''), 10) || 1;
   // eslint-disable-next-line no-param-reassign
   current = parseInt(current.replace('T', ''), 10);
   const tp = start - current;
