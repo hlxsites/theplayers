@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import {
   readBlockConfig,
   decorateIcons,
@@ -42,7 +43,7 @@ function calculateTP(start, current) {
   // eslint-disable-next-line no-param-reassign
   start = parseInt(start.replace('T', ''), 10) || 1;
   // eslint-disable-next-line no-param-reassign
-  current = parseInt(current.replace('T', ''), 10);
+  current = parseInt(current.replace('T', ''), 10) || start;
   const tp = start - current;
   return { tp: Math.abs(tp), posMove: tp > 0 };
 }
@@ -85,7 +86,7 @@ async function populateLeaderboard(block, config) {
               </div>
               <div>
                 <p class="leaderboard-leader-stats-title">Thru</p>
-                <p class="leaderboard-leader-stats-stat">${player.thru < 18 ? player.thru : 'F'}</p>
+                <p class="leaderboard-leader-stats-stat">${player.thru ? player.thru < 18 : player.thru ? 'F' : '--'}</p>
               </div>
             </div>
           </div>`;
