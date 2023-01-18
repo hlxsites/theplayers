@@ -4,7 +4,7 @@
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url("/fonts/SuisseIntl-Regular-WebS.woff2") format("woff2")
+  src: url("/pages/fonts/SuisseIntl-Regular-WebS.woff2") format("woff2")
 }
 
 @font-face {
@@ -12,7 +12,7 @@
   font-style: italic;
   font-weight: 400;
   font-display: swap;
-  src: url("/fonts/SuisseIntl-RegularItalic-WebS.woff2") format("woff2")
+  src: url("/pages/fonts/SuisseIntl-RegularItalic-WebS.woff2") format("woff2")
 }
 
 @font-face {
@@ -20,7 +20,7 @@
   font-style: normal;
   font-weight: 600;
   font-display: swap;
-  src: url("/fonts/SuisseIntl-SemiBold-WebS.woff2") format("woff2")
+  src: url("/pages/fonts/SuisseIntl-SemiBold-WebS.woff2") format("woff2")
 }
 
 @font-face {
@@ -28,7 +28,7 @@
   font-style: italic;
   font-weight: 600;
   font-display: swap;
-  src: url("/fonts/SuisseIntl-SemiBoldItalic-WebS.woff2") format("woff2")
+  src: url("/pages/fonts/SuisseIntl-SemiBoldItalic-WebS.woff2") format("woff2")
 }
 
 @font-face {
@@ -36,5 +36,5 @@
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url("/fonts/Tobias-Regular.woff2") format("woff2")
+  src: url("/pages/fonts/Tobias-Regular.woff2") format("woff2")
 }
