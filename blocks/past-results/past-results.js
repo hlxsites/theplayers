@@ -1,4 +1,9 @@
-import { fetchPlaceholders, readBlockConfig, decorateIcons } from '../../scripts/scripts.js';
+import {
+  fetchPlaceholders,
+  readBlockConfig,
+  decorateIcons,
+  fetchCors,
+} from '../../scripts/scripts.js';
 
 const PGATOUR_URL = 'https://www.pgatour.com';
 
@@ -9,7 +14,7 @@ async function buildReqUrl(param) {
 
 async function refreshResults(block, param) {
   const reqUrl = await buildReqUrl(param);
-  const resp = await fetch(`https://little-forest-58aa.david8603.workers.dev/?url=${encodeURIComponent(reqUrl)}`);
+  const resp = await fetchCors(reqUrl);
   if (resp.ok) {
     const html = await resp.text();
     const temp = document.createElement('div');

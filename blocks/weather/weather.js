@@ -3,6 +3,7 @@ import {
   createOptimizedPicture,
   decorateIcons,
   fetchPlaceholders,
+  fetchCors,
 } from '../../scripts/scripts.js';
 
 function toggleWeather(e) {
@@ -34,13 +35,13 @@ export default async function decorate(block) {
   const blockClasses = [...block.classList];
   const placeholders = await fetchPlaceholders();
   const tournament = `${placeholders.tourCode}${placeholders.tournamentId}`;
-  const weatherPrefix = 'https://little-forest-58aa.david8603.workers.dev/?url=https://www.pgatour.com/bin/data/feeds';
+  const weatherPrefix = 'https://www.pgatour.com/bin/data/feeds';
   if (blockClasses.includes('forecast')) {
     block.parentNode.classList.add('forecast-wrapper');
     // fetch weather
     try {
-      const hourlyResp = await fetch(`${weatherPrefix}/hourly.json/${tournament}`);
-      const dailyResp = await fetch(`${weatherPrefix}/forecast10day.json/${tournament}`);
+      const hourlyResp = await fetchCors(`${weatherPrefix}/hourly.json/${tournament}`);
+      const dailyResp = await fetchCors(`${weatherPrefix}/forecast10day.json/${tournament}`);
       if (hourlyResp.ok && dailyResp.ok) {
         const { hourly_forecast: hourlyData } = await hourlyResp.json();
         const { forecast } = await dailyResp.json();

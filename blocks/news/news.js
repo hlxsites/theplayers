@@ -4,6 +4,7 @@ import {
   toClassName,
   updateExternalLinks,
   fetchPlaceholders,
+  fetchCors,
 } from '../../scripts/scripts.js';
 
 async function mergeLocalNews(feed, maxItems) {
@@ -141,7 +142,7 @@ export default async function decorate(block) {
         const placeholders = await fetchPlaceholders();
         directURL = `${newsURL}/path=/content&tags=${placeholders.newsTags}&size=${limit - pinnedItems.length}`;
       }
-      const resp = await fetch(`https://little-forest-58aa.david8603.workers.dev/?url=${encodeURIComponent(directURL)}`);
+      const resp = await fetchCors(directURL);
       const json = await resp.json();
 
       await mergeLocalNews(json, config.limit);

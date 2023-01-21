@@ -867,6 +867,18 @@ function isAppView() {
 }
 
 /**
+ * Provides a single point of acess to do a cross-domain fetch
+ * for bypassing cors when getting pga tour feed data.
+ * @param {string} url the url to fetch
+ * @returns the fetch responst
+ */
+export async function fetchCors(url) {
+  const worker = 'https://little-forest-58aa.david8603.workers.dev';
+  const fetchUrl = `${worker}/?url=${encodeURIComponent(url)}`;
+  return fetch(fetchUrl);
+}
+
+/**
  * Builds all synthetic blocks in a container element.
  * @param {Element} main The container element
  */
@@ -947,7 +959,7 @@ export async function decorateMain(main) {
         const playLink = document.createElement('a');
 
         const videoFeedUrl = `https://www.pgatour.com/bin/data/feeds/video-details.json/videoIds=${videoId}`;
-        fetch(`https://little-forest-58aa.david8603.workers.dev/?url=${encodeURIComponent(videoFeedUrl)}`).then(async (resp) => {
+        fetchCors(videoFeedUrl).then(async (resp) => {
           if (resp.ok) {
             const json = await resp.json();
             if (json.length > 0) {

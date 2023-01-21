@@ -7,6 +7,7 @@ import {
   loadBlock,
   loadScript,
   getMetadata,
+  fetchCors,
 } from './scripts.js';
 
 const placeholders = await fetchPlaceholders();
@@ -605,7 +606,7 @@ async function populateStatusBar(statusBar) {
     const tournament = `${placeholders.tourCode}${placeholders.tournamentId}`;
     // fetch weather
     try {
-      const resp = await fetch(`https://little-forest-58aa.david8603.workers.dev/?url=https://www.pgatour.com/bin/data/feeds/weather.json/${tournament}`);
+      const resp = await fetchCors(`https://www.pgatour.com/bin/data/feeds/weather.json/${tournament}`);
       const { current_observation: weatherData } = await resp.json();
       const location = weatherData.display_location.full;
       const icon = weatherData.icon_url.replace('.gif', '.png');
