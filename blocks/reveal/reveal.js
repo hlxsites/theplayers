@@ -30,7 +30,6 @@ export default async function decorate(block) {
 
     const observer = new IntersectionObserver(async (entries) => {
       if (entries.some((entry) => entry.isIntersecting)) {
-        // observer.disconnect();
         [...media.children].forEach((child, j) => {
           if (i === j) {
             child.setAttribute('data-intersecting', true);
