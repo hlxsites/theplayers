@@ -6,15 +6,28 @@ export default async function decorate(block) {
 
   [...block.children].forEach((row, i) => {
     const [img, text] = [...row.children];
-    // media/img setup
     if (!i) img.setAttribute('data-intersecting', true);
-    if ([...img.children].length > 1) img.setAttribute('data-count', [...img.children].length);
+    [...img.children].forEach((child) => {
+      if (child.querySelector('a[href]') || (child.nodeName === 'A' && child.href)) {
+        // transform video
+        const a = child.querySelector('a[href]') || child;
+        const video = document.createElement('p');
+        video.className = 'video-wrapper';
+        video.innerHTML = `<video autoplay loop muted playsInline>
+          <source src="${a.href}" type="video/mp4" />
+        </video>`;
+        child.replaceWith(video);
+      }
+    });
+    img.classList.remove('button-container');
     media.append(img);
 
     // copy/text setup
     if (!text.children.length) {
       text.innerHTML = `<p>${text.innerHTML}</p>`;
     }
+    text.setAttribute('data-length', [...text.children].length);
+
     const observer = new IntersectionObserver(async (entries) => {
       if (entries.some((entry) => entry.isIntersecting)) {
         // observer.disconnect();
@@ -26,7 +39,7 @@ export default async function decorate(block) {
           }
         });
       }
-    }, { threshold: 0.33 });
+    }, { threshold: 0.5 });
     observer.observe(text);
     copy.append(text);
   });
