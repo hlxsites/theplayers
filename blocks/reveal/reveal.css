@@ -58,9 +58,9 @@ main .reveal .reveal-copy div {
   gap: 32px;
   position: relative;
   max-width: 600px;
-  height: 100vh;
+  min-height: 100vh;
   margin: auto;
-  padding: 0 32px;
+  padding: 32px;
 }
 
 main .reveal .reveal-copy div:first-of-type {
