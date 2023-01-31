@@ -1,13 +1,6 @@
 .genesis main {
-  --body-font-family: 'Montserrat', sans-serif;
-  --heading-font-family: var(--body-font-family);
-  --serif-font-family: 'EB Garamond', serif;
-
   --color-gray: #2c2c2c;
-
   --text-color: var(--color-gray);
-
-  font-family: var(--body-font-family);
 }
 
 /* HERO */
@@ -112,10 +105,4 @@
 
 .genesis main .blockquote blockquote {
   text-align: center;
-}
-
-.genesis main .blockquote blockquote p:first-of-type:before,
-.genesis main .blockquote blockquote p:last-of-type:after,
-.genesis main .blockquote figcaption {
-  font-family: var(--serif-font-family);
 }
