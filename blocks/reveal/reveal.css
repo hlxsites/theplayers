@@ -63,6 +63,11 @@ main .reveal .reveal-copy div {
   padding: 32px;
 }
 
+main .reveal .reveal-copy .reveal-video-copy {
+  min-height: 150vh;
+  padding-top: 50vh;
+}
+
 main .reveal .reveal-copy div:first-of-type {
   justify-content: flex-start;
   margin-top: 50vh;

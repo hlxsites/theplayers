@@ -6,9 +6,11 @@ export default async function decorate(block) {
 
   [...block.children].forEach((row, i) => {
     const [img, text] = [...row.children];
+    let videoMedia = false;
     if (!i) img.setAttribute('data-intersecting', true);
     [...img.children].forEach((child) => {
       if (child.querySelector('a[href]') || (child.nodeName === 'A' && child.href)) {
+        videoMedia = true;
         // transform video
         const a = child.querySelector('a[href]') || child;
         const video = document.createElement('p');
@@ -27,6 +29,7 @@ export default async function decorate(block) {
       text.innerHTML = `<p>${text.innerHTML}</p>`;
     }
     text.setAttribute('data-length', [...text.children].length);
+    if (videoMedia) text.classList.add('reveal-video-copy');
 
     const observer = new IntersectionObserver(async (entries) => {
       if (entries.some((entry) => entry.isIntersecting)) {
