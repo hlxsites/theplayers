@@ -992,18 +992,6 @@ export async function decorateMain(main) {
               section.insertBefore(playLink, picture.nextSibling);
             }
           }
-        }).catch(() => {
-          // if graphql fails, we fallback, remove this once all is live
-          const videoFeedUrl = `https://www.pgatour.com/bin/data/feeds/video-details.json/videoIds=${videoId}`;
-          fetchCors(videoFeedUrl).then(async (resp) => {
-            if (resp.ok) {
-              const json = await resp.json();
-              if (json.length > 0) {
-                playLink.href = json[0].link;
-                section.insertBefore(playLink, picture.nextSibling);
-              }
-            }
-          });
         });
 
         playLink.target = '_blank';
