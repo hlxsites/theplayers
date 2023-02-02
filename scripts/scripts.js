@@ -928,6 +928,25 @@ async function buildAutoBlocks(main) {
   }
 }
 
+export async function fetchGraphQL(query, variables) {
+  const placeholders = await fetchPlaceholders();
+  if (placeholders.graphqlApiEndpoint && placeholders.graphqlApiKey) {
+    return fetch(placeholders.graphqlApiEndpoint, {
+      method: 'POST',
+      body: JSON.stringify({
+        variables,
+        query,
+      }),
+      headers: {
+        // todo replace with value from placeholders
+        'x-api-key': placeholders.graphqlApiKey,
+        'x-pgat-platform': 'web',
+      },
+    });
+  }
+  throw new Error('fail');
+}
+
 /**
  * Decorates the main element.
  * @param {Element} main The main element
@@ -958,16 +977,35 @@ export async function decorateMain(main) {
       if (videoId) {
         const playLink = document.createElement('a');
 
-        const videoFeedUrl = `https://www.pgatour.com/bin/data/feeds/video-details.json/videoIds=${videoId}`;
-        fetchCors(videoFeedUrl).then(async (resp) => {
+        fetchGraphQL(`query getVideoById($brightcoveId: ID!) {    
+          videoById(brightcoveId: $brightcoveId, tourcast: false) {
+               id
+               shareUrl
+           }
+       }`, {
+          brightcoveId: videoId,
+        }).then(async (resp) => {
           if (resp.ok) {
             const json = await resp.json();
-            if (json.length > 0) {
-              playLink.href = json[0].link;
+            if (json && json.data && json.data.videoById && json.data.videoById.shareUrl) {
+              playLink.href = json.data.videoById.shareUrl;
               section.insertBefore(playLink, picture.nextSibling);
             }
           }
+        }).catch(() => {
+          // if graphql fails, we fallback, remove this once all is live
+          const videoFeedUrl = `https://www.pgatour.com/bin/data/feeds/video-details.json/videoIds=${videoId}`;
+          fetchCors(videoFeedUrl).then(async (resp) => {
+            if (resp.ok) {
+              const json = await resp.json();
+              if (json.length > 0) {
+                playLink.href = json[0].link;
+                section.insertBefore(playLink, picture.nextSibling);
+              }
+            }
+          });
         });
+
         playLink.target = '_blank';
 
         const playIcon = document.createElement('span');
