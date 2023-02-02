@@ -1,5 +1,17 @@
 import { decorateIcons, fetchGraphQL, fetchPlaceholders } from '../../scripts/scripts.js';
 
+function buildDisplayTime(epoch, courseText, timezone) {
+  const h3 = document.createElement('h3');
+
+  const date = new Date(Number(epoch));
+  const formatter = new Intl.DateTimeFormat('en-US', { timeStyle: 'short', timeZone: timezone });
+  const formatted = formatter.format(date);
+
+  h3.innerHTML = `<h3>${courseText}${formatted}</h3>`;
+
+  return h3;
+}
+
 export default async function decorate(block) {
   block.textContent = '';
 
@@ -86,14 +98,14 @@ export default async function decorate(block) {
             if (round.roundInt !== defaultRound) {
               timeWrapper.classList.add('filtered');
             }
-            const date = new Date(group.teeTime);
-            const formatter = new Intl.DateTimeFormat('en-US', { timeStyle: 'short', timeZone: timezone });
-            const formatted = formatter.format(date);
+
             timeWrapper.setAttribute('data-round', round.roundInt);
-            timeWrapper.setAttribute('data-hours', date.getHours());
-            timeWrapper.setAttribute('data-minutes', date.getMinutes());
+            timeWrapper.setAttribute('data-utc', group.teeTime);
+            timeWrapper.setAttribute('data-tz', timezone);
             const courseText = courses.length > 1 ? `${group.courseName} - ` : '';
-            timeWrapper.innerHTML = `<h3>${courseText}${formatted}</h3>`;
+            timeWrapper.setAttribute('data-course-text', courseText);
+
+            timeWrapper.append(buildDisplayTime(group.teeTime, courseText, timezone));
           }
           prevTime = group.teeTime;
           prevCourse = group.courseName;
@@ -121,4 +133,29 @@ export default async function decorate(block) {
       decorateIcons(block);
     }
   }
+
+  window.addEventListener('message', (e) => {
+    if (e.data && e.data.toString().includes('rolex')) {
+      const rolexData = JSON.parse(e.data);
+      if (rolexData.name === 'rolex-teetime-toggle') {
+        const inEventTime = rolexData.value === 'On';
+        const headerText = document.querySelector('.tee-times-header > p');
+        if (inEventTime) {
+          headerText.setAttribute('aria-hidden', false);
+          block.querySelectorAll('.tee-times-time').forEach((tt) => {
+            const h3 = tt.querySelector('h3');
+            h3.remove();
+            tt.prepend(buildDisplayTime(tt.dataset.utc, tt.dataset.courseText, tt.dataset.tz));
+          });
+        } else {
+          headerText.setAttribute('aria-hidden', true);
+          block.querySelectorAll('.tee-times-time').forEach((tt) => {
+            const h3 = tt.querySelector('h3');
+            h3.remove();
+            tt.prepend(buildDisplayTime(tt.dataset.utc, tt.dataset.courseText));
+          });
+        }
+      }
+    }
+  });
 }
