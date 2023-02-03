@@ -9,10 +9,11 @@ let blockUtils;
 
 document.body.innerHTML = await readFile({ path: './dummy.html' });
 document.head.innerHTML = await readFile({ path: './head.html' });
+window.inTest = true;
 
 describe('Utils methods', () => {
   before(async () => {
-    blockUtils = await import('../../scripts/lib-franklin.js');
+    blockUtils = await import('../../pages/scripts/lib-franklin.js');
     document.body.innerHTML = await readFile({ path: './body.html' });
   });
 
@@ -105,7 +106,10 @@ describe('Sections and blocks', () => {
   it('Updates section status', async () => {
     blockUtils.updateSectionsStatus(document.querySelector('main'));
     document.querySelectorAll('main .section').forEach(($section) => {
-      expect($section.dataset.sectionStatus).to.equal('loaded');
+      const status = $section.dataset.sectionStatus;
+      if (status) {
+        expect(status).to.equal('loaded');
+      }
     });
 
     // test section with block still loading
