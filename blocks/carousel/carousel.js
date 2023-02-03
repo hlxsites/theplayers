@@ -14,20 +14,25 @@ async function insertGallerySlides(block) {
 
   const directURL = `${galleryURL}&size=${limit}`;
   const resp = await fetchCors(directURL);
-  const json = await resp.json();
+  if (resp.ok) {
+    const json = await resp.json();
 
-  json.items.forEach((photo) => {
-    const div = document.createElement('div');
-    div.innerHTML = `
-      <div class="gallery-image"><picture><img src="${damPrefix}${photo.image}" alt="${photo.description}"/ ></picture></div>
-      <div class="gallery-text">
-        <p class="gallery-text-title">Photo Gallery${config.title ? `: ${config.title}` : ''}</p>
-        ${photo.description ? `<p class="gallery-text-desc">${photo.description}</p>` : ''}
-        ${photo.credit ? `<p class="gallery-text-credit">Photo by <strong>${photo.credit}</strong></p>` : ''}
-      </div>
-    `;
-    block.append(div);
-  });
+    json.items.forEach((photo) => {
+      const div = document.createElement('div');
+      div.innerHTML = `
+        <div class="gallery-image"><picture><img src="${damPrefix}${photo.image}" alt="${photo.description}"/ ></picture></div>
+        <div class="gallery-text">
+          <p class="gallery-text-title">Photo Gallery${config.title ? `: ${config.title}` : ''}</p>
+          ${photo.description ? `<p class="gallery-text-desc">${photo.description}</p>` : ''}
+          ${photo.credit ? `<p class="gallery-text-credit">Photo by <strong>${photo.credit}</strong></p>` : ''}
+        </div>
+      `;
+      block.append(div);
+    });
+  } else {
+    // hide block in cases where feed fails
+    block.style.display = 'none';
+  }
 }
 
 function findStatPercent(id, stats, divisor) {
