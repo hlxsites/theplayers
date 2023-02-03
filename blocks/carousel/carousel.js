@@ -31,7 +31,7 @@ async function insertGallerySlides(block) {
     });
   } else {
     // hide block in cases where feed fails
-    block.style.display = 'none';
+    block.parentNode.remove();
   }
 }
 
