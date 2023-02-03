@@ -21,7 +21,7 @@ export default async function decorate(block) {
         child.replaceWith(video);
 
         const videoObserver = new IntersectionObserver(async (entries) => {
-          if (entries.some((entry) => entry.isIntersecting)) {
+          if (entries.find((entry) => entry.isIntersecting)) {
             const source = video.querySelector('source');
             source.src = source.dataset.src;
             video.querySelector('video').load();
