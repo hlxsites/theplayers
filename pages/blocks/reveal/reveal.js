@@ -16,9 +16,20 @@ export default async function decorate(block) {
         const video = document.createElement('p');
         video.className = 'video-wrapper';
         video.innerHTML = `<video autoplay loop muted playsInline>
-          <source src="${a.href}" type="video/mp4" />
+          <source data-src="${a.href}" type="video/mp4" />
         </video>`;
         child.replaceWith(video);
+
+        const videoObserver = new IntersectionObserver(async (entries) => {
+          const observed = entries.find((entry) => entry.isIntersecting);
+          if (observed) {
+            const source = video.querySelector('source');
+            source.src = source.dataset.src;
+            video.querySelector('video').load();
+            videoObserver.disconnect();
+          }
+        }, { threshold: 0 });
+        videoObserver.observe(video);
       }
     });
     img.classList.remove('button-container');
@@ -31,7 +42,7 @@ export default async function decorate(block) {
     text.setAttribute('data-length', [...text.children].length);
     if (videoMedia) text.classList.add('reveal-video-copy');
 
-    const observer = new IntersectionObserver(async (entries) => {
+    const textObserver = new IntersectionObserver(async (entries) => {
       if (entries.some((entry) => entry.isIntersecting)) {
         [...media.children].forEach((child, j) => {
           if (i === j) {
@@ -42,7 +53,7 @@ export default async function decorate(block) {
         });
       }
     }, { threshold: 0.5 });
-    observer.observe(text);
+    textObserver.observe(text);
     copy.append(text);
   });
 
