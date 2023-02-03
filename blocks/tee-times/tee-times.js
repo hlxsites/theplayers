@@ -80,7 +80,9 @@ export default async function decorate(block) {
         const option = document.createElement('option');
         option.value = round.roundInt;
         option.textContent = `Round ${round.roundInt}`;
-        option.selected = round.roundInt === defaultRound;
+        if (round.roundInt === defaultRound) {
+          option.selected = 'selected';
+        }
         dropdown.append(option);
 
         let timeWrapper;
