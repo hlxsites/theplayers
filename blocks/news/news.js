@@ -142,9 +142,14 @@ export default async function decorate(block) {
         const placeholders = await fetchPlaceholders();
         directURL = `${newsURL}/path=/content&tags=${placeholders.newsTags}&size=${limit - pinnedItems.length}`;
       }
-      const resp = await fetchCors(directURL);
-      const json = await resp.json();
 
+      let json = {
+        items: [],
+      };
+      const resp = await fetchCors(directURL);
+      if (resp.ok) {
+        json = await resp.json();
+      }
       await mergeLocalNews(json, config.limit);
 
       [...pinnedItems, ...json.items].forEach((item, idx) => {
