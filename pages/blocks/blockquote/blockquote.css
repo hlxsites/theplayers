@@ -23,18 +23,18 @@ main .blockquote blockquote.blockquote-with-source p:first-of-type {
   text-indent: -1ch;
 }
 
-main .blockquote blockquote.blockquote-with-source p:first-of-type:before,
-main .blockquote blockquote.blockquote-with-source p:last-of-type:after {
+main .blockquote blockquote.blockquote-with-source p:first-of-type::before,
+main .blockquote blockquote.blockquote-with-source p:last-of-type::after {
   line-height: 0;
   vertical-align: .2em;
 }
 
-main .blockquote blockquote.blockquote-with-source p:first-of-type:before {
-  content: "“";
+main .blockquote blockquote.blockquote-with-source p:first-of-type::before {
+  content: '“';
 }
 
-main .blockquote blockquote.blockquote-with-source p:last-of-type:after {
-  content: "”";
+main .blockquote blockquote.blockquote-with-source p:last-of-type::after {
+  content: '”';
 }
 
 main .blockquote figcaption {
@@ -43,10 +43,12 @@ main .blockquote figcaption {
   text-align: right;
 }
 
+/* stylelint-disable-next-line no-descending-specificity */
 main .blockquote figcaption p:first-of-type {
   text-indent: -1ch;
 }
 
+/* stylelint-disable-next-line no-descending-specificity */
 main .blockquote figcaption p:first-of-type::before {
   content: '- ';
   line-height: 0;

@@ -68,6 +68,13 @@ main .reveal .reveal-copy .reveal-video-copy {
   padding-top: 50vh;
 }
 
+main .reveal .reveal-copy div > * {
+  margin: 0;
+  padding: 32px;
+  background-color: var(--color-black-75);
+  color: var(--color-white);
+}
+
 main .reveal .reveal-copy div:first-of-type {
   justify-content: flex-start;
   margin-top: 50vh;
@@ -81,9 +88,3 @@ main .reveal .reveal-copy div:first-of-type[data-length="3"] > *:not(:first-chil
   margin-top: 50%;
 }
 
-main .reveal .reveal-copy div > * {
-  margin: 0;
-  padding: 32px;
-  background-color: var(--color-black-75);
-  color: var(--color-white);
-}
