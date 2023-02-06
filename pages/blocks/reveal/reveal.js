@@ -13,18 +13,23 @@ export default async function decorate(block) {
         const a = child.querySelector('a[href]') || child;
         const video = document.createElement('p');
         video.className = 'video-wrapper';
-        video.innerHTML = `<video autoplay loop muted playsInline>
+        video.innerHTML = `<video loop muted playsInline>
           <source data-src="${a.href}" type="video/mp4" />
         </video>`;
         child.replaceWith(video);
 
         const videoObserver = new IntersectionObserver(async (entries) => {
           const observed = entries.find((entry) => entry.isIntersecting);
+          const vid = video.querySelector('video');
           if (observed) {
             const source = video.querySelector('source');
-            source.src = source.dataset.src;
-            video.querySelector('video').load();
-            videoObserver.disconnect();
+            if (!source.hasAttribute('src')) {
+              source.src = source.dataset.src;
+              vid.load();
+            }
+            vid.play();
+          } else {
+            vid.pause();
           }
         }, { threshold: 0 });
         videoObserver.observe(video);
