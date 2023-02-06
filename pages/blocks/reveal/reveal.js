@@ -6,11 +6,9 @@ export default async function decorate(block) {
 
   [...block.children].forEach((row, i) => {
     const [img, text] = [...row.children];
-    let videoMedia = false;
     if (!i) img.setAttribute('data-intersecting', true);
     [...img.children].forEach((child) => {
       if (child.querySelector('a[href]') || (child.nodeName === 'A' && child.href)) {
-        videoMedia = true;
         // transform video
         const a = child.querySelector('a[href]') || child;
         const video = document.createElement('p');
@@ -39,20 +37,27 @@ export default async function decorate(block) {
     if (!text.children.length) {
       text.innerHTML = `<p>${text.innerHTML}</p>`;
     }
-    text.setAttribute('data-length', [...text.children].length);
-    if (videoMedia) text.classList.add('reveal-video-copy');
 
+    let prevRatio = 0;
+    let moreVisible = null;
     const textObserver = new IntersectionObserver(async (entries) => {
-      if (entries.some((entry) => entry.isIntersecting)) {
-        [...media.children].forEach((child, j) => {
-          if (i === j) {
-            child.setAttribute('data-intersecting', true);
-          } else {
-            child.removeAttribute('data-intersecting');
-          }
-        });
+      const observed = entries.find((entry) => entry.isIntersecting);
+      if (observed) {
+        const mediaSlides = [...media.children];
+        moreVisible = observed.intersectionRatio > prevRatio;
+        prevRatio = observed.intersectionRatio;
+        if (moreVisible) {
+          mediaSlides.forEach((child) => child.removeAttribute('data-intersecting'));
+          mediaSlides[i].setAttribute('data-intersecting', true);
+        } else if (i && i !== mediaSlides.length - 1) {
+          mediaSlides[i].removeAttribute('data-intersecting');
+          mediaSlides[i - 1].setAttribute('data-intersecting', true);
+        }
+      } else {
+        prevRatio = 0;
+        moreVisible = false;
       }
-    }, { threshold: 0.5 });
+    }, { threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1] });
     textObserver.observe(text);
     copy.append(text);
   });
