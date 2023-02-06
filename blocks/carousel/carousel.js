@@ -13,13 +13,14 @@ async function insertGallerySlides(block) {
   block.innerHTML = '';
 
   const directURL = `${galleryURL}&size=${limit}`;
-  const resp = await fetchCors(directURL);
-  if (resp.ok) {
-    const json = await resp.json();
+  try {
+    const resp = await fetchCors(directURL);
+    if (resp.ok) {
+      const json = await resp.json();
 
-    json.items.forEach((photo) => {
-      const div = document.createElement('div');
-      div.innerHTML = `
+      json.items.forEach((photo) => {
+        const div = document.createElement('div');
+        div.innerHTML = `
         <div class="gallery-image"><picture><img src="${damPrefix}${photo.image}" alt="${photo.description}"/ ></picture></div>
         <div class="gallery-text">
           <p class="gallery-text-title">Photo Gallery${config.title ? `: ${config.title}` : ''}</p>
@@ -27,10 +28,15 @@ async function insertGallerySlides(block) {
           ${photo.credit ? `<p class="gallery-text-credit">Photo by <strong>${photo.credit}</strong></p>` : ''}
         </div>
       `;
-      block.append(div);
-    });
-  } else {
-    // hide block in cases where feed fails
+        block.append(div);
+      });
+    } else {
+      // hide block in cases where feed fails
+      block.parentNode.remove();
+    }
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.warn('Could not load gallery', err);
     block.parentNode.remove();
   }
 }
