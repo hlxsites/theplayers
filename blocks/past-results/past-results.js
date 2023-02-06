@@ -139,7 +139,7 @@ function updateResults(block, resultData) {
     const tr = document.createElement('tr');
 
     tr.innerHTML = `
-      <td class="cell><a class="player-link" href="#">${playerScore.player.displayName}</a></td>
+      <td class="cell"><a class="player-link" data-player-id="${playerScore.player.id}" href="#">${playerScore.player.displayName}</a></td>
       <td><span class="position" data-sort-pos="${playerScore.position.replace('T', '')}">${playerScore.position}</span></td>
     `;
 
@@ -210,6 +210,25 @@ function updateResults(block, resultData) {
     });
 
     tbody.append(tr);
+  });
+
+  const allPlayerIds = [...tbody.querySelectorAll('a[data-player-id]')].map((a) => a.dataset.playerId);
+  fetchGraphQL(`query GetPlayers($ids: [ID!]!) {
+    players(ids: $ids) {
+      id
+      bioLink
+    }
+  }`, {
+    ids: allPlayerIds,
+  }).then(async (playersResp) => {
+    // do this update on a promise so it doesn't delay finishing the block loading
+    if (playersResp.ok) {
+      const playersJson = await playersResp.json();
+      playersJson.data.players.forEach((playerJson) => {
+        const { bioLink, id } = playerJson;
+        tbody.querySelector(`a[data-player-id="${id}"]`).href = bioLink;
+      });
+    }
   });
 
   table.append(tbody);
