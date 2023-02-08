@@ -7,6 +7,7 @@ import {
   loadBlock,
   loadScript,
   getMetadata,
+  fetchGraphQL,
 } from './scripts.js';
 
 const placeholders = await fetchPlaceholders();
@@ -40,13 +41,13 @@ const pageType = window.location.pathname === '/' ? 'homePage' : 'contentPage';
 const pname = window.location.pathname.split('/').pop();
 window.pgatour.Omniture = {
   properties: {
-    pageName: `pgatour:tournaments:the-players-championship:${pname}`,
-    eVar16: `pgatour:tournaments:the-players-championship:${pname}`,
+    pageName: `${placeholders.adsS1}:${placeholders.adsS2}:${placeholders.pagename}:${pname}`,
+    eVar16: `${placeholders.adsS1}:${placeholders.adsS2}:${placeholders.pagename}:${pname}`,
     prop18: pageType,
     eVar1: 'pgatour',
     prop1: 'pgatour',
-    prop2: 'r011',
-    eVar2: 'r011',
+    prop2: `${placeholders.tourCode}${placeholders.tournamentId}`,
+    eVar2: `${placeholders.tourCode}${placeholders.tournamentId}`,
     eVar6: window.location.href,
   },
   defineOmnitureVars: () => {
@@ -602,37 +603,62 @@ initGigya();
 async function populateStatusBar(statusBar) {
   if (statusBar) {
     const statusBarData = document.querySelector('.status-bar-data');
-    const tournament = `${placeholders.tourCode}${placeholders.tournamentId}`;
+    const id = `${placeholders.tourCode.toUpperCase()}${placeholders.currentYear}${placeholders.tournamentId}`;
     // fetch weather
     try {
-      const resp = await fetch(`https://little-forest-58aa.david8603.workers.dev/?url=https://www.pgatour.com/bin/data/feeds/weather.json/${tournament}`);
-      const { current_observation: weatherData } = await resp.json();
-      const location = weatherData.display_location.full;
-      const icon = weatherData.icon_url.replace('.gif', '.png');
-      const temp = weatherData.temp_f;
-      sessionStorage.setItem(`${tournament}Weather`, JSON.stringify({
-        location, icon, temp,
-      }));
-      const weatherDisplayed = statusBar.querySelector('.status-bar-weather');
-      if (weatherDisplayed) {
-        const barLocation = weatherDisplayed.querySelector('.status-bar-location');
-        barLocation.textContent = location;
-        const barImg = weatherDisplayed.querySelector('img');
-        barImg.src = icon;
-        barImg.alt = weatherData.weather;
-        const barTemp = weatherDisplayed.querySelector('.status-bar-temp');
-        barTemp.textContent = temp;
-      } else {
-        const weather = document.createElement('div');
-        weather.className = 'status-bar-weather';
-        weather.innerHTML = `<p>
-            <a href="/weather">
-              <span class="status-bar-location">${location}</span>
-              <img src="${icon}" alt="${weatherData.weather}"/ >
-              <span class="status-bar-temp">${temp}</span>
-            </a>
-          </p>`;
-        statusBarData.append(weather);
+      const weatherResp = await fetchGraphQL(`query Weather($tournamentId: ID!) {
+        weather(tournamentId: $tournamentId) {
+          hourly {
+            condition
+            temperature {
+              ... on StandardWeatherTemp {
+                __typename
+                tempF
+              }
+              ... on RangeWeatherTemp {
+                __typename
+                maxTempF
+              }
+            }
+          }
+        }
+      }
+      `, {
+        tournamentId: id,
+      });
+      if (weatherResp.ok) {
+        const weatherData = await weatherResp.json();
+        if (weatherData && weatherData.data && weatherData.data.weather) {
+          const location = placeholders.city;
+          const currentWeather = weatherData.data.weather.hourly[0];
+          const icon = `/icons/weather-${currentWeather.condition.toLowerCase().replaceAll('_', '-')}.svg`;
+          // eslint-disable-next-line no-underscore-dangle
+          const temp = currentWeather.temperature.__typename === 'StandardWeatherTemp' ? currentWeather.temperature.tempF : currentWeather.temperature.maxTempF;
+          sessionStorage.setItem(`${id}Weather`, JSON.stringify({
+            location, icon, temp,
+          }));
+          const weatherDisplayed = statusBar.querySelector('.status-bar-weather');
+          if (weatherDisplayed) {
+            const barLocation = weatherDisplayed.querySelector('.status-bar-location');
+            barLocation.textContent = location;
+            const barImg = weatherDisplayed.querySelector('img');
+            barImg.src = icon;
+            barImg.alt = currentWeather.condition;
+            const barTemp = weatherDisplayed.querySelector('.status-bar-temp');
+            barTemp.textContent = temp;
+          } else {
+            const weather = document.createElement('div');
+            weather.className = 'status-bar-weather';
+            weather.innerHTML = `<p>
+                  <a href="/weather">
+                    <span class="status-bar-location">${location}</span>
+                    <img src="${icon}" alt="${currentWeather.condition}"/ >
+                    <span class="status-bar-temp">${temp}</span>
+                  </a>
+                </p>`;
+            statusBarData.append(weather);
+          }
+        }
       }
     } catch (error) {
       // eslint-disable-next-line no-console
@@ -665,30 +691,22 @@ async function OptanonWrapper() {
     if (!cookie || cookie !== geoInfo[key]) document.cookie = `${cookieName}=${geoInfo[key]}`;
   });
 
-  const OneTrustActiveGroup = () => {
-    /* eslint-disable */
-    var y = true, n = false;
-    var y_y_y = {'aa': y, 'aam': y, 'ecid': y};
-    var n_n_n = {'aa': n, 'aam': n, 'ecid': n};
-    var y_n_y = {'aa': y, 'aam': n, 'ecid': y};
-    var n_y_y = {'aa': n, 'aam': y, 'ecid': y};
-    
-    if (typeof OnetrustActiveGroups != 'undefined')
-      if (OnetrustActiveGroups.includes(',C0002,'))
-        return OnetrustActiveGroups.includes(',C0004,')?y_y_y:y_n_y;
-      else
-        return OnetrustActiveGroups.includes(',C0004,')?n_y_y:n_n_n;
-    
-    return geoInfo.country == 'US'?y_y_y:n_n_n;
-    /* eslint-enable */
-  };
-  if (!localStorage.getItem('OptIn_PreviousPermissions')) {
-    const adobeSettings = OneTrustActiveGroup();
-    adobeSettings.tempImplied = true;
-    localStorage.setItem('OptIn_PreviousPermissions', JSON.stringify(adobeSettings));
+  const prevOptIn = localStorage.getItem('OptIn_PreviousPermissions');
+  if (prevOptIn) {
+    try {
+      const adobeSettings = JSON.parse(prevOptIn);
+      if (adobeSettings.tempImplied) {
+        localStorage.removeItem('OptIn_PreviousPermissions');
+      }
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error('OptIn_PreviousPermissions parse failed');
+    }
   }
 
-  loadScript(`https://assets.adobedtm.com/d17bac9530d5/90b3c70cfef1/launch-1ca88359b76c${isProd ? '.min' : ''}.js`);
+  loadScript(`https://assets.adobedtm.com/d17bac9530d5/90b3c70cfef1/launch-1ca88359b76c${isProd ? '.min' : ''}.js`, () => {
+    dispatchEvent(new Event('load'));
+  });
 }
 
 const otId = placeholders.onetrustId;

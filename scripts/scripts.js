@@ -51,8 +51,8 @@ export function sampleRUM(checkpoint, data = {}) {
             data.cwv[measurement.name] = measurement.value;
             sendPing();
           };
-            // When loading `web-vitals` using a classic script, all the public
-            // methods can be found on the `webVitals` global namespace.
+          // When loading `web-vitals` using a classic script, all the public
+          // methods can be found on the `webVitals` global namespace.
           window.webVitals.getCLS(storeCWV);
           window.webVitals.getFID(storeCWV);
           window.webVitals.getLCP(storeCWV);
@@ -632,13 +632,13 @@ export function decorateButtons(element) {
           up.classList.add('button-container');
         }
         if (up.childNodes.length === 1 && up.tagName === 'STRONG'
-            && twoup.childNodes.length === 1 && twoup.tagName === 'P') {
+          && twoup.childNodes.length === 1 && twoup.tagName === 'P') {
           a.className = 'button primary';
           twoup.classList.add('button-container');
           up.outerHTML = a.outerHTML;
         }
         if (up.childNodes.length === 1 && up.tagName === 'EM'
-            && twoup.childNodes.length === 1 && twoup.tagName === 'P') {
+          && twoup.childNodes.length === 1 && twoup.tagName === 'P') {
           a.className = 'button secondary';
           twoup.classList.add('button-container');
           up.outerHTML = a.outerHTML;
@@ -738,7 +738,7 @@ initHlx();
  */
 
 const LCP_BLOCKS = ['carousel', 'hero']; // add your LCP blocks to the list
-const RUM_GENERATION = 'project-1'; // add your RUM generation information here
+const RUM_GENERATION = 'intercept-aa-2'; // add your RUM generation information here
 const PRODUCTION_DOMAINS = ['www.theplayers.com'];
 
 sampleRUM('top');
@@ -867,6 +867,18 @@ function isAppView() {
 }
 
 /**
+ * Provides a single point of acess to do a cross-domain fetch
+ * for bypassing cors when getting pga tour feed data.
+ * @param {string} url the url to fetch
+ * @returns the fetch responst
+ */
+export async function fetchCors(url) {
+  const worker = 'https://little-forest-58aa.david8603.workers.dev';
+  const fetchUrl = `${worker}/?url=${encodeURIComponent(url)}`;
+  return fetch(fetchUrl);
+}
+
+/**
  * Builds all synthetic blocks in a container element.
  * @param {Element} main The container element
  */
@@ -916,6 +928,25 @@ async function buildAutoBlocks(main) {
   }
 }
 
+export async function fetchGraphQL(query, variables) {
+  const placeholders = await fetchPlaceholders();
+  if (placeholders.graphqlApiEndpoint && placeholders.graphqlApiKey) {
+    return fetch(placeholders.graphqlApiEndpoint, {
+      method: 'POST',
+      body: JSON.stringify({
+        variables,
+        query,
+      }),
+      headers: {
+        // todo replace with value from placeholders
+        'x-api-key': placeholders.graphqlApiKey,
+        'x-pgat-platform': 'web',
+      },
+    });
+  }
+  throw new Error('fail');
+}
+
 /**
  * Decorates the main element.
  * @param {Element} main The main element
@@ -946,16 +977,23 @@ export async function decorateMain(main) {
       if (videoId) {
         const playLink = document.createElement('a');
 
-        const videoFeedUrl = `https://www.pgatour.com/bin/data/feeds/video-details.json/videoIds=${videoId}`;
-        fetch(`https://little-forest-58aa.david8603.workers.dev/?url=${encodeURIComponent(videoFeedUrl)}`).then(async (resp) => {
+        fetchGraphQL(`query getVideoById($brightcoveId: ID!) {    
+          videoById(brightcoveId: $brightcoveId, tourcast: false) {
+               id
+               shareUrl
+           }
+       }`, {
+          brightcoveId: videoId,
+        }).then(async (resp) => {
           if (resp.ok) {
             const json = await resp.json();
-            if (json.length > 0) {
-              playLink.href = json[0].link;
+            if (json && json.data && json.data.videoById && json.data.videoById.shareUrl) {
+              playLink.href = json.data.videoById.shareUrl;
               section.insertBefore(playLink, picture.nextSibling);
             }
           }
         });
+
         playLink.target = '_blank';
 
         const playIcon = document.createElement('span');
@@ -1052,3 +1090,25 @@ export function addHeaderSizing(block, classPrefix = 'heading', selector = 'h1, 
     });
   });
 }
+
+try {
+  const hidden = Symbol('hidden');
+  const proxy = Symbol('proxy');
+  Object.defineProperty(window, 's', {
+    set(x) {
+      this[hidden] = x;
+      const handler = {
+        get(target, prop, receiver) {
+          if (prop === 't') {
+            sampleRUM('adobe-analytics');
+          }
+          return Reflect.get(target, prop, receiver);
+        },
+      };
+      this[proxy] = new Proxy(this[hidden], handler);
+    },
+    get() {
+      return this[proxy];
+    },
+  });
+} catch (e) { /* ignore */ }
