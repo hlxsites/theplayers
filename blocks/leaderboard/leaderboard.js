@@ -101,20 +101,19 @@ async function populateLeaderboard(block, config) {
           playerProfile.textContent = 'View Player Profile';
           playerProfile.href = '#';
           buttons.append(playerProfile);
-          fetchGraphQL(`query GetPlayers($ids: [ID!]!) {
-            players(ids: $ids) {
+          fetchGraphQL(`query GetPlayer($id: ID!) {
+            player(id: $id) {
               id
               bioLink
             }
           }`, {
             ids: [player.player_id],
-          }).then(async (playersResp) => {
-            if (playersResp.ok) {
-              const playersJson = await playersResp.json();
-              playersJson.data.players.forEach((playerJson) => {
-                const { bioLink } = playerJson;
-                playerProfile.href = bioLink;
-              });
+          }).then(async (playerResp) => {
+            if (playerResp.ok) {
+              const playerJson = await playerResp.json();
+              if (playerJson && playerJson.data && playerJson.data.player) {
+                playerProfile.href = playerJson.data.player.bioLink;
+              }
             }
           });
           if (config['button-link'] && config['button-text']) {
