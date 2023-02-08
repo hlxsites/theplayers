@@ -4,6 +4,7 @@ import {
   fetchPlaceholders,
   updateExternalLinks,
   loadScript,
+  fetchGraphQL,
 } from '../../scripts/scripts.js';
 
 function generateUserTrackingId(id) {
@@ -94,11 +95,28 @@ async function populateLeaderboard(block, config) {
               </div>
             </div>
           </div>`;
-          const scorecard = document.createElement('a');
-          scorecard.className = 'button primary';
-          scorecard.textContent = 'View full scorecard';
-          scorecard.href = `https://www.pgatour.com/players/player.${player.player_id}.${bio.first_name}-${bio.last_name}.html/scorecards/${json.leaderboard.tournament_id}`.toLowerCase();
-          buttons.append(scorecard);
+
+          const playerProfile = document.createElement('a');
+          playerProfile.className = 'button primary';
+          playerProfile.textContent = 'View Player Profile';
+          playerProfile.href = '#';
+          buttons.append(playerProfile);
+          fetchGraphQL(`query GetPlayers($ids: [ID!]!) {
+            players(ids: $ids) {
+              id
+              bioLink
+            }
+          }`, {
+            ids: [player.player_id],
+          }).then(async (playersResp) => {
+            if (playersResp.ok) {
+              const playersJson = await playersResp.json();
+              playersJson.data.players.forEach((playerJson) => {
+                const { bioLink } = playerJson;
+                playerProfile.href = bioLink;
+              });
+            }
+          });
           if (config['button-link'] && config['button-text']) {
             const secondaryBtn = document.createElement('a');
             secondaryBtn.className = 'button secondary';
