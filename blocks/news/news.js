@@ -174,7 +174,7 @@ export default async function decorate(block) {
         tags = placeholders.newsTags.split('+');
       }
 
-      const newsFeed = await getNewsArticles(tags, limit, placeholders.tourCode);
+      const newsFeed = await getNewsArticles(tags, limit, placeholders.tourCode.toUpperCase());
       const mergedNews = await mergeLocalNews(newsFeed, config.limit);
       [...pinnedItems, ...mergedNews].forEach((item, idx) => {
         let prefix = '';
