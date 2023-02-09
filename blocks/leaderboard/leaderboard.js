@@ -107,7 +107,7 @@ async function populateLeaderboard(block, config) {
               bioLink
             }
           }`, {
-            ids: [player.player_id],
+            id: player.player_id,
           }).then(async (playerResp) => {
             if (playerResp.ok) {
               const playerJson = await playerResp.json();
