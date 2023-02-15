@@ -1,13 +1,23 @@
 {
   "project": "PGA The Players",
-  "host": "theplayers.com",
+  "host": "www.theplayers.com",
+  "owner": "hlxsites",
+  "repo": "theplayers",
+  "ref": "sk-course",
+  "devMode": true,
   "plugins": [
+    {
+      "id": "tools",
+      "title": "Tools",
+      "isContainer": true,
+      "environments": [ "edit", "dev", "preview" ]
+    },
     {
       "id": "course",
       "title": "Course Builder",
-      "environments": [ "dev" ],
       "url": "/tools/course/index.html",
-      "includePaths": [ "/course", "/course/**" ]
+      "containerId": "tools",
+      "environments": [ "edit", "dev", "preview" ]
     }
   ]
 }
