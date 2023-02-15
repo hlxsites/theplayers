@@ -7,12 +7,14 @@
   <title>PGA Course Builder</title>
   <link rel="stylesheet" href="../../styles/styles.css" />
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="../../blocks/course/course.css" />
   <script src="scripts.js"></script>
 </head>
 <body class="appear">
+  <header style="display: none;"></header>
   <main class="sidekick-tool">
     <div class="section sidebar">
-      <h1 class="sidebar-title">Franklin Course Block Builder Tool</h1>
+      <h1 class="sidebar-title">Course Block Builder Tool</h1>
       <section class="form course-data-source">
         <p class="form-label">Course Data Source <span class="icon icon-info">
           <span>Where does course data come from?</span>
@@ -31,7 +33,13 @@
           <label for="pathname">Pathname</label>
           <input type="text" id="pathname" name="pathname" value="coursestat.json" />
         </div>
-        <button id="course-data-source-btn" data-source="course-data-source" disabled>Get Course Data</button>
+        <p class="form-label"><span style="flex: 0 0 max-content;">Show Course Stats</span> <span class="icon icon-info">
+          <span>Should the block on the page display stats?</span>
+        </span>
+          <label for="courseStats">Show Course Stats</label>
+          <input type="checkbox" id="courseStats" name="courseStats" />
+        </p>
+        <button id="course-data-source-btn" disabled>Get Course Data</button>
       </section>
       <section class="form hole-data-source">
         <p class="form-label">Course DAM Source <span class="icon icon-info">
@@ -59,6 +67,13 @@
           <label for="damFileType">File Type</label>
           <input class="form-short" type="text" id="damFileType" name="damFileType" value=".jpg" />
         </div>
+        <p class="form-label">DAM Year <span class="icon icon-info">
+          <span>If the DAM images have a year in the folder/filename, what is that year?</span>
+        </span></p>
+        <div id="dam-year" class="form-input">
+          <label for="damYear">DAM Year</label>
+          <input type="number" id="damYear" name="damYear" min="1816" max="9999" step="1" />
+        </div>
         <p class="form-label">Cloudinary Source <span class="icon icon-info">
           <span>Where do Cloudinary images come from?</span>
         </span></p>
@@ -71,35 +86,37 @@
           <input type="text" id="cloudinaryPathname" name="cloudinaryPathname" value="image/upload" />
           <p class="form-slash">/</p>
         </div>
-        <button id="hole-data-source-btn" data-source="dam-source, cloudinary-source" disabled>Get Hole Data</button>
+        <button id="hole-data-source-btn" disabled>Get Hole Data</button>
       </section>
     </div>
     <div class="section preview">
       <section class="tabs">
         <div role="tablist" aria-labelledby="tablist-1">
-          <button id="tab-1" type="button" role="tab" aria-selected="true" aria-controls="tabpanel-1">
+          <button id="block-table-btn" type="button" role="tab" aria-selected="true" aria-controls="block-table-panel">
             <span class="focus">Block Table</span>
           </button>
-          <button id="tab-2" type="button" role="tab" aria-selected="false" aria-controls="tabpanel-2" tabindex="-1">
+          <button id="block-preview-btn" type="button" role="tab" aria-selected="false" aria-controls="block-preview-panel" tabindex="-1">
             <span class="focus">Block Preview</span>
           </button>
         </div>
-        <div id="tabpanel-1" role="tabpanel" tabindex="0" aria-labelledby="tab-1">
-          <table>
+        <div id="block-table-panel" role="tabpanel" tabindex="0" aria-labelledby="block-table-btn" aria-hidden="false">
+          <table class="table">
             <thead>
               <tr>
-                <th colspan="2"><strong>Course</strong></th>
+                <th colspan="2"><p><strong>Course</strong></p></th>
               </tr>
             </thead>
             <tbody></tbody>
           </table>
-          <button id="copy-block-preview">Copy Block</button>
+          <button id="copy-block-preview" disabled>Copy Block</button>
         </div>
-        <div id="tabpanel-2" role="tabpanel" tabindex="0" aria-labelledby="tab-2" class="is-hidden">
+        <div id="block-preview-panel" role="tabpanel" tabindex="0" aria-labelledby="block-preview-btn" aria-hidden="true">
           <p>Block preview goes here.</p>
         </div>
       </section>
     </div>
+    <div class="toast-wrapper" aria-hidden="true"></div>
   </main>
+  <footer style="display: none;"></footer>
 </body>
 </html>
