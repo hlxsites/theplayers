@@ -79,15 +79,14 @@ function registerPerformanceLogger() {
     pores.observe({ type: 'resource', buffered: true });
 
     const poevt = new PerformanceObserver((list) => {
-      console.log('poevt');
       list.getEntries().forEach((entry) => {
         // Log the entry and all associated details.
         stamp(`${entry.name}: ${entry.duration}ms`, entry.startTime, 'inp');
       });
     });
     // Start listening for `inp` entries to be dispatched.
-    poevt.observe({type: 'event', buffered: true, durationThreshold: 1});
-    
+    poevt.observe({ type: 'event', buffered: true, durationThreshold: 1 });
+
     document.body.addEventListener('section-display', (e) => {
       stamp(`section displayed (${e.detail.sectionIndex + 1}/${e.detail.numSections})`, new Date() - performance.timing.navigationStart, 'franklin');
       // eslint-disable-next-line no-console

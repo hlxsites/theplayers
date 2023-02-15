@@ -1113,7 +1113,6 @@ try {
   });
 } catch (e) { /* ignore */ }
 
-
 const params = new URLSearchParams(window.location.search);
 if (params.get('performance')) {
   window.hlx.performance = true;
