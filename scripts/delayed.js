@@ -683,7 +683,7 @@ async function OptanonWrapper() {
     }
   }
 
-  clearDataLayer();
+  // clearDataLayer();
   loadScript(`https://assets.adobedtm.com/d17bac9530d5/90b3c70cfef1/launch-1ca88359b76c${isProd ? '.min' : ''}.js`, () => {
     pushOneTrustConsentGroups();
     // eslint-disable-next-line no-undef
