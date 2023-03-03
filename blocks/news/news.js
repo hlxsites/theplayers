@@ -117,28 +117,12 @@ async function getArticles(limit, placeholders) {
           articles {
               id
               articleImage
-              franchise
-              franchiseDisplayName
               headline
               publishDate
               teaserContent
               teaserHeadline
               updateDate
               url
-              sponsor {
-                  name
-                  description
-                  logo
-                  image
-                  websiteUrl
-              }
-          }
-          franchiseSponsors {
-              accessibilityText
-              backgroundColor
-              franchise
-              image
-              label
           }
       }
   }`, {
@@ -191,12 +175,26 @@ function mergeAll(limit, pinnedItems, videos, articles, localNews) {
   merged.push(...pinnedItems);
 
   // merge and 2 sets of articles
-  const allFeeds = [...articles, ...localNews];
+  articles.map((article) => {
+    const { url } = article;
+    const { host, pathname } = new URL(url);
+    if (host.includes('pgatour.com')) {
+      const splitPath = `/${pathname.split('/').slice(4).join('/')}`;
+      const match = localNews.find((m) => m.url.includes(splitPath));
+      if (match) article.url = match.url;
+    }
+    return article;
+  });
 
-  // TODO need to dedupe the sets of articles
-  // so if something is posted both to players.com and pgatour.com it only shows once
+  const allArticles = [...articles, ...localNews];
 
-  // then add the videos
+  const dedupedArticles = [...new Map(allArticles.map((m) => [
+    new URL(m.url, window.location.href).pathname.split('.')[0],
+    m,
+  ])).values()];
+
+  const allFeeds = [];
+  allFeeds.push(...dedupedArticles);
   allFeeds.push(...videos);
 
   // sort everything by date
