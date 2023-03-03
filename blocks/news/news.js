@@ -111,23 +111,38 @@ async function getVideos(limit, placeholders) {
 }
 
 async function getArticles(limit, placeholders) {
-  // TODO this is not actually filtering for the tournament
-  // need to fix this before this can be final
   try {
-    const resp = await fetchGraphQL(`query GetNewsArticles($tour: TourCode, $franchise: String, $franchises: [String!], $playerId: ID, $limit: Int, $offset: Int, $tags: [String!]) {
-    newsArticles(tour: $tour, franchise: $franchise, franchises: $franchises, playerId: $playerId, limit: $limit, offset: $offset, tags: $tags) {
-        articles {
-            id
-            articleImage
-            publishDate
-            teaserHeadline
-            updateDate
-            url
-        }
-    }
+    const resp = await fetchGraphQL(`query GetNewsArticles($tour: TourCode, $franchise: String, $franchises: [String!], $playerId: ID, $playerIds: [ID!], $limit: Int, $offset: Int, $tournamentNum: String) {
+      newsArticles(tour: $tour, franchise: $franchise, franchises: $franchises, playerId: $playerId, playerIds: $playerIds, limit: $limit, offset: $offset, tournamentNum: $tournamentNum) {
+          articles {
+              id
+              articleImage
+              franchise
+              franchiseDisplayName
+              headline
+              publishDate
+              teaserContent
+              teaserHeadline
+              updateDate
+              url
+              sponsor {
+                  name
+                  description
+                  logo
+                  image
+                  websiteUrl
+              }
+          }
+          franchiseSponsors {
+              accessibilityText
+              backgroundColor
+              franchise
+              image
+              label
+          }
+      }
   }`, {
-      tour: placeholders.tourCode.toUpperCase(),
-      tournamentId: placeholders.tournamentId,
+      tournamentNum: placeholders.tournamentId,
       limit,
     });
     if (resp.ok) {
