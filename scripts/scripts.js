@@ -1091,6 +1091,55 @@ export function addHeaderSizing(block, classPrefix = 'heading', selector = 'h1, 
   });
 }
 
+export function clearDataLayer() {
+  window.adobeDataLayer = [];
+}
+
+export function pushOneTrustConsentGroups() {
+  window.adobeDataLayer = window.adobeDataLayer || [];
+  const dl = window.adobeDataLayer;
+  dl.push({
+    event: 'LaunchOTLoaded',
+    // eslint-disable-next-line no-undef
+    OnetrustActiveGroups: typeof OnetrustActiveGroups !== 'undefined' ? OnetrustActiveGroups : '',
+  });
+}
+
+function getPageNameAndSections() {
+  const pageSectionParts = window.location.pathname.split('/').filter((subPath) => subPath !== '');
+  const pageName = pageSectionParts.join(':');
+  const finalPageName = pageName === '' ? 'Home' : pageName;
+
+  return {
+    pageName: finalPageName,
+    sections: pageSectionParts,
+  };
+}
+
+export async function sendAnalyticsPageEvent() {
+  window.adobeDataLayer = window.adobeDataLayer || [];
+  const dl = window.adobeDataLayer;
+  const placeholders = await fetchPlaceholders();
+  const isUserLoggedIn = window.gigyaAccountInfo && window.gigyaAccountInfo != null
+    && window.gigyaAccountInfo.errorCode === 0;
+
+  const { pageName, sections } = getPageNameAndSections();
+  dl.push({
+    event: 'pageLoaded',
+    pageName,
+    pageUrl: window.location.href,
+    siteSection: sections[0] || '',
+    siteSubSection: sections[1] || '',
+    siteSubSection2: sections[2] || '',
+    gigyaID: isUserLoggedIn && window.gigyaAccountInfo.UID ? window.gigyaAccountInfo.UID : '',
+    userLoggedIn: isUserLoggedIn ? 'Logged In' : 'Logged Out',
+    tourName: 'pgatour',
+    tournamentID: `${placeholders.tourCode.toUpperCase()}${placeholders.currentYear}${placeholders.tournamentId}`,
+    ipAddress: '127.0.0.1',
+    deviceType: 'Web',
+  });
+}
+
 try {
   const hidden = Symbol('hidden');
   const proxy = Symbol('proxy');
