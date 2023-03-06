@@ -86,7 +86,8 @@ async function getVideos(limit, placeholders) {
       pubdate
       category
       id
-      duration 
+      duration
+      shareUrl
     }
   }`, {
     tour: placeholders.tourCode.toUpperCase(),
@@ -97,7 +98,7 @@ async function getVideos(limit, placeholders) {
     const json = await resp.json();
     if (json.data && json.data.videos) {
       const videoItems = json.data.videos.map((video) => ({
-        url: `https://www.pgatour.com/video/${video.category}/${video.id}`,
+        url: video.shareUrl,
         type: 'video',
         // eslint-disable-next-line no-template-curly-in-string
         image: video.poster.replace('${height}', '311').replace('${width}', '425'),
@@ -132,13 +133,18 @@ async function getArticles(limit, placeholders) {
     if (resp.ok) {
       const json = await resp.json();
       if (json.data && json.data.newsArticles && json.data.newsArticles.articles) {
-        const articles = json.data.newsArticles.articles.map((article) => ({
-          url: article.url,
-          type: 'article',
-          image: article.articleImage,
-          title: article.teaserHeadline,
-          date: article.updateDate,
-        }));
+        const articles = json.data.newsArticles.articles.map((article) => {
+          const articleUrl = new URL(article.url);
+          articleUrl.searchParams.delete('webview');
+          const articleData = {
+            url: articleUrl.toString(),
+            type: 'article',
+            image: article.articleImage,
+            title: article.teaserHeadline,
+            date: article.updateDate,
+          };
+          return articleData;
+        });
         return articles;
       }
     }

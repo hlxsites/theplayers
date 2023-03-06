@@ -30,15 +30,19 @@ async function getArticles(limit, placeholders) {
     if (resp.ok) {
       const json = await resp.json();
       if (json.data && json.data.newsArticles && json.data.newsArticles.articles) {
-        const articles = json.data.newsArticles.articles.map((article) => ({
-          url: article.url,
-          type: 'article',
-          image: article.articleImage,
-          title: article.teaserHeadline,
-          date: article.updateDate,
-          franchise: article.franchise,
-          franchiseDisplayName: article.franchiseDisplayName,
-        }));
+        const articles = json.data.newsArticles.articles.map((article) => {
+          const articleUrl = new URL(article.url);
+          articleUrl.searchParams.delete('webview');
+          return {
+            url: articleUrl.toString(),
+            type: 'article',
+            image: article.articleImage,
+            title: article.teaserHeadline,
+            date: article.updateDate,
+            franchise: article.franchise,
+            franchiseDisplayName: article.franchiseDisplayName,
+          };
+        });
         return articles;
       }
     }
