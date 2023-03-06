@@ -938,7 +938,6 @@ export async function fetchGraphQL(query, variables) {
         query,
       }),
       headers: {
-        // todo replace with value from placeholders
         'x-api-key': placeholders.graphqlApiKey,
         'x-pgat-platform': 'web',
       },
