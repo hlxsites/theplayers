@@ -22,9 +22,10 @@ export async function setupSponsors(sponsorLinks = []) {
       const image = sponsorDoc.querySelector('meta[property="og:image"]').content;
       const description = sponsorDoc.querySelector('meta[property="og:description"]').content;
       const link = sponsorDoc.querySelector('meta[name="external-link"]').content;
+      const logoWhite = sponsorDoc.querySelector('meta[name="logo-white"]').content;
 
       sponsors.push({
-        title, image, description, link,
+        title, image, description, link, logoWhite,
       });
     }
   } else {
