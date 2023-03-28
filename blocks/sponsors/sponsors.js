@@ -6,6 +6,7 @@ import {
 } from '../../scripts/scripts.js';
 
 export default async function decorate(block) {
+  block.textContent = '';
   const pages = await lookupPages();
   const { sponsorOrder } = await fetchPlaceholders();
   const sponsors = pages.filter((e) => e.path.startsWith('/sponsors/'));
