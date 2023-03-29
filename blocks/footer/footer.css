@@ -187,19 +187,19 @@ footer .footer .footer-social p {
 }
 
 footer .footer .footer-social p:hover {
-  filter: brightness(0.85);
+  filter: brightness(.85);
 }
 
 footer .footer .footer-social p.footer-social-facebook {
-  background-color: #4267b2;
+  background-color: #4267B2;
 }
 
 footer .footer .footer-social p.footer-social-twitter {
-  background-color: #1da1f2;
+  background-color: #1DA1F2;
 }
 
 footer .footer .footer-social p.footer-social-instagram {
-  background-color: #405de6;
+  background-color: #405DE6;
 }
 
 footer .footer .footer-social p.footer-social-youtube {
