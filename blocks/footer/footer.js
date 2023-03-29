@@ -6,7 +6,7 @@ import {
   wrapImgsInLinks,
 } from '../../scripts/scripts.js';
 
-import { setupSponsors } from '../sponsors/sponsors.js';
+import { setupSponsors, setupSponsorsV2 } from '../sponsors/sponsors.js';
 
 function setupCookieChoices(section) {
   const cookieLink = section.querySelector('a[href*="onetrust-link"]');
@@ -26,19 +26,26 @@ function setupSocialButtons(section) {
 }
 
 async function setupPartners(section) {
-  let sponsorLinks = [];
+  let sponsors = [];
   try {
+    // const resp = await fetch('/drafts/shsteimer/sponsors');
     const resp = await fetch('/sponsors');
     // eslint-disable-next-line no-await-in-loop
     const html = await resp.text();
     const dp = new DOMParser();
     const sponsorsDoc = dp.parseFromString(html, 'text/html');
-    sponsorLinks = [...sponsorsDoc.querySelectorAll('.sponsors a')].map((a) => a.href);
+    if (sponsorsDoc.querySelector('.sponsors.v2')) {
+      const sponsorRows = [...sponsorsDoc.querySelector('.sponsors.v2').children];
+      sponsors = await setupSponsorsV2(sponsorRows);
+    } else {
+      // backwards compat, kill off after marge and content update
+      const sponsorLinks = [...sponsorsDoc.querySelectorAll('.sponsors a')].map((a) => a.href);
+      sponsors = await setupSponsors(sponsorLinks);
+    }
   } catch (err) {
     // eslint-disable-next-line no-console
     console.log(err);
   }
-  const sponsors = await setupSponsors(sponsorLinks);
 
   const wrapper = document.createElement('div');
   // combine ordered sponsors with any remaining unordered sponsors
