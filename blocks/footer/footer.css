@@ -108,7 +108,7 @@ footer .footer .footer-partners img {
 }
 
 /* nav */
-footer .footer .footer-nav {
+footer .footer .footer-partners + .footer-nav {
   border-top: 1px solid var(--footer-border-color);
 }
 
@@ -187,19 +187,19 @@ footer .footer .footer-social p {
 }
 
 footer .footer .footer-social p:hover {
-  filter: brightness(.85);
+  filter: brightness(0.85);
 }
 
 footer .footer .footer-social p.footer-social-facebook {
-  background-color: #4267B2;
+  background-color: #4267b2;
 }
 
 footer .footer .footer-social p.footer-social-twitter {
-  background-color: #1DA1F2;
+  background-color: #1da1f2;
 }
 
 footer .footer .footer-social p.footer-social-instagram {
-  background-color: #405DE6;
+  background-color: #405de6;
 }
 
 footer .footer .footer-social p.footer-social-youtube {
@@ -232,8 +232,10 @@ footer .footer .footer-copyright {
   }
 }
 
-footer .footer #ot-sdk-btn.ot-sdk-show-settings, footer .footer #ot-sdk-btn.optanon-show-settings,
-footer .footer #ot-sdk-btn.ot-sdk-show-settings:hover, footer .footer #ot-sdk-btn.optanon-show-settings:hover {
+footer .footer #ot-sdk-btn.ot-sdk-show-settings,
+footer .footer #ot-sdk-btn.optanon-show-settings,
+footer .footer #ot-sdk-btn.ot-sdk-show-settings:hover,
+footer .footer #ot-sdk-btn.optanon-show-settings:hover {
   color: var(--footer-text-color);
   text-transform: uppercase;
   cursor: pointer;

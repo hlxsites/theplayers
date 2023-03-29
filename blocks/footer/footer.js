@@ -72,7 +72,7 @@ export default async function decorate(block) {
     const footer = document.createElement('div');
     footer.innerHTML = html;
 
-    const hasPartners = footer.children.length > 4;
+    let hasPartners = footer.children.length > 4;
     let classes = ['partners', 'nav', 'links', 'social', 'copyright'];
     if (!hasPartners) {
       classes = ['nav', 'links', 'social', 'copyright'];
@@ -81,6 +81,13 @@ export default async function decorate(block) {
       const section = footer.children[i];
       if (section) section.classList.add(`footer-${c}`);
     });
+
+    const pageHasSponsers = document.querySelector('.block.sponsors');
+    if (pageHasSponsers) {
+      // hide partners in footer when page contains sponsors block
+      hasPartners = false;
+      footer.querySelector('.footer-partners').remove();
+    }
 
     // setup ribbon
     const ribbon = document.createElement('div');
