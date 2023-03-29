@@ -74,13 +74,3 @@ main .sponsors .sponsors-sponsor-back {
   background-color: var(--sponsors-background-color);
   transform: rotateY(180deg);
 }
-
-/* hide duplicate sponsors in footer */
-/* body footer .footer .footer-partners {
-  display: none;
-  visibility: hidden;
-}
-
-body footer .footer .footer-nav {
-  border-top: 0;
-} */
