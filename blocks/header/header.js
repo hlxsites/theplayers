@@ -2,11 +2,12 @@ import {
   readBlockConfig,
   fetchPlaceholders,
   decorateIcons,
-  lookupPages,
   createOptimizedPicture,
   wrapImgsInLinks,
   decorateLinkedPictures,
 } from '../../scripts/scripts.js';
+
+import { setupSponsors, setupSponsorsV2 } from '../sponsors/sponsors.js';
 
 /**
  * collapses all open nav sections
@@ -26,8 +27,26 @@ function displayNextPartner(proud) {
 }
 
 async function setupPartners(section, ph) {
-  const pages = await lookupPages();
-  const sponsors = pages.filter((e) => e.path.startsWith('/sponsors/'));
+  let sponsors = [];
+  try {
+    // const resp = await fetch('/drafts/shsteimer/sponsors');
+    const resp = await fetch('/sponsors');
+    // eslint-disable-next-line no-await-in-loop
+    const html = await resp.text();
+    const dp = new DOMParser();
+    const sponsorsDoc = dp.parseFromString(html, 'text/html');
+    if (sponsorsDoc.querySelector('.sponsors.v2')) {
+      const sponsorRows = [...sponsorsDoc.querySelector('.sponsors.v2').children];
+      sponsors = await setupSponsorsV2(sponsorRows);
+    } else {
+      // backwards compat, kill off after marge and content update
+      const sponsorLinks = [...sponsorsDoc.querySelectorAll('.sponsors a')].map((a) => a.href);
+      sponsors = await setupSponsors(sponsorLinks);
+    }
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.log(err);
+  }
 
   if (sponsors.length > 0) {
     const hasWhiteBg = [...section.classList].includes('white');

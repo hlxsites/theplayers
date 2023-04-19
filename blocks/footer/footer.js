@@ -3,10 +3,10 @@ import {
   decorateIcons,
   decorateLinkedPictures,
   createOptimizedPicture,
-  lookupPages,
   wrapImgsInLinks,
-  fetchPlaceholders,
 } from '../../scripts/scripts.js';
+
+import { setupSponsors, setupSponsorsV2 } from '../sponsors/sponsors.js';
 
 function setupCookieChoices(section) {
   const cookieLink = section.querySelector('a[href*="onetrust-link"]');
@@ -26,27 +26,30 @@ function setupSocialButtons(section) {
 }
 
 async function setupPartners(section) {
-  const pages = await lookupPages();
-  const { sponsorOrder } = await fetchPlaceholders();
-  const sponsors = pages.filter((e) => e.path.startsWith('/sponsors/'));
-  const orderedSponsors = [];
-  if (sponsorOrder) {
-    sponsorOrder.split(',').forEach((sp) => {
-      // eslint-disable-next-line no-param-reassign
-      sp = sp.trim();
-      const match = sponsors.find((sponsor) => sponsor.title === sp);
-      if (match) {
-        // remove match from sponsors
-        sponsors.splice(sponsors.indexOf(match), 1);
-        // add match to ordered sponsors
-        orderedSponsors.push(match);
-      }
-    });
+  let sponsors = [];
+  try {
+    // const resp = await fetch('/drafts/shsteimer/sponsors');
+    const resp = await fetch('/sponsors');
+    // eslint-disable-next-line no-await-in-loop
+    const html = await resp.text();
+    const dp = new DOMParser();
+    const sponsorsDoc = dp.parseFromString(html, 'text/html');
+    if (sponsorsDoc.querySelector('.sponsors.v2')) {
+      const sponsorRows = [...sponsorsDoc.querySelector('.sponsors.v2').children];
+      sponsors = await setupSponsorsV2(sponsorRows);
+    } else {
+      // backwards compat, kill off after marge and content update
+      const sponsorLinks = [...sponsorsDoc.querySelectorAll('.sponsors a')].map((a) => a.href);
+      sponsors = await setupSponsors(sponsorLinks);
+    }
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.log(err);
   }
 
   const wrapper = document.createElement('div');
   // combine ordered sponsors with any remaining unordered sponsors
-  [...orderedSponsors, ...sponsors].forEach((sponsor) => {
+  sponsors.forEach((sponsor) => {
     const partner = document.createElement('div');
     partner.className = 'footer-partner';
     const link = document.createElement('a');
@@ -76,7 +79,7 @@ export default async function decorate(block) {
     const footer = document.createElement('div');
     footer.innerHTML = html;
 
-    const hasPartners = footer.children.length > 4;
+    let hasPartners = footer.children.length > 4;
     let classes = ['partners', 'nav', 'links', 'social', 'copyright'];
     if (!hasPartners) {
       classes = ['nav', 'links', 'social', 'copyright'];
@@ -85,6 +88,13 @@ export default async function decorate(block) {
       const section = footer.children[i];
       if (section) section.classList.add(`footer-${c}`);
     });
+
+    const pageHasSponsers = document.querySelector('.block.sponsors');
+    if (pageHasSponsers) {
+      // hide partners in footer when page contains sponsors block
+      hasPartners = false;
+      footer.querySelector('.footer-partners').remove();
+    }
 
     // setup ribbon
     const ribbon = document.createElement('div');
