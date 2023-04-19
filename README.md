@@ -3,6 +3,7 @@
 ## Environments
 - Preview: https://main--pga-presidents-cup--hlxsites.hlx.page/
 - Live: https://main--pga-presidents-cup--hlxsites.hlx.live/
+- Production: https://www.presidentscup.com
 
 ## Installation
 
