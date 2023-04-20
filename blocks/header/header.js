@@ -28,46 +28,48 @@ function displayNextPartner(proud) {
 
 async function setupPartners(section, ph) {
   let sponsors = [];
-  try {
-    // const resp = await fetch('/drafts/shsteimer/sponsors');
-    const resp = await fetch('/sponsors');
-    // eslint-disable-next-line no-await-in-loop
-    const html = await resp.text();
-    const dp = new DOMParser();
-    const sponsorsDoc = dp.parseFromString(html, 'text/html');
-    if (sponsorsDoc.querySelector('.sponsors.v2')) {
-      const sponsorRows = [...sponsorsDoc.querySelector('.sponsors.v2').children];
-      sponsors = await setupSponsorsV2(sponsorRows);
-    } else {
-      // backwards compat, kill off after marge and content update
-      const sponsorLinks = [...sponsorsDoc.querySelectorAll('.sponsors a')].map((a) => a.href);
-      sponsors = await setupSponsors(sponsorLinks);
+  const sponsorsNavPath = ph.sponsorsNav;
+  if (sponsorsNavPath) {
+    try {
+      const resp = await fetch(sponsorsNavPath);
+      // eslint-disable-next-line no-await-in-loop
+      const html = await resp.text();
+      const dp = new DOMParser();
+      const sponsorsDoc = dp.parseFromString(html, 'text/html');
+      if (sponsorsDoc.querySelector('.sponsors.v2')) {
+        const sponsorRows = [...sponsorsDoc.querySelector('.sponsors.v2').children];
+        sponsors = await setupSponsorsV2(sponsorRows);
+      } else {
+        // backwards compat, kill off after marge and content update
+        const sponsorLinks = [...sponsorsDoc.querySelectorAll('.sponsors a')].map((a) => a.href);
+        sponsors = await setupSponsors(sponsorLinks);
+      }
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.log(err);
     }
-  } catch (err) {
-    // eslint-disable-next-line no-console
-    console.log(err);
-  }
 
-  if (sponsors.length > 0) {
-    const hasWhiteBg = [...section.classList].includes('white');
-    section.classList.add('has-sponsors');
-    const partners = document.createElement('div');
-    partners.className = 'nav-partners';
-    partners.innerHTML = `<div class="nav-partners-title">
+    if (sponsors.length > 0) {
+      const hasWhiteBg = [...section.classList].includes('white');
+      section.classList.add('has-sponsors');
+      const partners = document.createElement('div');
+      partners.className = 'nav-partners';
+      partners.innerHTML = `<div class="nav-partners-title">
         <span>${ph.globalPartners}</span>
       </div>
       <div class="nav-partner-wrapper"></div>`;
-    sponsors.forEach((sponsor, i) => {
-      const partner = document.createElement('div');
-      partner.className = 'nav-partner';
-      if (!i) partner.classList.add('nav-partner-appear');
-      partner.append(createOptimizedPicture(hasWhiteBg ? sponsor.image : sponsor.logoWhite, sponsor.title, false, [{ width: '300' }]));
-      partners.querySelector('.nav-partner-wrapper').append(partner);
-    });
-    setInterval(() => {
-      displayNextPartner(partners);
-    }, 5000);
-    section.append(partners);
+      sponsors.forEach((sponsor, i) => {
+        const partner = document.createElement('div');
+        partner.className = 'nav-partner';
+        if (!i) partner.classList.add('nav-partner-appear');
+        partner.append(createOptimizedPicture(hasWhiteBg ? sponsor.image : sponsor.logoWhite, sponsor.title, false, [{ width: '300' }]));
+        partners.querySelector('.nav-partner-wrapper').append(partner);
+      });
+      setInterval(() => {
+        displayNextPartner(partners);
+      }, 5000);
+      section.append(partners);
+    }
   }
 }
 
