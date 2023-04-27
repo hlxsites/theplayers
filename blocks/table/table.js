@@ -44,11 +44,11 @@ function buildWeatherCell(col, rowNum) {
       cellContainer.innerHTML = '<img src="/icons/inclement-weather-closure.svg">';
       break;
     default: // Do Nothing
-    }
+  }
 
   const cellText = document.createElement('div');
   cellText.innerHTML += typeof col === 'object' ? col.innerHTML : col;
-  cellContainer.innerHTML = cellContainer.innerHTML + cellText.outerHTML;
+  cellContainer.innerHTML += cellContainer.innerHTML + cellText.outerHTML;
   cell.innerHTML = cellContainer.outerHTML;
   return cell;
 }
