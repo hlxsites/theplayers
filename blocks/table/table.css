@@ -81,6 +81,11 @@ main .table.weather tr th {
   border: none;
 }
 
+main .table.weather tr td {
+  text-align: left;
+  border: 5px solid var(--color-navy);
+}
+
 main .table.stats tr td:nth-child(1) {
   font-weight: bold;
 }
@@ -149,11 +154,6 @@ main .table.weather table {
 
 main .table.weather tr th:first-child {
   border-right: 5px solid var(--color-navy);
-}
-
-main .table.weather tr td {
-  text-align: left;
-  border: 5px solid var(--color-navy);
 }
 
 main .table.weather tr td:nth-child(odd) {
