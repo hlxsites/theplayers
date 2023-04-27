@@ -13,6 +13,45 @@ function buildCell(col, rowNum) {
   return cell;
 }
 
+function buildWeatherCell(col, rowNum) {
+  const cell = rowNum > 0 ? document.createElement('td') : document.createElement('th');
+  let cellContainer = document.createElement('div');
+  if (rowNum) {
+    // eslint-disable-next-line eqeqeq
+    if (cell.textContent == parseInt(cell.textContent, 10)) {
+      // if cell contents are only numerical
+      cell.classList.add('table-cell-num');
+    }
+  }
+  if (cell.nodeName === 'TD') {
+    cellContainer.classList.add('weather-cell');
+  }
+
+  switch(rowNum) {
+    case 1:
+      cellContainer.innerHTML = '<img src="/icons/inclement-weather-clear.svg">';
+      break;
+    case 2:
+      cellContainer.innerHTML = '<img src="/icons/inclement-weather-aware.svg">';
+      break;
+    case 3:
+      cellContainer.innerHTML = '<img src="/icons/inclement-weather-prepared.svg">';
+      break;
+    case 4:
+      cellContainer.innerHTML = '<img src="/icons/inclement-weather-action.svg">';
+      break;
+    case 5:
+      cellContainer.innerHTML = '<img src="/icons/inclement-weather-closure.svg">';
+      break;
+    }
+
+  let cellText = document.createElement('div');
+  cellText.innerHTML = typeof col === 'object' ? col.innerHTML : col;
+  cellContainer.innerHTML = cellContainer.innerHTML + cellText.outerHTML;
+  cell.innerHTML = cellContainer.outerHTML;
+  return cell;
+}
+
 async function buildDataTable(table, head, body, src, config) {
   const resp = await fetch(src);
   if (resp.ok) {
@@ -84,6 +123,18 @@ export default async function decorate(block) {
 
       observer.observe(block);
     }
+  } else if (block.className.includes('weather')) {
+    block.querySelectorAll(':scope > div').forEach((row, i) => {
+      const tr = document.createElement('tr');
+      row.querySelectorAll('div').forEach((col, j) => {
+        if (j === 0) {
+          tr.append(buildWeatherCell(col, i));
+        } else tr.append(buildCell(col, i));
+      });
+      if (i > 0) body.append(tr);
+      else head.append(tr);
+    });
+    table.append(head, body);
   } else {
     // build rows
     block.querySelectorAll(':scope > div').forEach((row, i) => {

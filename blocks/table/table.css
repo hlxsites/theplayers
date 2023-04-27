@@ -131,3 +131,76 @@ main .table table tbody tr:nth-child(even) {
     visibility: visible;
   }
 }
+
+main .table.weather table {
+  padding: 30px;
+  border: none;
+  font-size: 2vw;
+}
+
+main .table.weather tr th {
+  text-align: center;
+  border: none;
+}
+
+main .table.weather tr th:first-child {
+  border-right: 5px solid var(--color-navy);
+}
+
+main .table.weather tr td {
+  text-align: left;
+  border: 5px solid var(--color-navy);
+}
+
+main .table.weather tr td:nth-child(odd) {
+  width: 50%;
+}
+
+main .table.weather tr td img {
+  display: inline-block;
+  max-width: 33%;
+  margin: 0;
+}
+
+main .table.weather tr td .weather-cell {
+  display: flex;
+  align-items: center;
+  font-size: 3.25vw;
+}
+
+main .table.weather tr td .weather-cell p {
+  margin: .25em;
+}
+
+main .table.weather tr {
+  background-color: transparent !important;
+}
+
+main .table.weather tr:nth-child(1) td:nth-child(1) {
+  background-color: var(--color-green);
+}
+
+main .table.weather tr:nth-child(2) td:nth-child(1) {
+  background-color: var(--color-yellow);
+}
+
+main .table.weather tr:nth-child(3) td:nth-child(1) {
+  background-color: var(--color-orange);
+}
+
+main .table.weather tr:nth-child(4) td:nth-child(1) {
+  background-color: var(--color-red);
+}
+
+main .table.weather tr:nth-child(5) td:nth-child(1) {
+  background-color: var(--color-purple);
+}
+
+@media (min-width: 1100px) {
+  main .table.weather table {
+    font-size: var(--body-font-size-l)
+  }
+  main .table.weather tr td .weather-cell {
+    font-size: var(--heading-font-size-l)
+  }
+}

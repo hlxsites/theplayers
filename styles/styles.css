@@ -26,8 +26,14 @@
   --color-gray-light: #ccc;
   --color-gray-lighter: #f2f2f2;
   --color-white: #fff;
+  --color-navy: #003B75;
+  --color-green: #41AD49;
+  --color-yellow: #FFF200;
+  --color-orange: #EE9D38;
+  --color-red: #D2232A;
+  --color-purple: #C270F7;
 
-  /* colors assignments */
+   /* colors assignments */
   --link-color: var(--color-blue-dark);
   --link-hover-color: var(--color-blue);
   --background-color: var(--color-gray-lighter);
