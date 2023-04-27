@@ -72,6 +72,15 @@ main .table.stats td {
   text-align: center;
 }
 
+main .table.weather tr {
+  background-color: transparent !important;
+}
+
+main .table.weather tr th {
+  text-align: center;
+  border: none;
+}
+
 main .table.stats tr td:nth-child(1) {
   font-weight: bold;
 }
@@ -138,11 +147,6 @@ main .table.weather table {
   font-size: 2vw;
 }
 
-main .table.weather tr th {
-  text-align: center;
-  border: none;
-}
-
 main .table.weather tr th:first-child {
   border-right: 5px solid var(--color-navy);
 }
@@ -172,10 +176,6 @@ main .table.weather tr td .weather-cell p {
   margin: .25em;
 }
 
-main .table.weather tr {
-  background-color: transparent !important;
-}
-
 main .table.weather tr:nth-child(1) td:nth-child(1) {
   background-color: var(--color-green);
 }
@@ -200,6 +200,7 @@ main .table.weather tr:nth-child(5) td:nth-child(1) {
   main .table.weather table {
     font-size: var(--body-font-size-l)
   }
+
   main .table.weather tr td .weather-cell {
     font-size: var(--heading-font-size-l)
   }
