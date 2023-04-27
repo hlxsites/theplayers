@@ -48,7 +48,7 @@ function buildWeatherCell(col, rowNum) {
 
   const cellText = document.createElement('div');
   cellText.innerHTML += typeof col === 'object' ? col.innerHTML : col;
-  cellContainer.innerHTML += cellContainer.innerHTML + cellText.outerHTML;
+  cellContainer.innerHTML = cellContainer.innerHTML + cellText.outerHTML;
   cell.innerHTML += cellContainer.outerHTML;
   return cell;
 }
