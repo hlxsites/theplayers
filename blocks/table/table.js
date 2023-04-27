@@ -15,7 +15,7 @@ function buildCell(col, rowNum) {
 
 function buildWeatherCell(col, rowNum) {
   const cell = rowNum > 0 ? document.createElement('td') : document.createElement('th');
-  let cellContainer = document.createElement('div');
+  const cellContainer = document.createElement('div');
   if (rowNum) {
     // eslint-disable-next-line eqeqeq
     if (cell.textContent == parseInt(cell.textContent, 10)) {
@@ -27,7 +27,7 @@ function buildWeatherCell(col, rowNum) {
     cellContainer.classList.add('weather-cell');
   }
 
-  switch(rowNum) {
+  switch (rowNum) {
     case 1:
       cellContainer.innerHTML = '<img src="/icons/inclement-weather-clear.svg">';
       break;
@@ -43,10 +43,11 @@ function buildWeatherCell(col, rowNum) {
     case 5:
       cellContainer.innerHTML = '<img src="/icons/inclement-weather-closure.svg">';
       break;
+    default: // Do Nothing
     }
 
-  let cellText = document.createElement('div');
-  cellText.innerHTML = typeof col === 'object' ? col.innerHTML : col;
+  const cellText = document.createElement('div');
+  cellText.innerHTML += typeof col === 'object' ? col.innerHTML : col;
   cellContainer.innerHTML = cellContainer.innerHTML + cellText.outerHTML;
   cell.innerHTML = cellContainer.outerHTML;
   return cell;
