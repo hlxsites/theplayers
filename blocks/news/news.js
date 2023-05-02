@@ -5,6 +5,7 @@ import {
   updateExternalLinks,
   fetchPlaceholders,
   fetchGraphQL,
+  isFr,
 } from '../../scripts/scripts.js';
 
 function filterHasItems(filter, block) {
@@ -172,7 +173,13 @@ async function getLocalArticles() {
       };
     }
     return null;
-  }).filter((item) => item !== null);
+  }).filter((item) => item !== null).filter((item) => {
+    if (isFr()) {
+      return item.url.startsWith('/fr/');
+    }
+
+    return !item.url.startsWith('/fr/');
+  });
   return newsItems;
 }
 
