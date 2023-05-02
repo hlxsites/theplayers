@@ -1,4 +1,5 @@
 main .table {
+  /* colors */
   --color-navy: #003B75;
   --color-green: #41AD49;
   --color-yellow: #FFF200;
@@ -6,6 +7,7 @@ main .table {
   --color-red: #D2232A;
   --color-purple: #C270F7;
 
+  /* colors assignments */
   --table-text-color: var(--color-blue);
 
   max-width: 100%;
