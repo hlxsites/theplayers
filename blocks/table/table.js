@@ -29,19 +29,19 @@ function buildWeatherCell(col, rowNum) {
 
   switch (rowNum) {
     case 1:
-      cellContainer.innerHTML = '<img src="/icons/inclement-weather-clear.svg">';
+      cellContainer.innerHTML = '<img src="/icons/inclement-weather-clear.svg" alt="icon weather clear">';
       break;
     case 2:
-      cellContainer.innerHTML = '<img src="/icons/inclement-weather-aware.svg">';
+      cellContainer.innerHTML = '<img src="/icons/inclement-weather-aware.svg" alt="icon weather be aware">';
       break;
     case 3:
-      cellContainer.innerHTML = '<img src="/icons/inclement-weather-prepared.svg">';
+      cellContainer.innerHTML = '<img src="/icons/inclement-weather-prepared.svg" alt="icon weather be prepared">';
       break;
     case 4:
-      cellContainer.innerHTML = '<img src="/icons/inclement-weather-action.svg">';
+      cellContainer.innerHTML = '<img src="/icons/inclement-weather-action.svg" alt="icon weather take action">';
       break;
     case 5:
-      cellContainer.innerHTML = '<img src="/icons/inclement-weather-closure.svg">';
+      cellContainer.innerHTML = '<img src="/icons/inclement-weather-closure.svg" alt="icon weather course closed">';
       break;
     default: // Do Nothing
   }
