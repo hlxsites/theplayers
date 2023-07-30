@@ -959,8 +959,9 @@ function decorateFevoButtons(main) {
         a.classList.add('fevo-btn');
         a.addEventListener('click', (e) => {
           e.preventDefault();
-          // eslint-disable-next-line no-undef
-          window.GMWidget.open(offerCode);
+          if (window.GMWidget) {
+            window.GMWidget.open(offerCode);
+          }
         });
       }
     });
