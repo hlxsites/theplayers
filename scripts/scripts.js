@@ -959,6 +959,7 @@ function decorateFevoButtons(main) {
         a.classList.add('fevo-btn');
         a.addEventListener('click', (e) => {
           e.preventDefault();
+          // this gets loaded in delayed, so checking JIC
           if (window.GMWidget) {
             window.GMWidget.open(offerCode);
           }
