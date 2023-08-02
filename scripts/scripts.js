@@ -972,9 +972,12 @@ function decorateFevoButtons(main) {
           e.preventDefault();
           if (!window.GMWidget) {
             injectFevoScript();
+            setTimeout(() => {
+              window.GMWidget.open(offerCode);
+            }, 250);
+          } else {
+            window.GMWidget.open(offerCode);
           }
-
-          window.GMWidget.open(offerCode);
         });
       }
     });
