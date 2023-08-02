@@ -946,6 +946,17 @@ export async function fetchGraphQL(query, variables) {
   throw new Error('fail');
 }
 
+function injectFevoScript() {
+  let fevoWidget = window.GMWidget;
+  if (!fevoWidget) {
+    // eslint-disable-next-line
+    var fO, f1, ho = "https://fevogm.com/react/dist/js/widget/gm-widget.js", cs0 = "position:fixed;top:0;bottom:0;left:0;right:0;background:#15232e99;transitio" + "n:opacity .5s;z-index:10000;", cs1 = "text-align:center;position:absolute;color:#5" + "E5E5E;top:50%;left:50%;transform:translate(-50%,-50%);background:white;border-r" + "adius:20px;", wn = "GMWidget", aC = "appendChild", cE = "createElement", as = [], w = window, d = document, h = d.getElementsByTagName("head")[0], s = d[cE]("script"); s.type = "text/java" + "script", s.src = ho, h[aC](s), w[wn] = { open: t => { as.push(t), (fO = d[cE]("div")).style.cssText = cs0, (f1 = d[cE]("div")).style.cssText = cs1, f1.innerHTML = '<img src="https://fe' + 'vogm.com/react/dist/assets/images/FEVO_Loading.gif"/>', fO[aC](f1), d.body[aC](fO), w[wn].clear = () => (fO.remove(), as) } };
+    fevoWidget = window.GMWidget;
+  }
+
+  return fevoWidget;
+}
+
 /**
  * injects and decorates buttons for fevo offers.
  * @param {Element} main the container element for the buttons.
@@ -959,10 +970,11 @@ function decorateFevoButtons(main) {
         a.classList.add('fevo-btn');
         a.addEventListener('click', (e) => {
           e.preventDefault();
-          // this gets loaded in delayed, so checking JIC
-          if (window.GMWidget) {
-            window.GMWidget.open(offerCode);
+          if (!window.GMWidget) {
+            injectFevoScript();
           }
+
+          window.GMWidget.open(offerCode);
         });
       }
     });
