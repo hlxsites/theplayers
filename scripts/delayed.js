@@ -740,6 +740,9 @@ function injectWeFevoScript() {
   });
 }
 
+// there are 2 distinc types of fevo buttons
+// and we need to support both
+// see decorateFevoButtons in scripts.js
 const hasFevo = document.querySelector('a.fevo-btn');
 if (hasFevo) {
   injectFevoScript();

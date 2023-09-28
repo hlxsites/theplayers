@@ -967,7 +967,7 @@ function decorateFevoButtons(main) {
 
         a.addEventListener('click', (e) => {
           e.preventDefault();
-          // this gets loaded in delayed, so checking JIC
+          // window.GMWidget is loaded in delayed, so check if it's been loaded
           if (!isWeFevo && window.GMWidget) {
             window.GMWidget.open(offerCode);
           }
