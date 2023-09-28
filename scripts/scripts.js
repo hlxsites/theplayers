@@ -963,14 +963,15 @@ function decorateFevoButtons(main) {
           a.setAttribute('data-fevo-offer-id', offerCode);
         } else {
           a.classList.add('fevo-btn');
-          a.addEventListener('click', (e) => {
-            e.preventDefault();
-            // this gets loaded in delayed, so checking JIC
-            if (window.GMWidget) {
-              window.GMWidget.open(offerCode);
-            }
-          });
         }
+
+        a.addEventListener('click', (e) => {
+          e.preventDefault();
+          // this gets loaded in delayed, so checking JIC
+          if (!isWeFevo && window.GMWidget) {
+            window.GMWidget.open(offerCode);
+          }
+        });
       }
     });
   }
