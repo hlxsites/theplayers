@@ -733,7 +733,19 @@ function injectFevoScript() {
 
   return fevoWidget;
 }
+
+function injectWeFevoScript() {
+  loadScript('https://offer.fevo.com/js/fevo.js', () => { }, {
+    type: 'text/javascript',
+  });
+}
+
 const hasFevo = document.querySelector('a.fevo-btn');
 if (hasFevo) {
   injectFevoScript();
+}
+
+const hasWeFevo = document.querySelector('a.we-fevo-btn');
+if (hasWeFevo) {
+  injectWeFevoScript();
 }
