@@ -1150,7 +1150,7 @@ export async function sendAnalyticsPageEvent() {
     siteSubSection2: sections[2] || '',
     gigyaID: isUserLoggedIn && window.gigyaAccountInfo.UID ? window.gigyaAccountInfo.UID : '',
     userLoggedIn: isUserLoggedIn ? 'Logged In' : 'Logged Out',
-    tourName: placeholders.tourName.toLowerCase().replaceAll(" ", "_"),
+    tourName: placeholders.tourName.toLowerCase().replaceAll(' ', '_'),
     tournamentID: `${placeholders.tourCode.toUpperCase()}${placeholders.currentYear}${placeholders.tournamentId}`,
     ipAddress: '127.0.0.1',
     deviceType: 'Web',
