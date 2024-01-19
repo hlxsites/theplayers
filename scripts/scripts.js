@@ -1122,6 +1122,19 @@ export function addHeaderSizing(block, classPrefix = 'heading', selector = 'h1, 
   });
 }
 
+export function clearDataLayer() {
+  window.adobeDataLayer = [];
+}
+
+export function pushOneTrustConsentGroups() {
+  window.adobeDataLayer = window.adobeDataLayer || [];
+  const dl = window.adobeDataLayer;
+  dl.push({
+    event: 'LaunchOTLoaded',
+    // eslint-disable-next-line no-undef
+    OnetrustActiveGroups: typeof OnetrustActiveGroups !== 'undefined' ? OnetrustActiveGroups : '',
+  });
+}
 
 function getPageNameAndSections() {
   const pageSectionParts = window.location.pathname.split('/').filter((subPath) => subPath !== '');
@@ -1135,15 +1148,15 @@ function getPageNameAndSections() {
 }
 
 export async function sendAnalyticsPageEvent() {
-  window.dataLayer = window.dataLayer || [];
-  const dl = window.dataLayer;
+  window.adobeDataLayer = window.adobeDataLayer || [];
+  const dl = window.adobeDataLayer;
   const placeholders = await fetchPlaceholders();
   const isUserLoggedIn = window.gigyaAccountInfo && window.gigyaAccountInfo != null
     && window.gigyaAccountInfo.errorCode === 0;
 
   const { pageName, sections } = getPageNameAndSections();
   dl.push({
-    event: 'pageload',
+    event: 'pageLoaded',
     pageName,
     pageUrl: window.location.href,
     siteSection: sections[0] || '',
@@ -1151,7 +1164,7 @@ export async function sendAnalyticsPageEvent() {
     siteSubSection2: sections[2] || '',
     gigyaID: isUserLoggedIn && window.gigyaAccountInfo.UID ? window.gigyaAccountInfo.UID : '',
     userLoggedIn: isUserLoggedIn ? 'Logged In' : 'Logged Out',
-    tourName: placeholders.tourName.toLowerCase().replaceAll(" ", "_"),
+    tourName: 'pgatour',
     tournamentID: `${placeholders.tourCode.toUpperCase()}${placeholders.currentYear}${placeholders.tournamentId}`,
     ipAddress: '127.0.0.1',
     deviceType: 'Web',
