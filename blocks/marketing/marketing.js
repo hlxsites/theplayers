@@ -45,6 +45,10 @@ export default async function decorate(block) {
       let pageName = window.location.pathname.slice(1);
       if (!pageName) {
         pageName = 'homepage';
+      } else if (pageName.startsWith("news")) {
+        pageName = 'news';
+      } else {
+        pageName = pageName.substring(pageName.lastIndexOf('/') + 1);
       }
       window.tude.cmd.push(() => {
         window.tude.setDeviceType(getDevice()); // optional
