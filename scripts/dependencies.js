@@ -1,4 +1,10 @@
-import { decorateBlock, fetchPlaceholders, loadBlock, loadScript, sendAnalyticsPageEvent } from './scripts.js';
+import {
+  decorateBlock,
+  fetchPlaceholders,
+  loadBlock,
+  loadScript,
+  sendAnalyticsPageEvent
+} from './scripts.js';
 
 const placeholders = await fetchPlaceholders();
 const isProd = window.location.hostname.endsWith(placeholders.hostname);
