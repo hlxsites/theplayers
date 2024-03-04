@@ -47,7 +47,7 @@ export default async function decorate(block) {
         pageName = 'homepage';
       } else if (pageName.startsWith("news")) {
         pageName = 'news';
-      } else {
+      } if (pageName.includes('/')) {
         pageName = pageName.substring(pageName.lastIndexOf('/') + 1);
       }
       window.tude.cmd.push(() => {
