@@ -1070,10 +1070,10 @@ async function loadLazy(doc) {
   if (hash && element) element.scrollIntoView();
 
   if (!isAppView()) {
-    await loadFooter(doc.querySelector('footer'));
+    loadFooter(doc.querySelector('footer'));
   }
 
-  await loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
+  loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
   addFavIcon(`${window.hlx.codeBasePath}/styles/favicon.ico`);
 
   doc.querySelectorAll('div:not([class]):not([id]):empty').forEach((empty) => empty.remove());
