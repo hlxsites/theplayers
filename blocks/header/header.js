@@ -63,12 +63,9 @@ async function setupPartners(section, ph) {
         partners.querySelector('.nav-partner-wrapper').append(partner);
       });
 
-      // setTimeout(() => {
-      //   setInterval(() => {
-      //     displayNextPartner(partners);
-      //   }, 5000);
-      // }, 10000)
-
+      setInterval(() => {
+        displayNextPartner(partners);
+      }, 5000);
       section.append(partners);
     }
   }
