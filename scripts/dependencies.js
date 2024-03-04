@@ -4,7 +4,6 @@ import {
   fetchPlaceholders,
   loadBlock,
   loadScript,
-  sendAnalyticsPageEvent,
 } from './scripts.js';
 
 const placeholders = await fetchPlaceholders();
@@ -44,7 +43,6 @@ async function OptanonWrapper() {
       console.error('OptIn_PreviousPermissions parse failed');
     }
   }
-  sendAnalyticsPageEvent();
 }
 
 const otId = placeholders.onetrustId;

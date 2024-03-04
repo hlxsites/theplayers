@@ -1064,8 +1064,6 @@ function loadDependencies() {
  * loads everything that doesn't need to be delayed.
  */
 async function loadLazy(doc) {
-  loadDependencies();
-
   const main = doc.querySelector('main');
   await loadBlocks(main);
 
@@ -1079,6 +1077,8 @@ async function loadLazy(doc) {
   addFavIcon(`${window.hlx.codeBasePath}/styles/favicon.ico`);
 
   doc.querySelectorAll('div:not([class]):not([id]):empty').forEach((empty) => empty.remove());
+
+  loadDependencies();
 }
 
 /**
@@ -1141,30 +1141,6 @@ function getPageNameAndSections() {
     pageName: finalPageName,
     sections: pageSectionParts,
   };
-}
-
-export async function sendAnalyticsPageEvent() {
-  window.dataLayer = window.dataLayer || [];
-  const dl = window.dataLayer;
-  const placeholders = await fetchPlaceholders();
-  const isUserLoggedIn = window.gigyaAccountInfo && window.gigyaAccountInfo != null
-    && window.gigyaAccountInfo.errorCode === 0;
-
-  const { pageName, sections } = getPageNameAndSections();
-  dl.push({
-    event: 'pageload',
-    pageName,
-    pageUrl: window.location.href,
-    siteSection: sections[0] || '',
-    siteSubSection: sections[1] || '',
-    siteSubSection2: sections[2] || '',
-    gigyaID: isUserLoggedIn && window.gigyaAccountInfo.UID ? window.gigyaAccountInfo.UID : '',
-    userLoggedIn: isUserLoggedIn ? 'Logged In' : 'Logged Out',
-    tourName: placeholders.tourName.toLowerCase().replaceAll(' ', '_'),
-    tournamentID: `${placeholders.tourCode.toUpperCase()}${placeholders.currentYear}${placeholders.tournamentId}`,
-    ipAddress: '127.0.0.1',
-    deviceType: 'Web',
-  });
 }
 
 try {
