@@ -62,9 +62,13 @@ async function setupPartners(section, ph) {
         partner.append(createOptimizedPicture(hasWhiteBg ? sponsor.image : sponsor.logoWhite, sponsor.title, false, [{ width: '300' }]));
         partners.querySelector('.nav-partner-wrapper').append(partner);
       });
-      setInterval(() => {
-        displayNextPartner(partners);
-      }, 5000);
+
+      setTimeout(() => {
+        setInterval(() => {
+          displayNextPartner(partners);
+        }, 5000);
+      }, 10000)
+
       section.append(partners);
     }
   }
