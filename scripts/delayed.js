@@ -671,6 +671,7 @@ function injectWeFevoScript() {
   });
 }
 
+
 // there are 2 distinct types of fevo buttons
 // and we need to support both
 // see decorateFevoButtons in scripts.js

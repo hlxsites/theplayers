@@ -17,6 +17,7 @@ function isInViewport(el) {
   );
 }
 
+
 function debounce(func, timeout = 500) {
   let timer;
   return (...args) => {
