@@ -1054,11 +1054,7 @@ async function loadEager(doc) {
  * Loads everything that required HTML to be in place.
  */
 function loadDependencies() {
-  setTimeout(() => {
-    // eslint-disable-next-line import/no-cycle
-    import('./dependencies.js');
-  }, 1000);
-
+  import('./dependencies.js');
 }
 
 /**
