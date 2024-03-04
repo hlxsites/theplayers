@@ -3,7 +3,7 @@ import {
   fetchPlaceholders,
   loadBlock,
   loadScript,
-  sendAnalyticsPageEvent
+  sendAnalyticsPageEvent,
 } from './scripts.js';
 
 const placeholders = await fetchPlaceholders();
