@@ -1132,17 +1132,6 @@ export function addHeaderSizing(block, classPrefix = 'heading', selector = 'h1, 
   });
 }
 
-function getPageNameAndSections() {
-  const pageSectionParts = window.location.pathname.split('/').filter((subPath) => subPath !== '');
-  const pageName = pageSectionParts.join(':');
-  const finalPageName = pageName === '' ? 'Home' : pageName;
-
-  return {
-    pageName: finalPageName,
-    sections: pageSectionParts,
-  };
-}
-
 try {
   const hidden = Symbol('hidden');
   const proxy = Symbol('proxy');
