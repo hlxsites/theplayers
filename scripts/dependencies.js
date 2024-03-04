@@ -23,6 +23,7 @@ function getCookie(cookieName) {
   return null;
 }
 
+
 async function OptanonWrapper() {
   const geoInfo = window.Optanon.getGeolocationData();
   Object.keys(geoInfo).forEach((key) => {
