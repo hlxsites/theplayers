@@ -1077,6 +1077,8 @@ async function loadLazy(doc) {
   addFavIcon(`${window.hlx.codeBasePath}/styles/favicon.ico`);
 
   doc.querySelectorAll('div:not([class]):not([id]):empty').forEach((empty) => empty.remove());
+
+  loadDependencies();
 }
 
 /**
@@ -1084,7 +1086,6 @@ async function loadLazy(doc) {
  * the user experience.
  */
 function loadDelayed() {
-  setTimeout(loadDependencies(), 50);
   // eslint-disable-next-line import/no-cycle
   window.setTimeout(() => import('./delayed.js'), 4000);
   // load anything that can be postponed to the latest here
