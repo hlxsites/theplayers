@@ -67,21 +67,21 @@ export function sampleRUM(checkpoint, data = {}) {
 
 /**
  * Loads a CSS file.
- * @param {string} href The path to the CSS file
+ * @param {string} href URL to the CSS file
  */
-export function loadCSS(href, callback) {
-  if (!document.querySelector(`head > link[href="${href}"]`)) {
-    const link = document.createElement('link');
-    link.setAttribute('rel', 'stylesheet');
-    link.setAttribute('href', href);
-    if (typeof callback === 'function') {
-      link.onload = (e) => callback(e.type);
-      link.onerror = (e) => callback(e.type);
+export async function loadCSS(href) {
+  return new Promise((resolve, reject) => {
+    if (!document.querySelector(`head > link[href="${href}"]`)) {
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = href;
+      link.onload = resolve;
+      link.onerror = reject;
+      document.head.append(link);
+    } else {
+      resolve();
     }
-    document.head.appendChild(link);
-  } else if (typeof callback === 'function') {
-    callback('noop');
-  }
+  });
 }
 
 /**
@@ -447,9 +447,7 @@ export async function loadBlock(block, eager = false) {
     block.setAttribute('data-block-status', 'loading');
     const blockName = block.getAttribute('data-block-name');
     try {
-      const cssLoaded = new Promise((resolve) => {
-        loadCSS(`${window.hlx.codeBasePath}/blocks/${blockName}/${blockName}.css`, resolve);
-      });
+      const cssLoaded = loadCSS(`${window.hlx.codeBasePath}/blocks/${blockName}/${blockName}.css`);
       const decorationComplete = new Promise((resolve) => {
         (async () => {
           try {
@@ -1071,9 +1069,11 @@ async function loadLazy(doc) {
   const element = hash ? main.querySelector(hash) : false;
   if (hash && element) element.scrollIntoView();
 
-  if (!isAppView()) loadFooter(doc.querySelector('footer'));
+  if (!isAppView()) {
+    await loadFooter(doc.querySelector('footer'));
+  }
 
-  loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
+  await loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
   addFavIcon(`${window.hlx.codeBasePath}/styles/favicon.ico`);
 
   doc.querySelectorAll('div:not([class]):not([id]):empty').forEach((empty) => empty.remove());
