@@ -1064,8 +1064,9 @@ function loadDependencies() {
  * loads everything that doesn't need to be delayed.
  */
 async function loadLazy(doc) {
-  const main = doc.querySelector('main');
   loadDependencies();
+
+  const main = doc.querySelector('main');
   await loadBlocks(main);
 
   const { hash } = window.location;
