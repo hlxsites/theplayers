@@ -45,7 +45,7 @@ export default async function decorate(block) {
       let pageName = window.location.pathname.slice(1);
       if (!pageName) {
         pageName = 'homepage';
-      } else if (pageName.startsWith("news")) {
+      } else if (pageName.startsWith('news')) {
         pageName = 'news';
       } if (pageName.includes('/')) {
         pageName = pageName.substring(pageName.lastIndexOf('/') + 1);
