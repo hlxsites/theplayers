@@ -705,6 +705,7 @@ async function waitForLCP() {
  * Decorates the page.
  */
 async function loadPage(doc) {
+  loadDependencies();
   // eslint-disable-next-line no-use-before-define
   await loadEager(doc);
   // eslint-disable-next-line no-use-before-define
@@ -1077,8 +1078,6 @@ async function loadLazy(doc) {
   addFavIcon(`${window.hlx.codeBasePath}/styles/favicon.ico`);
 
   doc.querySelectorAll('div:not([class]):not([id]):empty').forEach((empty) => empty.remove());
-
-  loadDependencies();
 }
 
 /**
