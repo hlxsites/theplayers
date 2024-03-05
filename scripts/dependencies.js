@@ -45,7 +45,8 @@ async function OptanonWrapper() {
   }
 }
 
-window.addEventListener("DOMContentLoaded", () => {
+if(document.readyState === "complete") {
+  console.log('hit');
   // DOM ready! Images, frames, and other subresources are still downloading.
   const otId = placeholders.onetrustId;
   if (otId) {
@@ -78,4 +79,4 @@ window.addEventListener("DOMContentLoaded", () => {
       loadBlock(marketingBlock);
     }
   }
-});
+};
