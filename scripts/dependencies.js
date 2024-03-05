@@ -45,38 +45,34 @@ async function OptanonWrapper() {
   }
 }
 
-if(document.readyState === "complete") {
-  console.log('hit');
-  // DOM ready! Images, frames, and other subresources are still downloading.
-  const otId = placeholders.onetrustId;
-  if (otId) {
-    const cookieScript = loadScript('https://cdn.cookielaw.org/scripttemplates/otSDKStub.js');
-    cookieScript.setAttribute('data-domain-script', `${otId}${isProd ? '' : '-test'}`);
-    cookieScript.setAttribute('data-dlayer-name', 'dataLayer');
-    cookieScript.setAttribute('data-nscript', 'beforeInteractive');
+const otId = placeholders.onetrustId;
+if (otId) {
+  const cookieScript = loadScript('https://cdn.cookielaw.org/scripttemplates/otSDKStub.js');
+  cookieScript.setAttribute('data-domain-script', `${otId}${isProd ? '' : '-test'}`);
+  cookieScript.setAttribute('data-dlayer-name', 'dataLayer');
+  cookieScript.setAttribute('data-nscript', 'beforeInteractive');
 
-    const gtmId = placeholders.googletagmanagerId;
-    if (gtmId) {
-      const GTMScript = document.createElement('script');
-      GTMScript.innerHTML = `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  const gtmId = placeholders.googletagmanagerId;
+  if (gtmId) {
+    const GTMScript = document.createElement('script');
+    GTMScript.innerHTML = `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','${gtmId}');`;
-      document.head.append(GTMScript);
+    document.head.append(GTMScript);
 
-      const GTMFrame = document.createElement('no-script');
-      GTMFrame.innerHTML = `<iframe src="https://www.googletagmanager.com/ns.html?id=${gtmId}"
+    const GTMFrame = document.createElement('no-script');
+    GTMFrame.innerHTML = `<iframe src="https://www.googletagmanager.com/ns.html?id=${gtmId}"
     height="0" width="0" style="display:none;visibility:hidden"></iframe>`;
-      document.body.prepend(GTMFrame);
-    }
-
-    window.OptanonWrapper = OptanonWrapper;
-
-    if (document.querySelector('.marketing')) {
-      const marketingBlock = document.querySelector('.marketing');
-      decorateBlock(marketingBlock);
-      loadBlock(marketingBlock);
-    }
+    document.body.prepend(GTMFrame);
   }
-};
+
+  window.OptanonWrapper = OptanonWrapper;
+
+  if (document.querySelector('.marketing')) {
+    const marketingBlock = document.querySelector('.marketing');
+    decorateBlock(marketingBlock);
+    loadBlock(marketingBlock);
+  }
+}
