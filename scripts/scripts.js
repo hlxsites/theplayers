@@ -1053,6 +1053,14 @@ async function loadEager(doc) {
 }
 
 /**
+ * Loads everything that required HTML to be in place.
+ */
+function loadDependencies() {
+  // eslint-disable-next-line import/no-cycle
+  import('./dependencies.js');
+}
+
+/**
  * loads everything that doesn't need to be delayed.
  */
 async function loadLazy(doc) {
@@ -1069,6 +1077,8 @@ async function loadLazy(doc) {
   addFavIcon(`${window.hlx.codeBasePath}/styles/favicon.ico`);
 
   doc.querySelectorAll('div:not([class]):not([id]):empty').forEach((empty) => empty.remove());
+
+  loadDependencies();
 }
 
 /**
@@ -1119,41 +1129,6 @@ export function addHeaderSizing(block, classPrefix = 'heading', selector = 'h1, 
     sizes.forEach((size) => {
       if (length >= size.threshold) h.classList.add(`${classPrefix}-${size.name}`);
     });
-  });
-}
-
-function getPageNameAndSections() {
-  const pageSectionParts = window.location.pathname.split('/').filter((subPath) => subPath !== '');
-  const pageName = pageSectionParts.join(':');
-  const finalPageName = pageName === '' ? 'Home' : pageName;
-
-  return {
-    pageName: finalPageName,
-    sections: pageSectionParts,
-  };
-}
-
-export async function sendAnalyticsPageEvent() {
-  window.dataLayer = window.dataLayer || [];
-  const dl = window.dataLayer;
-  const placeholders = await fetchPlaceholders();
-  const isUserLoggedIn = window.gigyaAccountInfo && window.gigyaAccountInfo != null
-    && window.gigyaAccountInfo.errorCode === 0;
-
-  const { pageName, sections } = getPageNameAndSections();
-  dl.push({
-    event: 'pageload',
-    pageName,
-    pageUrl: window.location.href,
-    siteSection: sections[0] || '',
-    siteSubSection: sections[1] || '',
-    siteSubSection2: sections[2] || '',
-    gigyaID: isUserLoggedIn && window.gigyaAccountInfo.UID ? window.gigyaAccountInfo.UID : '',
-    userLoggedIn: isUserLoggedIn ? 'Logged In' : 'Logged Out',
-    tourName: placeholders.tourName.toLowerCase().replaceAll(' ', '_'),
-    tournamentID: `${placeholders.tourCode.toUpperCase()}${placeholders.currentYear}${placeholders.tournamentId}`,
-    ipAddress: '127.0.0.1',
-    deviceType: 'Web',
   });
 }
 
