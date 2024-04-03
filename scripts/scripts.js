@@ -1053,11 +1053,34 @@ async function loadEager(doc) {
 }
 
 /**
+ * Loads Admiral script
+ */
+function loadAdmiral() {
+  const fetchScript = async () => {
+    try {
+      const response = await fetch(
+        "https://orchestrator-config-uat.pgatour.com/revops/admirial"
+      );
+      const content = await response.text();
+      const script = document.createElement("script");
+      script.type = "text/javascript";
+      script.innerHTML = content;
+      script.id = "admiral";
+      document.head.appendChild(script);
+    } catch (error) {
+      console.error("Error loading Admiral script: ", error);
+    }
+  };
+  fetchScript();
+}
+
+/**
  * loads everything that doesn't need to be delayed.
  */
 async function loadLazy(doc) {
   const main = doc.querySelector('main');
   await loadBlocks(main);
+  loadAdmiral()
 
   const { hash } = window.location;
   const element = hash ? main.querySelector(hash) : false;
