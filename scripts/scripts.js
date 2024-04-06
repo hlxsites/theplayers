@@ -1230,7 +1230,7 @@ async function loadAds(doc) {
     if (doc.querySelector('.marketing')) {
       const marketingBlock = document.querySelector('.marketing');
       decorateBlock(marketingBlock);
-      await loadBlock(marketingBlock);
+      loadBlock(marketingBlock);
     }
   }
 }
