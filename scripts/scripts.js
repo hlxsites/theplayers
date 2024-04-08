@@ -10,6 +10,8 @@
  * governing permissions and limitations under the License.
  */
 
+const placeholders = await fetchPlaceholders();
+const isProd = window.location.hostname.endsWith(placeholders.hostname);
 /**
  * log RUM if part of the sample.
  * @param {string} checkpoint identifies the checkpoint in funnel
@@ -1196,8 +1198,6 @@ function getCookie(cookieName) {
 }
 
 async function loadAds(doc) {
-  const placeholders = await fetchPlaceholders();
-  const isProd = window.location.hostname.endsWith(placeholders.hostname);
   if (!isProd === 'this') {
     // temporary override for analytics testing
     if (!localStorage.getItem('OptIn_PreviousPermissions')) localStorage.setItem('OptIn_PreviousPermissions', '{"aa":true,"mediaaa":true,"target":true,"ecid":true,"adcloud":true,"aam":true,"campaign":true,"livefyre":false}');
