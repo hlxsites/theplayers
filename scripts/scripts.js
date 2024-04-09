@@ -1148,6 +1148,29 @@ function getCookie(cookieName) {
   return null;
 }
 
+export async function sendAnalyticsPageEvent() {
+  window.dataLayer = window.dataLayer || [];
+  const dl = window.dataLayer;
+  const placeholders = await fetchPlaceholders();
+  const isUserLoggedIn = window.gigyaAccountInfo && window.gigyaAccountInfo != null
+    && window.gigyaAccountInfo.errorCode === 0;
+
+  const { pageName, sections } = getPageNameAndSections();
+  dl.push({
+    event: 'pageload',
+    pageName,
+    pageUrl: window.location.href,
+    siteSection: sections[0] || '',
+    siteSubSection: sections[1] || '',
+    siteSubSection2: sections[2] || '',
+    gigyaID: isUserLoggedIn && window.gigyaAccountInfo.UID ? window.gigyaAccountInfo.UID : '',
+    userLoggedIn: isUserLoggedIn ? 'Logged In' : 'Logged Out',
+    tourName: placeholders.tourName.toLowerCase().replaceAll(' ', '_'),
+    tournamentID: `${placeholders.tourCode.toUpperCase()}${placeholders.currentYear}${placeholders.tournamentId}`,
+    ipAddress: '127.0.0.1',
+    deviceType: 'Web',
+  });
+}
 async function OptanonWrapper() {
   const geoInfo = window.Optanon.getGeolocationData();
   Object.keys(geoInfo).forEach((key) => {
@@ -1210,30 +1233,6 @@ async function loadAds(doc) {
       await loadBlock(marketingBlock);
     }
   }
-}
-
-export async function sendAnalyticsPageEvent() {
-  window.dataLayer = window.dataLayer || [];
-  const dl = window.dataLayer;
-  const placeholders = await fetchPlaceholders();
-  const isUserLoggedIn = window.gigyaAccountInfo && window.gigyaAccountInfo != null
-    && window.gigyaAccountInfo.errorCode === 0;
-
-  const { pageName, sections } = getPageNameAndSections();
-  dl.push({
-    event: 'pageload',
-    pageName,
-    pageUrl: window.location.href,
-    siteSection: sections[0] || '',
-    siteSubSection: sections[1] || '',
-    siteSubSection2: sections[2] || '',
-    gigyaID: isUserLoggedIn && window.gigyaAccountInfo.UID ? window.gigyaAccountInfo.UID : '',
-    userLoggedIn: isUserLoggedIn ? 'Logged In' : 'Logged Out',
-    tourName: placeholders.tourName.toLowerCase().replaceAll(' ', '_'),
-    tournamentID: `${placeholders.tourCode.toUpperCase()}${placeholders.currentYear}${placeholders.tournamentId}`,
-    ipAddress: '127.0.0.1',
-    deviceType: 'Web',
-  });
 }
 
 try {

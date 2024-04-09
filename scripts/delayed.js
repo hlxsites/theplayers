@@ -3,13 +3,12 @@ import {
   decorateIcons,
   fetchPlaceholders,
   sampleRUM,
-  decorateBlock,
-  loadBlock,
   loadScript,
   getMetadata,
   fetchGraphQL,
-  sendAnalyticsPageEvent,
 } from './scripts.js';
+
+const placeholders = await fetchPlaceholders();
 
 // Core Web Vitals RUM collection
 sampleRUM('cwv');
