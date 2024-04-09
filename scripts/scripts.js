@@ -707,8 +707,6 @@ async function waitForLCP() {
 async function loadPage(doc) {
   // eslint-disable-next-line no-use-before-define
   await loadEager(doc);
-  // eslint-disable-next-line import/no-cycle
-  loadDependencies();
   // eslint-disable-next-line no-use-before-define
   await loadLazy(doc);
   // eslint-disable-next-line no-use-before-define
@@ -1079,13 +1077,9 @@ async function loadLazy(doc) {
  */
 function loadDelayed() {
   // eslint-disable-next-line import/no-cycle
+  window.setTimeout(() => import('./dependencies.js'), 500);
   window.setTimeout(() => import('./delayed.js'), 4000);
   // load anything that can be postponed to the latest here
-}
-
-function loadDependencies() {
-  // eslint-disable-next-line import/no-cycle
-  window.setTimeout(() => import('./dependencies.js'), 500);
 }
 
 export async function lookupPages(pathnames) {
