@@ -568,9 +568,7 @@ export function initGigya() {
   if (userButton) userButton.replaceWith(userButton.cloneNode(true));
   const favoriteButtons = document.querySelectorAll('.leaderboard-favorite-button');
   if (favoriteButtons) favoriteButtons.forEach((btn) => btn.replaceWith(btn.cloneNode(true)));
-  loadScript(
-      'https://cdns.gigya.com/JS/socialize.js?apikey=3__4H034SWkmoUfkZ_ikv8tqNIaTA0UIwoX5rsEk96Ebk5vkojWtKRZixx60tZZdob',
-      setupGigya,
+  loadScript('https://cdns.gigya.com/JS/socialize.js?apikey=3__4H034SWkmoUfkZ_ikv8tqNIaTA0UIwoX5rsEk96Ebk5vkojWtKRZixx60tZZdob', setupGigya,
   );
 }
 
@@ -660,7 +658,8 @@ function getCookie(cookieName) {
   return null;
 }
 
-async function OptanonWrapper() {
+const OptanonWrapper = (async function() {
+  console.log('test');
   const geoInfo = window.Optanon.getGeolocationData();
   Object.keys(geoInfo).forEach((key) => {
     const cookieName = `PGAT_${key.charAt(0).toUpperCase() + key.slice(1)}`;
@@ -681,7 +680,7 @@ async function OptanonWrapper() {
     }
   }
   sendAnalyticsPageEvent();
-}
+})
 
 export const loadAds = (function() {
   const otId = placeholders.onetrustId;

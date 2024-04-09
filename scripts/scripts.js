@@ -715,8 +715,6 @@ async function loadPage(doc) {
   // eslint-disable-next-line no-use-before-define
   await loadLazy(doc);
   // eslint-disable-next-line no-use-before-define
-  loadAds();
-  // eslint-disable-next-line no-use-before-define
   loadDelayed(doc);
 }
 
@@ -1076,6 +1074,7 @@ async function loadLazy(doc) {
   addFavIcon(`${window.hlx.codeBasePath}/styles/favicon.ico`);
 
   doc.querySelectorAll('div:not([class]):not([id]):empty').forEach((empty) => empty.remove());
+  loadAds();
 }
 
 /**
@@ -1138,20 +1137,6 @@ function getPageNameAndSections() {
     pageName: finalPageName,
     sections: pageSectionParts,
   };
-}
-
-/* setup cookie preferences */
-function getCookie(cookieName) {
-  const name = `${cookieName}=`;
-  const decodedCookie = decodeURIComponent(document.cookie);
-  const split = decodedCookie.split(';');
-  // eslint-disable-next-line no-plusplus
-  for (let i = 0; i < split.length; i++) {
-    let c = split[i];
-    while (c.charAt(0) === ' ') c = c.substring(1);
-    if (c.indexOf(name) === 0) return c.substring(name.length, c.length);
-  }
-  return null;
 }
 
 export async function sendAnalyticsPageEvent() {
