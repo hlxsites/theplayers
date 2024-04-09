@@ -568,8 +568,7 @@ export function initGigya() {
   if (userButton) userButton.replaceWith(userButton.cloneNode(true));
   const favoriteButtons = document.querySelectorAll('.leaderboard-favorite-button');
   if (favoriteButtons) favoriteButtons.forEach((btn) => btn.replaceWith(btn.cloneNode(true)));
-  loadScript('https://cdns.gigya.com/JS/socialize.js?apikey=3__4H034SWkmoUfkZ_ikv8tqNIaTA0UIwoX5rsEk96Ebk5vkojWtKRZixx60tZZdob', setupGigya,
-  );
+  loadScript('https://cdns.gigya.com/JS/socialize.js?apikey=3__4H034SWkmoUfkZ_ikv8tqNIaTA0UIwoX5rsEk96Ebk5vkojWtKRZixx60tZZdob', setupGigya,);
 }
 
 initGigya();
@@ -658,7 +657,7 @@ function getCookie(cookieName) {
   return null;
 }
 
-const OptanonWrapper = (async function() {
+const OptanonWrapper = (async function () {
   console.log('test');
   const geoInfo = window.Optanon.getGeolocationData();
   Object.keys(geoInfo).forEach((key) => {
@@ -680,9 +679,9 @@ const OptanonWrapper = (async function() {
     }
   }
   sendAnalyticsPageEvent();
-})
+});
 
-export const loadAds = (function() {
+export const loadAds = (function () {
   const otId = placeholders.onetrustId;
   if (otId) {
     const cookieScript = loadScript('https://cdn.cookielaw.org/scripttemplates/otSDKStub.js');
@@ -714,7 +713,7 @@ export const loadAds = (function() {
       loadBlock(marketingBlock);
     }
   }
-})
+});
 
 async function loadLiveChat() {
   const liveChat = getMetadata('live-chat');

@@ -10,7 +10,8 @@
  * governing permissions and limitations under the License.
  */
 
-import {loadAds} from "./delayed.js";
+// eslint-disable-next-line import/no-cycle
+import { loadAds } from './delayed.js';
 
 /**
  * log RUM if part of the sample.
@@ -702,9 +703,6 @@ async function waitForLCP() {
     }
   });
 }
-
-// eslint-disable-next-line no-use-before-define
-const placeholders = await fetchPlaceholders();
 
 /**
  * Decorates the page.
