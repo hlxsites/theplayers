@@ -1070,8 +1070,8 @@ async function loadLazy(doc) {
 
   doc.querySelectorAll('div:not([class]):not([id]):empty').forEach((empty) => empty.remove());
 
-  // eslint-disable-next-line no-use-before-define
   window.setTimeout(async () => {
+    // eslint-disable-next-line no-use-before-define
     await loadAds(doc);
   }, 1000);
 }
