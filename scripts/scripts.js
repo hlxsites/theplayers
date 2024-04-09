@@ -709,8 +709,8 @@ async function loadPage(doc) {
   await loadEager(doc);
   // eslint-disable-next-line no-use-before-define
   await loadLazy(doc);
-  // eslint-disable-next-line no-use-before-define
   await loadAds(doc);
+  // eslint-disable-next-line no-use-before-define
   loadDelayed(doc);
 }
 
