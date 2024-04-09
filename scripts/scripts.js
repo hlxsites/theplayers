@@ -710,7 +710,6 @@ async function loadPage(doc) {
   // eslint-disable-next-line no-use-before-define
   await loadLazy(doc);
   // eslint-disable-next-line no-use-before-define
-  await loadAds(doc);
   loadDelayed(doc);
 }
 
@@ -1070,6 +1069,8 @@ async function loadLazy(doc) {
   addFavIcon(`${window.hlx.codeBasePath}/styles/favicon.ico`);
 
   doc.querySelectorAll('div:not([class]):not([id]):empty').forEach((empty) => empty.remove());
+  // eslint-disable-next-line import/no-cycle
+  loadDependencies();
 }
 
 /**
@@ -1080,6 +1081,11 @@ function loadDelayed() {
   // eslint-disable-next-line import/no-cycle
   window.setTimeout(() => import('./delayed.js'), 4000);
   // load anything that can be postponed to the latest here
+}
+
+function loadDependencies() {
+  // eslint-disable-next-line import/no-cycle
+  window.setTimeout(() => import('./dependencies.js'), 1000);
 }
 
 export async function lookupPages(pathnames) {
@@ -1121,118 +1127,6 @@ export function addHeaderSizing(block, classPrefix = 'heading', selector = 'h1, 
       if (length >= size.threshold) h.classList.add(`${classPrefix}-${size.name}`);
     });
   });
-}
-
-function getPageNameAndSections() {
-  const pageSectionParts = window.location.pathname.split('/').filter((subPath) => subPath !== '');
-  const pageName = pageSectionParts.join(':');
-  const finalPageName = pageName === '' ? 'Home' : pageName;
-
-  return {
-    pageName: finalPageName,
-    sections: pageSectionParts,
-  };
-}
-
-export async function sendAnalyticsPageEvent() {
-  window.dataLayer = window.dataLayer || [];
-  const dl = window.dataLayer;
-  const placeholders = await fetchPlaceholders();
-  const isUserLoggedIn = window.gigyaAccountInfo && window.gigyaAccountInfo != null
-      && window.gigyaAccountInfo.errorCode === 0;
-
-  const { pageName, sections } = getPageNameAndSections();
-  dl.push({
-    event: 'pageload',
-    pageName,
-    pageUrl: window.location.href,
-    siteSection: sections[0] || '',
-    siteSubSection: sections[1] || '',
-    siteSubSection2: sections[2] || '',
-    gigyaID: isUserLoggedIn && window.gigyaAccountInfo.UID ? window.gigyaAccountInfo.UID : '',
-    userLoggedIn: isUserLoggedIn ? 'Logged In' : 'Logged Out',
-    tourName: placeholders.tourName.toLowerCase().replaceAll(' ', '_'),
-    tournamentID: `${placeholders.tourCode.toUpperCase()}${placeholders.currentYear}${placeholders.tournamentId}`,
-    ipAddress: '127.0.0.1',
-    deviceType: 'Web',
-  });
-}
-
-/* setup cookie preferences */
-function getCookie(cookieName) {
-  const name = `${cookieName}=`;
-  const decodedCookie = decodeURIComponent(document.cookie);
-  const split = decodedCookie.split(';');
-  // eslint-disable-next-line no-plusplus
-  for (let i = 0; i < split.length; i++) {
-    let c = split[i];
-    while (c.charAt(0) === ' ') c = c.substring(1);
-    if (c.indexOf(name) === 0) return c.substring(name.length, c.length);
-  }
-  return null;
-}
-
-async function OptanonWrapper() {
-  const geoInfo = window.Optanon.getGeolocationData();
-  Object.keys(geoInfo).forEach((key) => {
-    const cookieName = `PGAT_${key.charAt(0).toUpperCase() + key.slice(1)}`;
-    const cookie = getCookie(cookieName);
-    if (!cookie || cookie !== geoInfo[key]) document.cookie = `${cookieName}=${geoInfo[key]}`;
-  });
-
-  const prevOptIn = localStorage.getItem('OptIn_PreviousPermissions');
-  if (prevOptIn) {
-    try {
-      const settings = JSON.parse(prevOptIn);
-      if (settings.tempImplied) {
-        localStorage.removeItem('OptIn_PreviousPermissions');
-      }
-    } catch (e) {
-      // eslint-disable-next-line no-console
-      console.error('OptIn_PreviousPermissions parse failed');
-    }
-  }
-  await sendAnalyticsPageEvent();
-}
-
-async function loadAds(doc) {
-  const placeholders = await fetchPlaceholders();
-  const isProd = window.location.hostname.endsWith(placeholders.hostname);
-  if (!isProd === 'this') {
-    // temporary override for analytics testing
-    if (!localStorage.getItem('OptIn_PreviousPermissions')) localStorage.setItem('OptIn_PreviousPermissions', '{"aa":true,"mediaaa":true,"target":true,"ecid":true,"adcloud":true,"aam":true,"campaign":true,"livefyre":false}');
-  }
-  const otId = placeholders.onetrustId;
-  if (otId) {
-    const cookieScript = loadScript('https://cdn.cookielaw.org/scripttemplates/otSDKStub.js');
-    cookieScript.setAttribute('data-domain-script', `${otId}${isProd ? '' : '-test'}`);
-    cookieScript.setAttribute('data-dlayer-name', 'dataLayer');
-    cookieScript.setAttribute('data-nscript', 'beforeInteractive');
-
-    const gtmId = placeholders.googletagmanagerId;
-    if (gtmId) {
-      const GTMScript = doc.createElement('script');
-      GTMScript.innerHTML = `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','${gtmId}');`;
-      doc.head.append(GTMScript);
-
-      const GTMFrame = doc.createElement('no-script');
-      GTMFrame.innerHTML = `<iframe src="https://www.googletagmanager.com/ns.html?id=${gtmId}"
-      height="0" width="0" style="display:none;visibility:hidden"></iframe>`;
-      doc.body.prepend(GTMFrame);
-    }
-
-    window.OptanonWrapper = OptanonWrapper;
-
-    if (doc.querySelector('.marketing')) {
-      const marketingBlock = document.querySelector('.marketing');
-      decorateBlock(marketingBlock);
-      loadBlock(marketingBlock);
-    }
-  }
 }
 
 try {
