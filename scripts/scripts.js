@@ -1072,7 +1072,7 @@ async function loadLazy(doc) {
 
   window.setTimeout(async () => {
     // eslint-disable-next-line no-use-before-define
-    await loadAds(doc);
+    await loadAds();
   }, 1000);
 }
 
@@ -1198,7 +1198,7 @@ async function OptanonWrapper() {
   await sendAnalyticsPageEvent();
 }
 
-async function loadAds(doc) {
+async function loadAds() {
   const placeholders = await fetchPlaceholders();
   const isProd = window.location.hostname.endsWith(placeholders.hostname);
 
@@ -1215,7 +1215,7 @@ async function loadAds(doc) {
 
     const gtmId = placeholders.googletagmanagerId;
     if (gtmId) {
-      const GTMScript = doc.createElement('script');
+      const GTMScript = document.createElement('script');
       GTMScript.innerHTML = `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
@@ -1223,7 +1223,7 @@ async function loadAds(doc) {
     })(window,document,'script','dataLayer','${gtmId}');`;
       document.head.append(GTMScript);
 
-      const GTMFrame = doc.createElement('no-script');
+      const GTMFrame = document.createElement('no-script');
       GTMFrame.innerHTML = `<iframe src="https://www.googletagmanager.com/ns.html?id=${gtmId}"
     height="0" width="0" style="display:none;visibility:hidden"></iframe>`;
       document.body.prepend(GTMFrame);
