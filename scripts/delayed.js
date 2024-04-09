@@ -568,7 +568,7 @@ export function initGigya() {
   if (userButton) userButton.replaceWith(userButton.cloneNode(true));
   const favoriteButtons = document.querySelectorAll('.leaderboard-favorite-button');
   if (favoriteButtons) favoriteButtons.forEach((btn) => btn.replaceWith(btn.cloneNode(true)));
-  loadScript('https://cdns.gigya.com/JS/socialize.js?apikey=3__4H034SWkmoUfkZ_ikv8tqNIaTA0UIwoX5rsEk96Ebk5vkojWtKRZixx60tZZdob', setupGigya,);
+  loadScript('https://cdns.gigya.com/JS/socialize.js?apikey=3__4H034SWkmoUfkZ_ikv8tqNIaTA0UIwoX5rsEk96Ebk5vkojWtKRZixx60tZZdob', setupGigya);
 }
 
 initGigya();
