@@ -11,14 +11,6 @@ import {
   sendAnalyticsPageEvent,
 } from './scripts.js';
 
-const placeholders = await fetchPlaceholders();
-const isProd = window.location.hostname.endsWith(placeholders.hostname);
-
-if (!isProd === 'this') {
-  // temporary override for analytics testing
-  if (!localStorage.getItem('OptIn_PreviousPermissions')) localStorage.setItem('OptIn_PreviousPermissions', '{"aa":true,"mediaaa":true,"target":true,"ecid":true,"adcloud":true,"aam":true,"campaign":true,"livefyre":false}');
-}
-
 // Core Web Vitals RUM collection
 sampleRUM('cwv');
 
