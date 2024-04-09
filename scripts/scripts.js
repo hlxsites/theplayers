@@ -710,6 +710,8 @@ async function loadPage(doc) {
   // eslint-disable-next-line no-use-before-define
   await loadLazy(doc);
   // eslint-disable-next-line no-use-before-define
+  await loadAds();
+  // eslint-disable-next-line no-use-before-define
   loadDelayed(doc);
 }
 
@@ -1070,10 +1072,6 @@ async function loadLazy(doc) {
 
   doc.querySelectorAll('div:not([class]):not([id]):empty').forEach((empty) => empty.remove());
 
-  window.setTimeout(async () => {
-    // eslint-disable-next-line no-use-before-define
-    await loadAds();
-  }, 1000);
 }
 
 /**
@@ -1231,8 +1229,8 @@ async function loadAds() {
 
     window.OptanonWrapper = OptanonWrapper;
 
-    if (doc.querySelector('.marketing')) {
-      const marketingBlock = doc.querySelector('.marketing');
+    if (document.querySelector('.marketing')) {
+      const marketingBlock = document.querySelector('.marketing');
       decorateBlock(marketingBlock);
       await loadBlock(marketingBlock);
     }
