@@ -10,6 +10,8 @@
  * governing permissions and limitations under the License.
  */
 
+import {loadAds} from "./delayed.js";
+
 /**
  * log RUM if part of the sample.
  * @param {string} checkpoint identifies the checkpoint in funnel
@@ -710,6 +712,8 @@ async function loadPage(doc) {
   // eslint-disable-next-line no-use-before-define
   await loadLazy(doc);
   // eslint-disable-next-line no-use-before-define
+  loadAds();
+  // eslint-disable-next-line no-use-before-define
   loadDelayed(doc);
 }
 
@@ -1077,7 +1081,6 @@ async function loadLazy(doc) {
  */
 function loadDelayed() {
   // eslint-disable-next-line import/no-cycle
-  window.setTimeout(() => import('./dependencies.js'), 500);
   window.setTimeout(() => import('./delayed.js'), 4000);
   // load anything that can be postponed to the latest here
 }
@@ -1120,6 +1123,41 @@ export function addHeaderSizing(block, classPrefix = 'heading', selector = 'h1, 
     sizes.forEach((size) => {
       if (length >= size.threshold) h.classList.add(`${classPrefix}-${size.name}`);
     });
+  });
+}
+
+function getPageNameAndSections() {
+  const pageSectionParts = window.location.pathname.split('/').filter((subPath) => subPath !== '');
+  const pageName = pageSectionParts.join(':');
+  const finalPageName = pageName === '' ? 'Home' : pageName;
+
+  return {
+    pageName: finalPageName,
+    sections: pageSectionParts,
+  };
+}
+
+export async function sendAnalyticsPageEvent() {
+  window.dataLayer = window.dataLayer || [];
+  const dl = window.dataLayer;
+  const placeholders = await fetchPlaceholders();
+  const isUserLoggedIn = window.gigyaAccountInfo && window.gigyaAccountInfo != null
+      && window.gigyaAccountInfo.errorCode === 0;
+
+  const { pageName, sections } = getPageNameAndSections();
+  dl.push({
+    event: 'pageload',
+    pageName,
+    pageUrl: window.location.href,
+    siteSection: sections[0] || '',
+    siteSubSection: sections[1] || '',
+    siteSubSection2: sections[2] || '',
+    gigyaID: isUserLoggedIn && window.gigyaAccountInfo.UID ? window.gigyaAccountInfo.UID : '',
+    userLoggedIn: isUserLoggedIn ? 'Logged In' : 'Logged Out',
+    tourName: placeholders.tourName.toLowerCase().replaceAll(' ', '_'),
+    tournamentID: `${placeholders.tourCode.toUpperCase()}${placeholders.currentYear}${placeholders.tournamentId}`,
+    ipAddress: '127.0.0.1',
+    deviceType: 'Web',
   });
 }
 
