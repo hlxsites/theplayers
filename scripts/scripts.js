@@ -707,10 +707,10 @@ async function waitForLCP() {
 async function loadPage(doc) {
   // eslint-disable-next-line no-use-before-define
   await loadEager(doc);
-  // eslint-disable-next-line no-use-before-define
-  await loadLazy(doc);
   // eslint-disable-next-line import/no-cycle
   loadDependencies();
+  // eslint-disable-next-line no-use-before-define
+  await loadLazy(doc);
   // eslint-disable-next-line no-use-before-define
   loadDelayed(doc);
 }
