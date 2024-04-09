@@ -701,6 +701,9 @@ async function waitForLCP() {
   });
 }
 
+// eslint-disable-next-line no-use-before-define
+const placeholders = await fetchPlaceholders();
+
 /**
  * Decorates the page.
  */
@@ -710,7 +713,7 @@ async function loadPage(doc) {
   // eslint-disable-next-line no-use-before-define
   await loadLazy(doc);
   // eslint-disable-next-line no-use-before-define
-  await loadAds();
+  await loadAds(placeholders);
   // eslint-disable-next-line no-use-before-define
   loadDelayed(doc);
 }
@@ -1195,8 +1198,7 @@ async function OptanonWrapper() {
   await sendAnalyticsPageEvent();
 }
 
-async function loadAds() {
-  const placeholders = await fetchPlaceholders();
+async function loadAds(placeholders) {
   const isProd = window.location.hostname.endsWith(placeholders.hostname);
 
   if (!isProd === 'this') {
