@@ -709,6 +709,8 @@ async function loadPage(doc) {
   await loadEager(doc);
   // eslint-disable-next-line no-use-before-define
   await loadLazy(doc);
+  // eslint-disable-next-line import/no-cycle
+  loadDependencies();
   // eslint-disable-next-line no-use-before-define
   loadDelayed(doc);
 }
@@ -1069,8 +1071,6 @@ async function loadLazy(doc) {
   addFavIcon(`${window.hlx.codeBasePath}/styles/favicon.ico`);
 
   doc.querySelectorAll('div:not([class]):not([id]):empty').forEach((empty) => empty.remove());
-  // eslint-disable-next-line import/no-cycle
-  loadDependencies();
 }
 
 /**
@@ -1085,7 +1085,7 @@ function loadDelayed() {
 
 function loadDependencies() {
   // eslint-disable-next-line import/no-cycle
-  window.setTimeout(() => import('./dependencies.js'), 1000);
+  window.setTimeout(() => import('./dependencies.js'), 500);
 }
 
 export async function lookupPages(pathnames) {
