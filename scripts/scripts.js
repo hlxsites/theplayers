@@ -713,7 +713,7 @@ async function loadPage(doc) {
   // eslint-disable-next-line no-use-before-define
   await loadLazy(doc);
   // eslint-disable-next-line no-use-before-define
-  await loadAds(placeholders);
+  loadAds(placeholders);
   // eslint-disable-next-line no-use-before-define
   loadDelayed(doc);
 }
@@ -1198,7 +1198,7 @@ async function OptanonWrapper() {
   await sendAnalyticsPageEvent();
 }
 
-async function loadAds(placeholders) {
+function loadAds(placeholders) {
   const isProd = window.location.hostname.endsWith(placeholders.hostname);
 
   if (!isProd === 'this') {
@@ -1233,7 +1233,7 @@ async function loadAds(placeholders) {
     if (document.querySelector('.marketing')) {
       const marketingBlock = document.querySelector('.marketing');
       decorateBlock(marketingBlock);
-      await loadBlock(marketingBlock);
+      loadBlock(marketingBlock);
     }
   }
 }
