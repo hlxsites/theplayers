@@ -646,19 +646,19 @@ async function populateStatusBar(statusBar) {
 
 populateStatusBar(document.querySelector('header > .status-bar'));
 
-/* setup cookie preferences */
-function getCookie(cookieName) {
-  const name = `${cookieName}=`;
-  const decodedCookie = decodeURIComponent(document.cookie);
-  const split = decodedCookie.split(';');
-  // eslint-disable-next-line no-plusplus
-  for (let i = 0; i < split.length; i++) {
-    let c = split[i];
-    while (c.charAt(0) === ' ') c = c.substring(1);
-    if (c.indexOf(name) === 0) return c.substring(name.length, c.length);
-  }
-  return null;
-}
+// /* setup cookie preferences */
+// function getCookie(cookieName) {
+//   const name = `${cookieName}=`;
+//   const decodedCookie = decodeURIComponent(document.cookie);
+//   const split = decodedCookie.split(';');
+//   // eslint-disable-next-line no-plusplus
+//   for (let i = 0; i < split.length; i++) {
+//     let c = split[i];
+//     while (c.charAt(0) === ' ') c = c.substring(1);
+//     if (c.indexOf(name) === 0) return c.substring(name.length, c.length);
+//   }
+//   return null;
+// }
 
 async function OptanonWrapper() {
   const geoInfo = window.Optanon.getGeolocationData();
