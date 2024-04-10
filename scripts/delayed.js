@@ -756,7 +756,6 @@ if (hasWeFevo) {
   injectWeFevoScript();
 }
 
-
 /**
  * Loads Admiral script
  */
@@ -771,7 +770,6 @@ function loadAdmiral() {
       script.type = 'text/javascript';
       script.innerHTML = content;
       script.id = 'admiral';
-      script.async = true;
       document.head.appendChild(script);
     } catch (error) {
       throw new Error('Error loading Admiral script: ', error);
