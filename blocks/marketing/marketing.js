@@ -81,17 +81,19 @@ export default async function decorate(block) {
               document.addEventListener('scroll', checkBottomAdDisplay);
             }
           } else {
-            window.tude.setFeatureFlags({injectAds: false});
+            window.tude.setFeatureFlags({ injectAds: false });
             const adTest = new URLSearchParams(window.location.search).get('ad_test');
             const adMapping = {
               divId: slot,
               baseDivId: slot,
-            }
-            if (adTest) adMapping.targeting = {
-              ad_test: adTest,
+            };
+            if (adTest) {
+              adMapping.targeting = {
+                ad_test: adTest,
+              };
             }
             window.tude.refreshAdsViaDivMappings([
-              adMapping
+              adMapping,
             ]);
           }
         });
