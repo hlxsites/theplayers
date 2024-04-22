@@ -707,7 +707,7 @@ header .status-bar {
   top: var(--nav-height);
   left: 0;
   right: 0;
-  background-color: #0009;
+  background-color: var(--color-black-10);
   font-size: var(--body-font-size-xs);
   font-weight: lighter;
   text-align: center;
@@ -719,7 +719,7 @@ header .status-bar {
   header .status-bar {
     height: 86px;
     background-color: transparent;
-    background-image: linear-gradient(#0009, #0005, transparent);
+    background-image: linear-gradient(var(--color-black-10), var(--color-black-20), transparent);
     font-size: var(--body-font-size-s);
   }
 }
@@ -801,7 +801,7 @@ header .status-bar .status-bar-data .status-bar-dates {
 header .status-bar .status-bar-data .status-bar-countdown {
   grid-area: countdown;
   padding: 5px 0;
-  background-color: #fff1;
+  background-color: var(--color-gray-30);
 }
 
 header .status-bar .status-bar-countdown span {

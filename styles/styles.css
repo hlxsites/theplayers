@@ -12,20 +12,46 @@
 
  :root {
   /* colors */
+  --color-medium-blue: #1c619b;
   --color-blue-darker: #071D37;
   --color-blue-dark: #04294C;
   --color-blue: #003360;
+  --color-facebook-blue: #4267B2;
+  --color-blue-10: #405DE6;
   --color-blue-light: #004B98;
   --color-blue-lighter: #2D4976;
   --color-tan: #C2A36E;
   --color-blue-95: #003360f2;
+  --color-sky-blue: #99d9f4;
   --color-tan-95: #C2A36Ef2;
+  --color-green: #4b9800;
+  --color-green-10: #01613A;
   --color-black: #000;
+  --color-black-10: #0009;
+  --color-black-20: #0005;
+  --color-black-30: #000c;
   --color-gray-dark: #4d4d4d;
   --color-gray: #999;
   --color-gray-light: #ccc;
   --color-gray-lighter: #f2f2f2;
+  --color-gray-ligher-10: #fff0;
+  --color-gray-ligher-20: #b6bdc5;
+  --color-gray-light-10: #a2a7ab;
+  --color-gray-lighter-light: #dbdbdb;
+  --color-dark-gray: #0001;
+  --color-dark-gray-10: #fff4;
+  --color-darker-gray: #0002;
   --color-white: #fff;
+  --color-near-black: #0004;
+  --color-dark-black: #0006;
+  --color-bright-orange: #f7b941;
+  --color-orange: #ee5a00;
+  --color-gray-10: #fff8;
+  --color-gray-20: #0008;
+  --color-gray-30: #fff1;
+  --color-medium-gray: #727272;
+  --color-bright-red: #f00;
+  --color-red: #BF211E;
 
   /* colors assignments */
   --link-color: var(--color-blue-dark);

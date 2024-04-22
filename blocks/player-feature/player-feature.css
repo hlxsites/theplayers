@@ -12,7 +12,7 @@ main .player-feature-wrapper {
   max-width: 1400px;
   margin: auto;
   padding-top: 290px;
-  background: linear-gradient(#fff0 400px, var(--background-color) 630px);
+  background: linear-gradient(var(--color-gray-ligher-10) 400px, var(--background-color) 630px);
   font-size: var(--body-font-size-s);
 }
 
@@ -94,8 +94,8 @@ main .player-feature .player-feature-name {
 main .player-feature .player-feature-credits {
   display: flex;
   justify-content: flex-end;
-  border-top: 1px solid #fff4;
-  border-bottom: 1px solid #fff4;
+  border-top: 1px solid var(--color-dark-gray-10);
+  border-bottom: 1px solid var(--color-dark-gray-10);
   text-transform: uppercase;
 }
 

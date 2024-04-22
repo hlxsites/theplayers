@@ -39,7 +39,7 @@ main .embed .embed-instagram-wrapper iframe {
   max-width: 548px;
   height: calc((100vw - 32px) + 192px);
   max-height: 755px;
-  border: 1px solid #dbdbdb;
+  border: 1px solid var(--color-gray-lighter-light);
   border-radius: 3px;
 }
 

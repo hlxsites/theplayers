@@ -14,7 +14,7 @@ main .hero {
 
   position: relative;
   height: 230px;
-  background-image: linear-gradient(#0002, #0006);
+  background-image: linear-gradient(var(--color-near-black), var(--color-dark-black));
   color: var(--color-white);
   text-align: center;
 }
@@ -97,7 +97,7 @@ main .hero h1 {
   color: var(--overlay-text-color);
   font-size: var(--heading-font-size-l);
   line-height: 1;
-  text-shadow: 0 0 10px #0008;
+  text-shadow: 0 0 10px var(--color-gray-20);
 }
 
 main .hero h1.heading-x-long  {
@@ -150,7 +150,7 @@ main .hero h1 + p:not(.button-container) {
   margin: 0;
   font-size: var(--heading-font-size-m);
   line-height: 1.4;
-  text-shadow: 0 0 10px #0008;
+  text-shadow: 0 0 10px var(--color-gray-20);
 }
 
 @media (min-width: 700px) {

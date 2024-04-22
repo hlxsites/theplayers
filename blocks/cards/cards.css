@@ -203,7 +203,7 @@ main .cards.overlay .cards-card-body {
   aspect-ratio: 16 / 9;
   margin: 0;
   padding: 16px;
-  background-color: #0004;
+  background-color: var(--color-near-black);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
