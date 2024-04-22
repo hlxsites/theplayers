@@ -41,7 +41,7 @@ main .carousel h2 {
   color: var(--overlay-text-color);
   font-size: var(--heading-font-size-l);
   line-height: .9;
-  text-shadow: 0 0 10px #0008;
+  text-shadow: 0 0 10px var(--color-gray-20);
 }
 
 @media (min-width: 700px) {
@@ -69,7 +69,7 @@ main .carousel h2 + p:not(.button-container) {
   margin: 0;
   font-size: var(--heading-font-size-m);
   line-height: 1.4;
-  text-shadow: 0 0 10px #0008;
+  text-shadow: 0 0 10px var(--color-gray-20);
 }
 
 @media (min-width: 700px) {
@@ -114,7 +114,7 @@ main .carousel > div {
   width: 100%;
   height: 420px;
   padding-top: 75px;
-  background-image: linear-gradient(#0002, #0006);
+  background-image: linear-gradient(var(--color-darker-gray), var(--color-dark-black));
   scroll-snap-align: start;
 }
 
@@ -532,7 +532,7 @@ main .carousel.course div.course-text .course-statistics {
 }
 
 main .carousel.course div.course-text .course-statistics h3 {
-  border-bottom: 1px solid #fff4;
+  border-bottom: 1px solid var(--color-dark-gray-10);
   padding-bottom: 8px;
   font-size: var(--heading-font-size-l);
 }
@@ -571,24 +571,24 @@ main .carousel.course div.course-text .course-statistics table tr td.course-stat
 }
 
 main .carousel.course div.course-text .course-statistics table tr.course-eagle .course-stat-bar {
-  background-color: #1c619b;
+  background-color: var(--color-medium-blue);
 }
 
 main .carousel.course div.course-text .course-statistics table tr.course-birdie .course-stat-bar {
-  background-color: #99d9f4;
+  background-color: var(--color-sky-blue);
 }
 
 main .carousel.course div.course-text .course-statistics table tr.course-par .course-stat-bar {
-  background-color: #a2a7ab;
+  background-color: var(--color-gray-light-10);
 }
 
 main .carousel.course div.course-text .course-statistics table tr.course-bogey .course-stat-bar {
-  background-color: #f7b941;
+  background-color: var(--color-bright-orange);
 }
 
 /* stylelint-disable-next-line selector-class-pattern */
 main .carousel.course div.course-text .course-statistics table tr.course-2--bogey .course-stat-bar {
-  background-color: #ee5a00;
+  background-color: var(--color-orange);
 }
 
 main .carousel.course div.course-text .course-statistics table tr td.course-stat-graph .course-stat-bar {
@@ -654,7 +654,7 @@ main .carousel.course div.course-text .course-credits {
   grid-area: credits;
   width: 100%;
   margin: 0;
-  border-top: 1px solid #fff8;
+  border-top: 1px solid var(--color-gray-10);
   padding: 5px 0;
   font-style: normal;
   text-align: right;
@@ -675,7 +675,7 @@ main .carousel.course div.course-text .course-credits em {
 
 @media (min-width: 900px) {
   main .carousel.course div.course-text .course-credits {
-    border-top: 1px solid #fff8;
+    border-top: 1px solid var(--color-gray-10);
     padding-top: 16px;
   }
 }
@@ -686,7 +686,7 @@ main .carousel-buttons.course-buttons button {
   height: 8px;
   margin: 8px 2px;
   border-color: var(--carousel-cource-btn-color);
-  background-color: #fff8;
+  background-color: var(--color-gray-10);
 }
 
 main .carousel-buttons.course-buttons button.selected {
@@ -698,7 +698,7 @@ main .carousel-buttons.course-buttons button.selected {
   main .carousel-buttons.course-buttons {
     bottom: 272px;
     z-index: 2;
-    background-color: #0008;
+    background-color: var(--color-gray-20);
   }
 
   main .carousel-buttons.course-buttons button {

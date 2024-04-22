@@ -60,11 +60,11 @@ main .course-buttons button.selected {
     padding-right: calc((100% / 3) + 32px);
     justify-content: center;
     gap: 12px;
-    background-color: #0008;
+    background-color: var(--color-gray-20);
   }
 
   main .course-buttons button {
-    border-color: #0008;
+    border-color: var(--color-gray-20);
   }
 }
 
@@ -127,7 +127,7 @@ main .course .course-hole {
 
 @media (min-width: 900px) {
   main .course .course-hole {
-    background-image: linear-gradient(to right, transparent 33%, #0006);
+    background-image: linear-gradient(to right, transparent 33%, var(--color-dark-black));
   }
 }
 
@@ -356,24 +356,24 @@ main .course.stats .course-hole-stats table {
 
 main .course.stats .course-hole-stats .course-hole-bar {
   height: var(--body-font-size-s);
-  background-color: #a2a7ab;
+  background-color: var(--color-gray-light-10);
   float: right;
 }
 
 main .course.stats .course-hole-stats tr:nth-child(1) .course-hole-bar {
-  background-color: #1c619b;
+  background-color: var(--color-medium-blue);
 }
 
 main .course.stats .course-hole-stats tr:nth-child(2) .course-hole-bar {
-  background-color: #99d9f4;
+  background-color: var(--color-sky-blue);
 }
 
 main .course.stats .course-hole-stats tr:nth-child(4) .course-hole-bar {
-  background-color: #f7b941;
+  background-color: var(--color-bright-orange);
 }
 
 main .course.stats .course-hole-stats tr:nth-child(5) .course-hole-bar {
-  background-color: #ee5a00;
+  background-color: var(--color-orange);
 }
 
 @media (min-width: 700px) {

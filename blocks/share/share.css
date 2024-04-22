@@ -67,9 +67,9 @@ main .share svg {
 
 /* social colors */
 main .share .button.share-facebook {
-  background-color: #4267B2;
+  background-color: var(--color-facebook-blue);
 }
 
 main .share .button.share-twitter {
-  background-color: #000;
+  background-color: var(--color-black);
 }

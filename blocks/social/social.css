@@ -110,7 +110,7 @@ main .social > ul > li {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  border: 1px solid #0004;
+  border: 1px solid var(--color-near-black);
   padding: 16px;
   background-color: var(--social-card-bg-color);
 }
@@ -203,7 +203,7 @@ main .social .social-post::-webkit-scrollbar {
 }
 
 main .social .social-post::-webkit-scrollbar-thumb {
-  background: #ccc;
+  background: var(--color-gray-light);
   border-radius: 3px;
   }
 
@@ -240,7 +240,7 @@ main .social.image-feed li {
   border: 0;
   padding: 0;
   animation: fade-in 1.5s; 
-  background: linear-gradient(transparent, #0002);
+  background: linear-gradient(transparent, var(--color-darker-gray));
 }
 
 @keyframes fade-in {
@@ -268,12 +268,12 @@ main .social.image-feed li .social-tile-body {
   height: 50vw;
   padding: 8px;
   text-transform: lowercase;
-  background: linear-gradient(transparent, #0002);
+  background: linear-gradient(transparent, var(--color-darker-gray));
 }
 
 main .social.image-feed li .social-tile-body p {
   width: 100%;
-  text-shadow: 0 0 10px #0008;
+  text-shadow: 0 0 10px var(--color-gray-20);
 }
 
 main .social.image-feed li .social-tile-body svg {

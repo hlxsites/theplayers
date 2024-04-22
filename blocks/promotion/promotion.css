@@ -26,7 +26,7 @@ main .promotion .rolex-frame {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #01613A;
+  background-color: var(--color-green-10);
 }
 
 main .promotion.toggle .rolex-frame-medium {

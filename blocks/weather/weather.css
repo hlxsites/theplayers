@@ -8,7 +8,7 @@ main .weather-wrapper {
   max-width: 1400px;
   margin: auto;
   padding: 16px;
-  background-image: linear-gradient(#0001, #0002);
+  background-image: linear-gradient(var(--color-dark-gray), var(--color-darker-gray));
 }
 
 @media (min-width: 900px) {

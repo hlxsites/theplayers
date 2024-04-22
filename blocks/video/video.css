@@ -35,7 +35,7 @@ main .video.video-hero {
   right: 0;
   width: 100%;
   max-height: 100%;
-  background-color: #0008;
+  background-color: var(--color-gray-20);
   overflow-y: hidden;
   z-index: -1;
 }
@@ -55,7 +55,7 @@ main .video-hero-play {
   margin-top: 8px;
   border: 2px solid;
   border-radius: 50%;
-  background-color: #0004;
+  background-color: var(--color-near-black);
   color: var(--color-white);
   line-height: 0;
   cursor: pointer;
@@ -63,7 +63,7 @@ main .video-hero-play {
 }
 
 main .video-hero-play:hover {
-  background-color: #0008;
+  background-color: var(--color-gray-20);
 }
 
 main .video-hero-play::before {

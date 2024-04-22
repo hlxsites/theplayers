@@ -230,7 +230,7 @@ main .leaderboard table .leaderboard-favorite .tooltip {
   width: max-content;
   border-radius: 4px;
   padding: 8px 16px;
-  background-color: #000c;
+  background-color: var(--color-black-30);
   color: var(--color-white);
   font-size: var(--body-font-size-xs);
   text-transform: initial;
@@ -249,7 +249,7 @@ main .leaderboard table .leaderboard-favorite .tooltip::before {
   height: 0; 
   border-top: 8px solid transparent;
   border-bottom: 8px solid transparent;
-  border-right: 8px solid #000c; 
+  border-right: 8px solid var(--color-black-30);
 }
 
 main .leaderboard table .leaderboard-favorite:hover .tooltip {
@@ -311,11 +311,11 @@ main .leaderboard .icon.icon-up, main .leaderboard .icon.icon-down {
 }
 
 main .leaderboard td .icon.icon-up {
-  color: #4b9800;
+  color: var(--color-green);
 }
 
 main .leaderboard td .icon.icon-down {
-  color: #BF211E;
+  color: var(--color-red);
 }
 
 /* footer */

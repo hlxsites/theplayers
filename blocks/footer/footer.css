@@ -183,7 +183,7 @@ footer .footer .footer-social p {
   height: 40px;
   margin: 5px 10px;
   border-radius: 50%;
-  background-color: #727272;
+  background-color: var(--color-medium-gray);
 }
 
 footer .footer .footer-social p:hover {
@@ -191,19 +191,19 @@ footer .footer .footer-social p:hover {
 }
 
 footer .footer .footer-social p.footer-social-facebook {
-  background-color: #4267B2;
+  background-color: var(--color-facebook-blue);
 }
 
 footer .footer .footer-social p.footer-social-twitter {
-  background-color: #000;
+  background-color: var(--color-black);;
 }
 
 footer .footer .footer-social p.footer-social-instagram {
-  background-color: #405DE6;
+  background-color: var(--color-blue-10);
 }
 
 footer .footer .footer-social p.footer-social-youtube {
-  background-color: #f00;
+  background-color: var(--color-bright-red);
 }
 
 footer .footer .footer-copyright a {
