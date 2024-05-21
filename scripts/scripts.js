@@ -1178,3 +1178,11 @@ try {
     },
   });
 } catch (e) { /* ignore */ }
+
+const params = new URLSearchParams(window.location.search);
+if (params.get('performance')) {
+  window.hlx.performance = true;
+  import('./lib-franklin-performance.js').then((mod) => {
+    if (mod.default) mod.default();
+  });
+}
